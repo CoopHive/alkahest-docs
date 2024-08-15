@@ -10,8 +10,8 @@ Alkahest is a toolkit for dissolving consolidated economies and creating atomic 
 
 ## Get Started
 
-[[Hello World - Tokens for Strings]]
-[[Components for Exchange]]
-[[Components for Negotiation]]
-[[Asides]]
+- [[Hello World - Tokens for Strings]]
+- [[Components for Exchange]]
+- [[Components for Negotiation]]
+- [[Asides]]
 

@@ -18,8 +18,45 @@
                 "source": false
               }
             }
+          },
+          {
+            "id": "f3511919c8e5a964",
+            "type": "leaf",
+            "state": {
+              "type": "markdown",
+              "state": {
+                "file": "Alkahest.md",
+                "mode": "source",
+                "source": false
+              }
+            }
+          },
+          {
+            "id": "71f344bc89f2b345",
+            "type": "leaf",
+            "state": {
+              "type": "markdown",
+              "state": {
+                "file": "Contracts/IStatement.md",
+                "mode": "source",
+                "source": false
+              }
+            }
+          },
+          {
+            "id": "5681a208997d6a04",
+            "type": "leaf",
+            "state": {
+              "type": "markdown",
+              "state": {
+                "file": "Components/For Exchange/Statements.md",
+                "mode": "source",
+                "source": false
+              }
+            }
           }
-        ]
+        ],
+        "currentTab": 3
       }
     ],
     "direction": "vertical"
@@ -85,7 +122,7 @@
             "state": {
               "type": "backlink",
               "state": {
-                "file": "Alkahest.md",
+                "file": "Components/For Exchange/Statements.md",
                 "collapseAll": false,
                 "extraContext": false,
                 "sortOrder": "alphabetical",
@@ -102,7 +139,7 @@
             "state": {
               "type": "outgoing-link",
               "state": {
-                "file": "Alkahest.md",
+                "file": "Components/For Exchange/Statements.md",
                 "linksCollapsed": false,
                 "unlinkedCollapsed": true
               }
@@ -125,7 +162,7 @@
             "state": {
               "type": "outline",
               "state": {
-                "file": "Alkahest.md"
+                "file": "Components/For Exchange/Statements.md"
               }
             }
           }
@@ -146,34 +183,43 @@
       "command-palette:Open command palette": false
     }
   },
-  "active": "18712e75ed85141d",
+  "active": "5681a208997d6a04",
   "lastOpenFiles": [
-    "Components for Exchange.md",
-    "Alkahest.md",
-    "Components for Negotiation.md",
-    "Asides.md",
-    "Examples/Cooperative MapReduce.md",
-    "Examples/Computation Marketplace.md",
-    "Components/Statements.md",
-    "Components/Agreements.md",
-    "Components/Validations.md",
-    "Statements/ERC20PaymentStatement.md",
-    "Validations/MultiValidation.md",
-    "Examples/FAIR Data Pipeline.md",
-    "Statements/StringResultStatement.md",
+    "Components/For Negotiation/Channels.md",
+    "Components/For Exchange/Agreements.md",
     "Examples/Service Marketplace.md",
+    "Examples/FAIR Data Pipeline.md",
+    "Examples/Computation Marketplace.md",
+    "Examples/Cooperative MapReduce.md",
     "Examples/Hello World - Tokens for Strings.md",
-    "Validations/OptimisticMediationValidation.md",
-    "Statements/MultiStatement.md",
+    "Components/For Exchange/Statements.md",
+    "Components for Exchange.md",
+    "Contracts/IArbiter.md",
+    "Contracts/IStatement.md",
+    "Alkahest.md",
+    "Contracts",
+    "Components/For Exchange/Validations.md",
+    "Asides.md",
+    "Components/For Negotiation/Schemes.md",
+    "Components/For Exchange/Agreements",
+    "Components/For Negotiation/Strategies",
+    "Components/For Negotiation/Schemes",
+    "Components/For Negotiation/Channels",
+    "Components/For Negotiation/Strategies.md",
+    "Components/For Negotiation",
+    "Components for Negotiation.md",
+    "Components/For Exchange",
+    "Components/For Exchange/Statements/ERC20PaymentStatement.md",
+    "Components/For Exchange/Validations/MultiValidation.md",
+    "Components/For Exchange/Statements/StringResultStatement.md",
+    "Components/For Exchange/Validations/OptimisticMediationValidation.md",
+    "Components/For Exchange/Statements/MultiStatement.md",
     "Validators/ZKValidator.md",
     "Validators/TrustedValidator.md",
     "Validators/TEEValidator.md",
-    "Untitled",
     "Validators/IdentityValidator.md",
-    "Validations",
-    "Statements",
-    "Components",
-    "Examples",
-    "Welcome.md"
+    "Components/For Exchange/Validations",
+    "Components/For Exchange/Statements",
+    "Components"
   ]
 }
