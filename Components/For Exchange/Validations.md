@@ -4,14 +4,14 @@ Generally, validations are requested on [[Statements]] or other [[Validations]] 
 
 ## Requests
 
-Validations requests don't have a consistent abstract interface, because they can vary a lot based on what the validation is for. Often, they will accept a statement attestation to be validated, along with additional parameters specifying the properties to be validated if they aren't already defined in the statement.
+Validations requests don't have a consistent abstract interface, because they can vary a lot based on what the validation is for. Often, they will accept statement or other other validation attestations to be validated, along with additional parameters specifying the properties to be validated if they aren't already defined in the base attestations.
 
 ## Checks
 
 Validators implement [[IArbiter]], and their implementation of `checkStatement(Attestation statement, bytes demand)` should be interpreted as checking a validation according to parametrized demands. It's good practice to call `IArbiter(statement).checkStatement` inside a statement validator's implementation of `checkStatement`, so that [[Statements]] can specify a single arbiter as the source of truth inside finalization clauses.
 ## Emission
 
-Often, validations must be produced asynchronously via a function call by an off-chain oracle or another contract. [[IValidator]] defines the event `ValidationProduced(bool success, uint id, Attestation validation)` that can be listened to to retrieve asynchronous validations.
+Often, validations must be produced asynchronously via a function call by an off-chain oracle or another contract. [[IValidator]] defines the event `ValidationProduced(bool success, uint id, Attestation validation)` that can be listened on to retrieve asynchronous validations.
 
 ## Examples
 - Oracle-based validators can have off-chain entities produce a validation attestation on request. E.g., to retry a deterministic compute job and verify its correctness
