@@ -49,7 +49,7 @@
             "state": {
               "type": "markdown",
               "state": {
-                "file": "Components/For Exchange/Statements.md",
+                "file": "Components/For Exchange/Validations.md",
                 "mode": "source",
                 "source": false
               }
@@ -122,7 +122,7 @@
             "state": {
               "type": "backlink",
               "state": {
-                "file": "Components/For Exchange/Statements.md",
+                "file": "Components/For Exchange/Validations.md",
                 "collapseAll": false,
                 "extraContext": false,
                 "sortOrder": "alphabetical",
@@ -139,7 +139,7 @@
             "state": {
               "type": "outgoing-link",
               "state": {
-                "file": "Components/For Exchange/Statements.md",
+                "file": "Components/For Exchange/Validations.md",
                 "linksCollapsed": false,
                 "unlinkedCollapsed": true
               }
@@ -162,7 +162,7 @@
             "state": {
               "type": "outline",
               "state": {
-                "file": "Components/For Exchange/Statements.md"
+                "file": "Components/For Exchange/Validations.md"
               }
             }
           }
@@ -185,21 +185,23 @@
   },
   "active": "5681a208997d6a04",
   "lastOpenFiles": [
-    "Components/For Negotiation/Channels.md",
-    "Components/For Exchange/Agreements.md",
-    "Examples/Service Marketplace.md",
-    "Examples/FAIR Data Pipeline.md",
-    "Examples/Computation Marketplace.md",
-    "Examples/Cooperative MapReduce.md",
-    "Examples/Hello World - Tokens for Strings.md",
     "Components/For Exchange/Statements.md",
+    "Components/For Exchange/Validations.md",
+    "Contracts/IValidator.md",
+    "Components/For Exchange/Agreements.md",
+    "Examples/Hello World - Tokens for Strings.md",
+    "Examples/Computation Marketplace.md",
+    "Alkahest.md",
     "Components for Exchange.md",
+    "Examples/Service Marketplace.md",
+    "Asides.md",
+    "Components for Negotiation.md",
+    "Components/For Negotiation/Channels.md",
+    "Examples/FAIR Data Pipeline.md",
+    "Examples/Cooperative MapReduce.md",
     "Contracts/IArbiter.md",
     "Contracts/IStatement.md",
-    "Alkahest.md",
     "Contracts",
-    "Components/For Exchange/Validations.md",
-    "Asides.md",
     "Components/For Negotiation/Schemes.md",
     "Components/For Exchange/Agreements",
     "Components/For Negotiation/Strategies",
@@ -207,7 +209,6 @@
     "Components/For Negotiation/Channels",
     "Components/For Negotiation/Strategies.md",
     "Components/For Negotiation",
-    "Components for Negotiation.md",
     "Components/For Exchange",
     "Components/For Exchange/Statements/ERC20PaymentStatement.md",
     "Components/For Exchange/Validations/MultiValidation.md",
@@ -217,7 +218,6 @@
     "Validators/ZKValidator.md",
     "Validators/TrustedValidator.md",
     "Validators/TEEValidator.md",
-    "Validators/IdentityValidator.md",
     "Components/For Exchange/Validations",
     "Components/For Exchange/Statements",
     "Components"

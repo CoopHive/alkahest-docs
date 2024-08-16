@@ -1,1 +1,1 @@
-Let's demonstrate the use of **statements** and **validations** by building an example marketplace - one where users buy string manipulations for ERC20 tokens.
+Let's demonstrate the use of **statements** and **validations** by building an example marketplace where users buy string manipulations for ERC20 tokens.

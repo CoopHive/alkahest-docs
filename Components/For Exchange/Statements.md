@@ -14,3 +14,6 @@ A call to `IArbiter(address).checkStatement` on a trusted arbiter contract shoul
 
 ## Finalizations
 
+Finalizations can be thought of as asynchronous terms of statements, represented as functions from conditions to effects. Their conditions are typically represented as attestations, especially from contracts implementing [[IArbiter]] - i.e., [[Statements]] or [[Validations]]. Conditions can vary per statement by depending on `arbiter` and `arbiterParams`, and common conditions like only being fulfillable by a specific counterparty are implemented as utilities in [[IStatement]] itself.
+
+For example, [[ERC20PaymentStatement]] has the finalization function `collectPayment(bytes32 payment, bytes32 fulfillment)`, which takes the uids of a payment and a fulfillment attestation. It checks if the fulfillment attestation fulfills the demands specified in the payment statement's `arbiter`, `arbiterParams`, and `counterparty` fields, and transfers the payment collateral from the relevant statement to the caller if so.
