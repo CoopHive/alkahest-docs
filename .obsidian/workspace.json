@@ -32,31 +32,19 @@
             }
           },
           {
-            "id": "71f344bc89f2b345",
-            "type": "leaf",
-            "state": {
-              "type": "markdown",
-              "state": {
-                "file": "Contracts/IStatement.md",
-                "mode": "source",
-                "source": false
-              }
-            }
-          },
-          {
             "id": "5681a208997d6a04",
             "type": "leaf",
             "state": {
               "type": "markdown",
               "state": {
-                "file": "Components/For Exchange/Validations.md",
+                "file": "Components for Exchange.md",
                 "mode": "source",
                 "source": false
               }
             }
           }
         ],
-        "currentTab": 3
+        "currentTab": 2
       }
     ],
     "direction": "vertical"
@@ -122,7 +110,7 @@
             "state": {
               "type": "backlink",
               "state": {
-                "file": "Components/For Exchange/Validations.md",
+                "file": "Components for Exchange.md",
                 "collapseAll": false,
                 "extraContext": false,
                 "sortOrder": "alphabetical",
@@ -139,7 +127,7 @@
             "state": {
               "type": "outgoing-link",
               "state": {
-                "file": "Components/For Exchange/Validations.md",
+                "file": "Components for Exchange.md",
                 "linksCollapsed": false,
                 "unlinkedCollapsed": true
               }
@@ -162,7 +150,7 @@
             "state": {
               "type": "outline",
               "state": {
-                "file": "Components/For Exchange/Validations.md"
+                "file": "Components for Exchange.md"
               }
             }
           }
@@ -183,43 +171,43 @@
       "command-palette:Open command palette": false
     }
   },
-  "active": "5681a208997d6a04",
+  "active": "d9f7e9b5f364ee25",
   "lastOpenFiles": [
-    "Components/For Exchange/Statements.md",
-    "Components/For Exchange/Validations.md",
-    "Components/For Exchange/Agreements.md",
     "Contracts/IValidator.md",
     "Contracts/IStatement.md",
     "Contracts/IArbiter.md",
-    "Components for Exchange.md",
-    "Alkahest.md",
-    "Examples/Hello World - Tokens for Strings.md",
-    "Examples/FAIR Data Pipeline.md",
-    "Examples/Service Marketplace.md",
-    "Examples/Computation Marketplace.md",
-    "Asides.md",
-    "Components for Negotiation.md",
-    "Components/For Negotiation/Channels.md",
-    "Examples/Cooperative MapReduce.md",
     "Contracts",
-    "Components/For Negotiation/Schemes.md",
-    "Components/For Exchange/Agreements",
-    "Components/For Negotiation/Strategies",
-    "Components/For Negotiation/Schemes",
-    "Components/For Negotiation/Channels",
-    "Components/For Negotiation/Strategies.md",
-    "Components/For Negotiation",
-    "Components/For Exchange",
-    "Components/For Exchange/Statements/ERC20PaymentStatement.md",
-    "Components/For Exchange/Validations/MultiValidation.md",
-    "Components/For Exchange/Statements/StringResultStatement.md",
+    "Components/For Negotiation/Channels.md",
     "Components/For Exchange/Validations/OptimisticMediationValidation.md",
-    "Components/For Exchange/Statements/MultiStatement.md",
-    "Validators/ZKValidator.md",
-    "Validators/TrustedValidator.md",
-    "Validators/TEEValidator.md",
+    "Components/For Exchange/Validations/MultiValidation.md",
     "Components/For Exchange/Validations",
+    "Components/For Exchange/Statements/StringResultStatement.md",
+    "Components/For Exchange/Statements/MultiStatement.md",
+    "Components/For Exchange/Statements/ERC20PaymentStatement.md",
     "Components/For Exchange/Statements",
-    "Components"
+    "Components/For Exchange/Statements.md",
+    "Components/For Exchange/Agreements.md",
+    "Implementations/Exchange/IArbiter.md",
+    "Implementations/Negotiation",
+    "Examples/Hello World - Tokens for Strings.md",
+    "Untitled",
+    "Components/For Exchange/Validations.md",
+    "Implementations/Exchange/IStatement.md",
+    "Implementations/Exchange/IValidator.md",
+    "Components for Exchange.md",
+    "Components for Negotiation.md",
+    "Alkahest.md",
+    "Asides.md",
+    "Components/For Negotiation/Schemes.md",
+    "Components/For Negotiation/Strategies.md",
+    "Implementations/Exchange",
+    "Implementations/Exchange/Statements/StringResultStatement.md",
+    "Implementations/Exchange/Statements/MultiStatement.md",
+    "Components/For Negotiation/Markets.md",
+    "Implementations/Exchange/Statements/ERC20PaymentStatement.md",
+    "Implementations",
+    "Implementations/Exchange/Agreements",
+    "Implementations/Negotiation/Strategies",
+    "Implementations/Negotiation/Schemes"
   ]
 }
