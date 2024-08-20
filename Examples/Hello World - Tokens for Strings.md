@@ -303,7 +303,7 @@ As before, the string result statement doesn't require a separate finalization s
 This simplified implementation of `StringResultStatement` complements the `ERC20PaymentStatement`, allowing for a straightforward exchange system where users can pay in ERC20 tokens for uppercased strings. In the next section on validation, we'll modify this implementation to perform a simpler check (like comparing string lengths) and defer the full capitalization check to an external validator.
 
 See the final contract at [[Implementations/Exchange/Statements/StringResultStatement|StringResultStatement]].
-## In Practice
+## In Practice (Solidity)
 
 Let's walk through a practical example of how users would interact with the `ERC20PaymentStatement` and `StringResultStatement` contracts to facilitate a trade of ERC20 tokens for an uppercased string.
 
@@ -366,4 +366,138 @@ This system provides a trustless way for users to exchange ERC20 tokens for spec
 
 In the next section, we'll explore how to replace the direct use of `StringResultStatement` as an arbiter with a separate validator contract, demonstrating the pluggable nature of arbiters in this system.
 
+## In Practice (TypeScript + viem)
+Let's walk through how users would interact with the `ERC20PaymentStatement` and `StringResultStatement` contracts using viem's contract instances API and TypeScript to facilitate a trade of ERC20 tokens for an uppercased string.
+
+### Setting Up the Environment
+
+First, we set up our environment with viem:
+```typescript
+import { createPublicClient, createWalletClient, http, parseAbi, getContract } from 'viem';
+import { privateKeyToAccount } from 'viem/accounts';
+import { mainnet } from 'viem/chains';
+
+const publicClient = createPublicClient({
+  chain: mainnet,
+  transport: http()
+});
+
+const walletClient = createWalletClient({
+  chain: mainnet,
+  transport: http()
+});
+
+// Replace with actual private keys (never hardcode in production!)
+const aliceAccount = privateKeyToAccount('0xalice_private_key');
+const bobAccount = privateKeyToAccount('0xbob_private_key');
+
+// Contract addresses (replace with actual deployed addresses)
+const ERC20_PAYMENT_STATEMENT_ADDRESS = '0x...' as `0x${string}`;
+const STRING_RESULT_STATEMENT_ADDRESS = '0x...' as `0x${string}`;
+const USDC_ADDRESS = '0xA0b86991c6218b36c1d19D4a2e9Eb0cE3606eB48';
+
+const statementAbi = parseAbi([
+  'function getDemandAbi() public view returns (string)',
+  'function getSchemaAbi() public view returns (string)',
+  'function makeStatement(tuple data, uint64 expirationTime, bytes32 refUID) public returns (bytes32)',
+  'function collectPayment(bytes32 payment, bytes32 fulfillment) public returns (bool)',
+]);
+
+const erc20PaymentStatement = getContract({
+  address: ERC20_PAYMENT_STATEMENT_ADDRESS,
+  abi: statementAbi,
+  publicClient,
+  walletClient,
+});
+
+const stringResultStatement = getContract({
+  address: STRING_RESULT_STATEMENT_ADDRESS,
+  abi: statementAbi,
+  publicClient,
+  walletClient,
+});
+```
+### Setting Up the Trade
+
+1. Alice wants to pay 10 USDC for the uppercased version of the string "hello world".
+2. Alice creates an ERC20 payment statement:
+```typescript
+async function createPaymentStatement() {
+  const stringResultDemandAbi = await stringResultStatement.read.getDemandAbi();
+  const paymentSchemaAbi = await erc20PaymentStatement.read.getSchemaAbi();
+
+  const demandData = encodeAbiParameters(
+    parseAbi([stringResultDemandAbi]),
+    [{ query: 'hello world' }]
+  );
+
+  const paymentData = encodeAbiParameters(
+    parseAbi([paymentSchemaAbi]),
+    [{
+      token: USDC_ADDRESS,
+      amount: 10_000_000n, // 10 USDC (6 decimals)
+      arbiter: STRING_RESULT_STATEMENT_ADDRESS,
+      demand: demandData,
+    }]
+  );
+
+  const paymentHash = await erc20PaymentStatement.write.makeStatement(
+    [paymentData, 0n, '0x' + '0'.repeat(64)],
+    { account: aliceAccount }
+  );
+
+  console.log('Payment statement created:', paymentHash);
+
+  const paymentReceipt = await publicClient.waitForTransactionReceipt({ hash: paymentHash });
+  const paymentUID = extractPaymentUIDFromLogs(paymentReceipt.logs);
+  return paymentUID;
+}
+```
+### Fulfilling the Trade
+
+3. Bob sees Alice's offer and decides to fulfill it. Bob creates a string result statement:
+```typescript
+async function createResultStatement(paymentUID: `0x${string}`) {
+  const stringResultSchemaAbi = await stringResultStatement.read.getSchemaAbi();
+
+  const resultData = encodeAbiParameters(
+    parseAbi([stringResultSchemaAbi]),
+    [{ result: 'HELLO WORLD' }]
+  );
+
+  const resultHash = await stringResultStatement.write.makeStatement(
+    [resultData, paymentUID],
+    { account: bobAccount }
+  );
+
+  console.log('Result statement created:', resultHash);
+
+  const resultReceipt = await publicClient.waitForTransactionReceipt({ hash: resultHash });
+  const resultUID = extractResultUIDFromLogs(resultReceipt.logs);
+  return resultUID;
+}
+```
+### Completing the Exchange
+
+4. Bob can now complete the exchange by calling `collectPayment` on the `ERC20PaymentStatement` contract:
+```typescript
+async function collectPayment(paymentUID: `0x${string}`, resultUID: `0x${string}`) {
+  const collectHash = await erc20PaymentStatement.write.collectPayment(
+    [paymentUID, resultUID],
+    { account: bobAccount }
+  );
+
+  console.log('Payment collected:', collectHash);
+}
+```
+### Putting It All Together
+```typescript
+async function trade() {
+  const paymentUID = await createPaymentStatement();
+  const resultUID = await createResultStatement(paymentUID);
+  await collectPayment(paymentUID, resultUID);
+}
+
+trade().catch(console.error);
+```
 ## Validators
