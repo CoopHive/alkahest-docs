@@ -1,7 +1,6 @@
 Let's demonstrate the use of **statements** and **validations** by building an example marketplace where users buy string manipulations for ERC20 tokens. Buyers will be able to submit a token payment in an arbitrary ERC20 token, demanding a particular string to be capitalized. Sellers who submit a valid capitalization of the buyer's string, verified optimistically directly in a smart contract in our example, will be able to claim the buyer's token payment.
 
 The components we implement along the way will also allow paying for any other task in ERC20 tokens, or selling on-chain validated string capitalizations for anything else, only requiring an implementation of the relevant counterparty component. The example optimistic mediation validator should also be extensible to support verification of much more complex tasks.
-
 ## Paying Tokens
 
 [[Statements]] represent a party's fulfillment of one side of an agreement. The most basic exchange requires just two statements - one for the ask and one for the bid. We'll implement this first, then modify the implementation to support a pluggable validator contract.
@@ -67,7 +66,6 @@ Let's walk through it part by part.
 The `constructor` is just a call to [[IStatement]]'s constructor with specialized parameters. It registers the statement schema with EAS and sets the schema UID as a public parameter on the contract called `attestationSchema`. EAS schemas specify if attestations are revokable or not, and in this case, they are, with revocation meaning the cancelation of an unfinished deal.
 
 `makeStatement` is the statement's initialization function. Callers specify a token and amount, a demand for the counterparty, optionally an expiration time (0 if none), and optionally a refUID if the statement is fulfilling the demand of another specific existing statement. The role of refUID on statements will be explained in more detail when implementing [[StringResultStatement]]. The function transfers the specified amount of the specified token from the caller to the contract, produces an on-chain attestation with EAS containing the `StatementData` passed in, and returns the bytes32 UID of the attestation.
-
 ### Checks
 
 The main thing counterparties will want to check about ERC20 payment statements is whether at least a specific amount of a specific token is deposited, with a specific demand. We'll implement `checkStatement` to enable this.
@@ -119,6 +117,253 @@ contract ERC20PaymentStatement is IStatement {
 
 ### Finalization
 
+To complete our ERC20 payment statement, we'll add functions for collecting payments and cancelling statements.
+
+```solidity
+contract ERC20PaymentStatement is IStatement {
+	...
+	error InvalidPaymentAttestation();
+    error InvalidFulfillment();
+    error UnauthorizedCall();
+	...
+	mapping(bytes32 => bytes32) public collectedFor;
+	...
+    
+    function collectPayment(bytes32 _payment, bytes32 _fulfillment) public returns (bool) {
+        Attestation memory payment = eas.getAttestation(_payment);
+        Attestation memory fulfillment = eas.getAttestation(_fulfillment);
+
+        if (!_checkIntrinsic(payment)) revert InvalidPaymentAttestation();
+
+        if (payment.refUID != bytes32(0) && payment.refUID != _fulfillment) {
+            revert InvalidFulfillment();
+        }
+
+        StatementData memory paymentData = abi.decode(payment.data, (StatementData));
+
+        if (!IArbiter(paymentData.arbiter).checkStatement(fulfillment, paymentData.demand, _payment)) {
+            revert InvalidFulfillment();
+        }
+
+        collectedFor[_payment] = _fulfillment;
+        eas.revoke(
+            RevocationRequest({schema: attestationSchema, data: RevocationRequestData({uid: _payment, value: 0})})
+        );
+        return IERC20(paymentData.token).transfer(fulfillment.recipient, paymentData.amount);
+    }
+
+    function cancelStatement(bytes32 uid) public returns (bool) {
+        Attestation memory attestation = eas.getAttestation(uid);
+        if (msg.sender != attestation.recipient) revert UnauthorizedCall();
+
+        eas.revoke(RevocationRequest({schema: attestationSchema, data: RevocationRequestData({uid: uid, value: 0})}));
+
+        StatementData memory data = abi.decode(attestation.data, (StatementData));
+        return IERC20(data.token).transfer(msg.sender, data.amount);
+    }
+}
+```
+
+We add the three errors `InvalidPaymentAttestation`, `InvalidFulfillment`, and `UnauthorizedCall` as possible failure modes during payment collection or cancellation.
+
+`collectedFor` keeps track of what counteroffer statement payments are collected for, as used in the second validation condition in `checkStatement`. This ensures that statements for already-collected payments can only be used to finalize the statement that was actually used to collect the payment.
+
+`collectPayment` is called by the counterparty to claim a payment. First, it checks if the payment is actually issued by this contract, and still active (i.e. not expired, canceled or collected). It then checks if the payment is for a specific counteroffer, and whether the attestation provided corresponds to that counteroffer.  Finally, it checks if the fulfillment attestation fulfills the payments demands, and if so, revokes the payment attestation, records the fulfillment attestation as `collectedFor[_payment]`, and transfers the token collateral deposited when the payment was made to the caller.
+
+`cancelStatement` allows a payment statement creator to revoke their statement, reclaiming their tokens and ending an agreement prematurely. Note that this basic implementation of `cancelStatement` shouldn't be directly used in production, since there are no protection checks or collateral to ensure that a buyer can't cancel their payment after a seller has already provided them with a benefit, but before the seller has had time to claim their payment.
+
+For cases where the seller's obligation can be finalized on-chain in one block, including this example, this can be mitigated by bundling sell-side statement creation and payment collection into a single transaction, but for more complex exchanges, a more robust protection and collateral system is recommended.
+
+See the final contract at [[Implementations/Exchange/Statements/ERC20PaymentStatement|ERC20PaymentStatement]].
 ## Submitting Strings
 
-## Validation
+To complement our ERC20 payment statement, we'll implement a statement contract for submitting string results. This will allow sellers to provide uppercased strings in response to buyers' queries. The string result statement will be non-revocable and non-expiring, as the result, once recorded on-chain, is available indefinitely.
+
+### Initialization
+
+We'll start by implementing statement creation for submitting string results:
+
+```solidity
+contract StringResultStatement is IStatement {
+    struct StatementData {
+        string result;
+    }
+
+    struct DemandData {
+        string query;
+    }
+
+    string public constant SCHEMA_ABI = "string result";
+    string public constant DEMAND_ABI = "string query";
+    bool public constant IS_REVOCABLE = false;
+
+    constructor(IEAS _eas, ISchemaRegistry _schemaRegistry)
+        IStatement(_eas, _schemaRegistry, SCHEMA_ABI, IS_REVOCABLE)
+    {}
+
+    function makeStatement(StatementData calldata data, bytes32 refUID)
+        public
+        returns (bytes32)
+    {
+        return eas.attest(
+            AttestationRequest({
+                schema: attestationSchema,
+                data: AttestationRequestData({
+                    recipient: msg.sender,
+                    expirationTime: 0,
+                    revocable: false,
+                    refUID: refUID,
+                    data: abi.encode(data),
+                    value: 0
+                })
+            })
+        );
+    }
+}
+```
+
+Let's break it down:
+
+`struct StatementData` contains only the `result` string, which is the capitalized version of the query.
+
+`struct DemandData` represents the demand structure, which only includes the `query` string to be capitalized.
+
+`SCHEMA_ABI` and `DEMAND_ABI` are simplified to reflect the reduced data structures.
+
+`IS_REVOCABLE` is set to `false`, as string results, once recorded on-chain, cannot be meaningfully revoked.
+
+The `constructor` remains similar, registering the statement schema with EAS.
+
+`makeStatement` is the initialization function for creating a string result statement. It creates a non-revocable, non-expiring on-chain attestation with EAS containing the `StatementData` and returns the attestation's UID.
+### Checks
+
+For string result statements, we'll implement `checkStatement` to verify if a submitted result is the correctly capitalized version of the query:
+
+```solidity
+contract StringResultStatement is IStatement {
+    function checkStatement(
+        Attestation memory statement,
+        bytes memory demand, /* (string query) */
+        bytes32 counteroffer
+    ) public view override returns (bool) {
+        if (!_checkIntrinsic(statement)) {
+            return false;
+        }
+
+        // Check if the statement is intended to fulfill the specific counteroffer
+        if (statement.refUID != bytes32(0) && statement.refUID != counteroffer) {
+            return false;
+        }
+
+        StatementData memory result = abi.decode(statement.data, (StatementData));
+        DemandData memory demandData = abi.decode(demand, (DemandData));
+
+        return _isCapitalized(demandData.query, result.result);
+    }
+
+    function _isCapitalized(string memory query, string memory result) internal pure returns (bool) {
+        bytes memory queryBytes = bytes(query);
+        bytes memory resultBytes = bytes(result);
+
+        if (queryBytes.length != resultBytes.length) {
+            return false;
+        }
+
+        for (uint256 i = 0; i < queryBytes.length; i++) {
+            if (queryBytes[i] >= 0x61 && queryBytes[i] <= 0x7A) {
+                // If lowercase, it should be capitalized in the result
+                if (uint8(resultBytes[i]) != uint8(queryBytes[i]) - 32) {
+                    return false;
+                }
+            } else {
+                // If not lowercase, it should remain the same
+                if (resultBytes[i] != queryBytes[i]) {
+                    return false;
+                }
+            }
+        }
+
+        return true;
+    }
+}
+```
+
+`checkStatement` verifies that:
+
+1. The statement is produced by this contract.
+2. If the statement has a non-zero `refUID`, it matches the provided `counteroffer`.
+3. The submitted result is the correctly capitalized version of the query.
+
+The `_isCapitalized` function performs a character-by-character comparison to ensure the result is the correctly capitalized version of the query. We use explicit type coercion to `uint8` when comparing character values to ensure correct arithmetic operations.
+
+### Finalization
+
+As before, the string result statement doesn't require a separate finalization step. Once a statement is created, it's immediately available for validation and use by counterparties. The non-revocable and non-expiring nature of these statements means that they persist indefinitely on-chain.
+
+This simplified implementation of `StringResultStatement` complements the `ERC20PaymentStatement`, allowing for a straightforward exchange system where users can pay in ERC20 tokens for uppercased strings. In the next section on validation, we'll modify this implementation to perform a simpler check (like comparing string lengths) and defer the full capitalization check to an external validator.
+
+See the final contract at [[Implementations/Exchange/Statements/StringResultStatement|StringResultStatement]].
+## In Practice
+
+Let's walk through a practical example of how users would interact with the `ERC20PaymentStatement` and `StringResultStatement` contracts to facilitate a trade of ERC20 tokens for an uppercased string.
+
+### Setting Up the Trade
+
+1. The buyer (Alice) wants to pay 10 USDC for the uppercased version of the string "hello world".
+2. Alice creates an ERC20 payment statement:
+
+```
+ERC20PaymentStatement.StatementData memory paymentData = ERC20PaymentStatement.StatementData({
+    token: address(USDC),
+    amount: 10 * 10**6, // Assuming 6 decimal places for USDC
+    arbiter: address(stringResultStatement), // The StringResultStatement contract acts as the arbiter
+    demand: abi.encode(StringResultStatement.DemandData({
+        query: "hello world"
+    }))
+});
+
+bytes32 paymentUID = erc20PaymentStatement.makeStatement(paymentData, 0, bytes32(0));
+```
+
+This creates an on-chain attestation representing Alice's offer to pay 10 USDC for the uppercased version of "hello world".
+
+### Fulfilling the Trade
+
+3. The seller (Bob) sees Alice's offer and decides to fulfill it. Bob creates a string result statement:
+```solidity
+StringResultStatement.StatementData memory resultData = StringResultStatement.StatementData({
+    result: "HELLO WORLD"
+});
+
+bytes32 resultUID = stringResultStatement.makeStatement(resultData, paymentUID);
+```
+
+This creates an on-chain attestation representing Bob's fulfillment of Alice's request. Note that the `refUID` is set to `paymentUID`, linking this result to Alice's specific payment offer.
+
+### Completing the Exchange
+
+4. Bob can now complete the exchange by calling `collectPayment` on the `ERC20PaymentStatement` contract:
+```solidity
+`erc20PaymentStatement.collectPayment(paymentUID, resultUID);`
+```
+
+This function will:
+
+- Verify that the payment statement is valid and hasn't been collected.
+- Check that the result statement matches the payment's demand (correct query).
+- Use the `StringResultStatement` contract (specified as the arbiter) to validate that the result is correctly capitalized.
+- If all checks pass, transfer the USDC from the contract to Bob.
+
+### Key Points
+
+- The `arbiter` in the payment statement is set to the `StringResultStatement` contract address. This means the `ERC20PaymentStatement` contract will use the `StringResultStatement`'s `checkStatement` function to validate the result.
+- The `demand` field in the payment statement contains the encoded `DemandData` from the `StringResultStatement`. This specifies exactly what string needs to be capitalized.
+- The `refUID` in the result statement is set to the payment statement's UID. This creates a direct link between the offer and its fulfillment, ensuring that a result can only be used to collect the payment it was intended for.
+- Only Bob (the creator of the result statement) can collect the payment. This is enforced by the `collectPayment`function checking if `msg.sender` is the recipient of the fulfillment attestation.
+- The `StringResultStatement` doesn't need to specify an arbiter or demand, as it's not responsible for finalizing any other statements.
+
+This system provides a trustless way for users to exchange ERC20 tokens for specific string manipulations, with on-chain verification of the results. The use of EAS attestations for both the payment and the result provides a standardized and extensible foundation for more complex exchanges.
+
+In the next section, we'll explore how to replace the direct use of `StringResultStatement` as an arbiter with a separate validator contract, demonstrating the pluggable nature of arbiters in this system.
+
+## Validators

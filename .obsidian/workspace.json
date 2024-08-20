@@ -32,31 +32,19 @@
             }
           },
           {
-            "id": "71f344bc89f2b345",
-            "type": "leaf",
-            "state": {
-              "type": "markdown",
-              "state": {
-                "file": "Implementations/Exchange/IStatement.md",
-                "mode": "source",
-                "source": false
-              }
-            }
-          },
-          {
             "id": "5681a208997d6a04",
             "type": "leaf",
             "state": {
               "type": "markdown",
               "state": {
-                "file": "Components for Exchange.md",
+                "file": "Examples/Hello World - Tokens for Strings.md",
                 "mode": "source",
                 "source": false
               }
             }
           }
         ],
-        "currentTab": 3
+        "currentTab": 2
       }
     ],
     "direction": "vertical"
@@ -122,7 +110,7 @@
             "state": {
               "type": "backlink",
               "state": {
-                "file": "Components for Exchange.md",
+                "file": "Examples/Hello World - Tokens for Strings.md",
                 "collapseAll": false,
                 "extraContext": false,
                 "sortOrder": "alphabetical",
@@ -139,7 +127,7 @@
             "state": {
               "type": "outgoing-link",
               "state": {
-                "file": "Components for Exchange.md",
+                "file": "Examples/Hello World - Tokens for Strings.md",
                 "linksCollapsed": false,
                 "unlinkedCollapsed": true
               }
@@ -162,7 +150,7 @@
             "state": {
               "type": "outline",
               "state": {
-                "file": "Components for Exchange.md"
+                "file": "Examples/Hello World - Tokens for Strings.md"
               }
             }
           }
@@ -185,40 +173,41 @@
   },
   "active": "5681a208997d6a04",
   "lastOpenFiles": [
-    "Components/For Exchange/Statements.md",
-    "Components/For Exchange/Agreements.md",
-    "Implementations/Exchange/IArbiter.md",
-    "Implementations/Negotiation",
-    "Examples/Hello World - Tokens for Strings.md",
-    "Untitled",
-    "Components/For Exchange/Validations.md",
-    "Implementations/Exchange/IStatement.md",
-    "Implementations/Exchange/IValidator.md",
     "Components for Exchange.md",
-    "Components for Negotiation.md",
     "Alkahest.md",
     "Asides.md",
-    "Components/For Negotiation/Schemes.md",
-    "Components/For Negotiation/Strategies.md",
-    "Implementations/Exchange",
     "Implementations/Exchange/Statements/StringResultStatement.md",
-    "Implementations/Exchange/Statements/MultiStatement.md",
-    "Components/For Negotiation/Markets.md",
-    "Implementations/Exchange/Statements/ERC20PaymentStatement.md",
-    "Examples/FAIR Data Pipeline.md",
-    "Examples/Cooperative MapReduce.md",
-    "Examples/Service Marketplace.md",
-    "Examples/Computation Marketplace.md",
-    "Implementations",
-    "Implementations/Exchange/Agreements",
-    "Implementations/Negotiation/Strategies",
-    "Implementations/Negotiation/Schemes",
-    "Implementations/Negotiation/Markets",
-    "Components/For Negotiation",
-    "Components/For Exchange",
-    "Implementations/Exchange/Validations/MultiValidation.md",
+    "Examples/Hello World - Tokens for Strings.md",
+    "Components/For Negotiation/Channels.md",
     "Implementations/Exchange/Validations/OptimisticMediationValidation.md",
-    "Validators/ZKValidator.md",
-    "Validators/TrustedValidator.md"
+    "Implementations/Exchange/Validations/MultiValidation.md",
+    "Implementations/Exchange/Validations",
+    "Implementations/Exchange/Statements/MultiStatement.md",
+    "Implementations/Exchange/Statements/ERC20PaymentStatement.md",
+    "Implementations/Exchange/Statements",
+    "Implementations/Exchange/IValidator.md",
+    "Implementations/Exchange/IStatement.md",
+    "Implementations/Exchange/IArbiter.md",
+    "Components/For Negotiation/Markets.md",
+    "Contracts/IValidator.md",
+    "Contracts/IStatement.md",
+    "Contracts/IArbiter.md",
+    "Contracts",
+    "Components/For Exchange/Validations/OptimisticMediationValidation.md",
+    "Components/For Exchange/Validations/MultiValidation.md",
+    "Components/For Exchange/Validations",
+    "Components/For Exchange/Statements/StringResultStatement.md",
+    "Components/For Exchange/Statements/MultiStatement.md",
+    "Components/For Exchange/Statements/ERC20PaymentStatement.md",
+    "Components/For Exchange/Statements",
+    "Components/For Exchange/Statements.md",
+    "Components/For Exchange/Agreements.md",
+    "Implementations/Negotiation",
+    "Untitled",
+    "Components/For Exchange/Validations.md",
+    "Components for Negotiation.md",
+    "Implementations/Exchange",
+    "Implementations",
+    "Implementations/Exchange/Agreements"
   ]
 }
