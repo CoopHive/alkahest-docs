@@ -37,7 +37,7 @@ contract ERC20PaymentStatement is IStatement {
 
         return eas.attest(
             AttestationRequest({
-                schema: attestationSchema,
+                schema: ATTESTATION_SCHEMA,
                 data: AttestationRequestData({
                     recipient: msg.sender,
                     expirationTime: expirationTime,
@@ -63,7 +63,7 @@ Let's walk through it part by part.
 
 `SCHEMA_ABI` is the ABI form of `StatementData`, and is returned from `getSchemaAbi`, which is a virtual function defined in [[IStatement]]. `SCHEMA_ABI` and `StatementData` themselves aren't actually part of [[IStatement]], but `getSchemaAbi` must return the statement data ABI as a string, because the EAS attestations that statement contracts produce will encode the data as bytes, which other contracts will sometimes want to decode.
 
-The `constructor` is just a call to [[IStatement]]'s constructor with specialized parameters. It registers the statement schema with EAS and sets the schema UID as a public parameter on the contract called `attestationSchema`. EAS schemas specify if attestations are revokable or not, and in this case, they are, with revocation meaning the cancelation of an unfinished deal.
+The `constructor` is just a call to [[IStatement]]'s constructor with specialized parameters. It registers the statement schema with EAS and sets the schema UID as a public parameter on the contract called `ATTESTATION_SCHEMA`. EAS schemas specify if attestations are revokable or not, and in this case, they are, with revocation meaning the cancelation of an unfinished deal.
 
 `makeStatement` is the statement's initialization function. Callers specify a token and amount, a demand for the counterparty, optionally an expiration time (0 if none), and optionally a refUID if the statement is fulfilling the demand of another specific existing statement. The role of refUID on statements will be explained in more detail when implementing [[StringResultStatement]]. The function transfers the specified amount of the specified token from the caller to the contract, produces an on-chain attestation with EAS containing the `StatementData` passed in, and returns the bytes32 UID of the attestation.
 ### Checks
@@ -88,7 +88,7 @@ contract ERC20PaymentStatement is IStatement {
     ) public view override returns (bool) {
         if (!_checkIntrinsic(statement)) {
             // Check alternative valid condition for revoked statements
-            return statement.schema == attestationSchema && statement.refUID != bytes32(0)
+            return statement.schema == ATTESTATION_SCHEMA && statement.refUID != bytes32(0)
                 && statement.refUID == counteroffer;
         }
 
@@ -147,7 +147,7 @@ contract ERC20PaymentStatement is IStatement {
 
         collectedFor[_payment] = _fulfillment;
         eas.revoke(
-            RevocationRequest({schema: attestationSchema, data: RevocationRequestData({uid: _payment, value: 0})})
+            RevocationRequest({schema: ATTESTATION_SCHEMA, data: RevocationRequestData({uid: _payment, value: 0})})
         );
         return IERC20(paymentData.token).transfer(fulfillment.recipient, paymentData.amount);
     }
@@ -156,7 +156,7 @@ contract ERC20PaymentStatement is IStatement {
         Attestation memory attestation = eas.getAttestation(uid);
         if (msg.sender != attestation.recipient) revert UnauthorizedCall();
 
-        eas.revoke(RevocationRequest({schema: attestationSchema, data: RevocationRequestData({uid: uid, value: 0})}));
+        eas.revoke(RevocationRequest({schema: ATTESTATION_SCHEMA, data: RevocationRequestData({uid: uid, value: 0})}));
 
         StatementData memory data = abi.decode(attestation.data, (StatementData));
         return IERC20(data.token).transfer(msg.sender, data.amount);
@@ -207,7 +207,7 @@ contract StringResultStatement is IStatement {
     {
         return eas.attest(
             AttestationRequest({
-                schema: attestationSchema,
+                schema: ATTESTATION_SCHEMA,
                 data: AttestationRequestData({
                     recipient: msg.sender,
                     expirationTime: 0,
@@ -344,7 +344,7 @@ This creates an on-chain attestation representing Bob's fulfillment of Alice's r
 
 4. Bob can now complete the exchange by calling `collectPayment` on the `ERC20PaymentStatement` contract:
 ```solidity
-`erc20PaymentStatement.collectPayment(paymentUID, resultUID);`
+erc20PaymentStatement.collectPayment(paymentUID, resultUID);
 ```
 
 This function will:
@@ -500,4 +500,296 @@ async function trade() {
 
 trade().catch(console.error);
 ```
-## Validators
+
+# Validators
+
+In our initial implementation of the exchange system, we used statement contracts to represent both offers and results. While this approach works for simple exchanges, it has several limitations when dealing with more complex scenarios:
+
+1. **Coupling of Logic**: The validation logic is tightly coupled with the statement creation logic. This makes it difficult to update or change the validation process without affecting existing statements.
+
+2. **Limited Flexibility**: Simple statement contracts can't easily handle complex validation scenarios, such as those requiring multiple steps, off-chain data, or time-delayed challenges.
+
+3. **Scalability Issues**: As validation logic becomes more complex, statement contracts can become bloated and expensive to deploy and interact with.
+
+4. **Lack of Reusability**: Validation logic implemented directly in statement contracts can't be easily reused across different types of exchanges.
+
+5. **Difficulty in Upgrading**: Once deployed, the validation logic in a statement contract can't be easily upgraded or modified.
+
+To address these limitations, we introduce the concept of validator contracts. Validators act as an intermediary between offer statements and result statements, providing a flexible and extensible way to implement complex validation logic.
+
+## Validators: Bridging Statements and Arbiters
+
+Validators extend the concept of arbiters, providing more complex and flexible validation mechanisms. They act as a bridge between offer statements (like `ERC20PaymentStatement`) and result statements (like `StringResultStatement`), allowing for sophisticated validation logic without complicating the base statement contracts.
+
+Let's first recap the roles of statements and arbiters in our system to better understand how validators fit into the picture.
+
+### Recap: Statements and Arbiters
+
+Statements represent a party's fulfillment of one side of an agreement. They have three main components:
+
+1. Initialization: Functions that set up the statement, often involving on-chain actions like token transfers.
+2. Checks: Functions that assess the validity of other statements or validations.
+3. Finalization: Functions that complete the agreement, often transferring assets or updating state.
+
+Arbiters, on the other hand, are contracts that can check the validity of statements. Both statement contracts and validator contracts implement the `IArbiter` interface, allowing them to be used interchangeably in many contexts.
+
+### Validator Structure
+
+While validators can vary significantly in their implementation, they generally include the following components:
+
+1. Initialization:
+   - Functions to start the validation process, often creating a new attestation or record.
+   - May involve setup steps like staking tokens or registering with external services.
+
+2. Validation Logic:
+   - The core logic for checking the validity of a result.
+   - Can range from simple on-chain checks to complex multi-step processes involving off-chain data.
+
+3. Finalization:
+   - Functions to conclude the validation process.
+   - May involve releasing stakes, updating state, or triggering further on-chain actions.
+
+4. Arbitration Interface:
+   - Implementation of the `IArbiter` interface, allowing the validator to be used as an arbiter in statement contracts.
+
+### Types of Validators
+
+Validators can implement various validation strategies, including:
+
+1. Optimistic Validation:
+   - Results are considered valid unless challenged within a specific time frame.
+   - Includes a challenge mechanism and often involves staking.
+
+2. Oracle-based Validation:
+   - Relies on external data providers (oracles) to verify results.
+   - May involve paying for the oracle service.
+
+3. Multi-step Validation:
+   - Requires multiple validation steps or approvals from different parties.
+
+4. Threshold Validation:
+   - Requires a certain number or percentage of validators to approve the result.
+
+5. Computation Validation:
+   - Performs complex on-chain computations to verify results.
+   - May use zero-knowledge proofs for efficiency.
+
+By introducing validators, we can overcome the limitations of bare statements:
+
+1. **Decoupling of Logic**: Validation logic is separated from statement creation, allowing for more flexible and upgradeable systems.
+2. **Increased Flexibility**: Validators can implement complex validation scenarios that would be impractical in simple statement contracts.
+3. **Improved Scalability**: Complex logic is moved to separate contracts, keeping statement contracts lean and efficient.
+4. **Enhanced Reusability**: Validation logic in validator contracts can be easily reused across different types of exchanges.
+5. **Easier Upgrades**: Validator contracts can be designed to be upgradeable, allowing for improvements over time without affecting existing statements.
+
+Let's implement an example of an optimistic validator to see how these concepts come together in practice.
+## Implementing an Optimistic Validator
+
+We'll create an `OptimisticStringValidator` that implements optimistic validation with a challenge period. This validator will check if a string has been correctly capitalized, allowing for a period during which the result can be challenged.
+
+```solidity
+// SPDX-License-Identifier: UNLICENSED
+pragma solidity 0.8.26;
+
+import {Attestation} from "@eas/Common.sol";
+import {IEAS, AttestationRequest, AttestationRequestData, RevocationRequest, RevocationRequestData} from "@eas/IEAS.sol";
+import {ISchemaRegistry} from "@eas/ISchemaRegistry.sol";
+import {IStatement} from "./IStatement.sol";
+import {IArbiter} from "./IArbiter.sol";
+
+contract OptimisticStringValidator is IStatement {
+    struct ValidationData {
+        string query;
+        uint64 mediationPeriod;
+    }
+
+    event ValidationStarted(bytes32 indexed validationUID, bytes32 indexed resultUID, string query);
+    event MediationRequested(bytes32 indexed validationUID, bool success);
+
+    error InvalidValidationSchema();
+    error MediationPeriodExpired();
+    error InvalidStatementSchema();
+    error StatementRevoked();
+    error QueryMismatch();
+    error MediationPeriodMismatch();
+
+    string public constant SCHEMA_ABI = "string query, uint64 mediationPeriod";
+    string public constant DEMAND_ABI = "string query, uint64 mediationPeriod";
+    bool public constant IS_REVOCABLE = true;
+
+    address public immutable BASE_STATEMENT;
+
+    constructor(IEAS _eas, ISchemaRegistry _schemaRegistry, address _baseStatement)
+        IStatement(_eas, _schemaRegistry, SCHEMA_ABI, IS_REVOCABLE)
+    {
+        BASE_STATEMENT = _baseStatement;
+    }
+
+    // Initialization
+    function startValidation(bytes32 resultUID, string calldata query, uint64 mediationPeriod)
+        external
+        returns (bytes32 validationUID_)
+    {
+        ValidationData memory data = ValidationData({query: query, mediationPeriod: mediationPeriod});
+
+        validationUID_ = eas.attest(
+            AttestationRequest({
+                schema: ATTESTATION_SCHEMA,
+                data: AttestationRequestData({
+                    recipient: msg.sender,
+                    expirationTime: uint64(block.timestamp) + mediationPeriod,
+                    revocable: true,
+                    refUID: resultUID,
+                    data: abi.encode(data),
+                    value: 0
+                })
+            })
+        );
+
+        emit ValidationStarted(validationUID_, resultUID, query);
+    }
+
+    // Validation Logic (part of the Arbiter interface)
+    function checkStatement(Attestation memory statement, bytes memory demand, bytes32 counteroffer)
+        public
+        view
+        override
+        returns (bool)
+    {
+        if (statement.schema != ATTESTATION_SCHEMA) revert InvalidStatementSchema();
+        if (statement.revocationTime != 0) revert StatementRevoked();
+
+        (string memory query, uint64 mediationPeriod) = abi.decode(demand, (string, uint64));
+        ValidationData memory data = abi.decode(statement.data, (ValidationData));
+
+        if (keccak256(bytes(data.query)) != keccak256(bytes(query))) revert QueryMismatch();
+        if (data.mediationPeriod != mediationPeriod) revert MediationPeriodMismatch();
+
+        if (block.timestamp <= statement.time + data.mediationPeriod) {
+            return false;
+        }
+
+        return IArbiter(BASE_STATEMENT).checkStatement(
+            eas.getAttestation(statement.refUID), abi.encode(data.query), counteroffer
+        );
+    }
+
+    // Finalization (Mediation)
+    function mediate(bytes32 validationUID) external returns (bool success_) {
+        Attestation memory validation = eas.getAttestation(validationUID);
+        if (validation.schema != ATTESTATION_SCHEMA) revert InvalidValidationSchema();
+
+        ValidationData memory data = abi.decode(validation.data, (ValidationData));
+        if (block.timestamp > validation.time + data.mediationPeriod) revert MediationPeriodExpired();
+
+        Attestation memory resultAttestation = eas.getAttestation(validation.refUID);
+        success_ = _isCapitalized(data.query, abi.decode(resultAttestation.data, (string)));
+
+        if (!success_) {
+            eas.revoke(
+                RevocationRequest({
+                    schema: ATTESTATION_SCHEMA,
+                    data: RevocationRequestData({uid: validationUID, value: 0})
+                })
+            );
+        }
+
+        emit MediationRequested(validationUID, success_);
+    }
+
+    // Helper function for validation logic
+    function _isCapitalized(string memory query, string memory result) internal pure returns (bool) {
+        bytes memory queryBytes = bytes(query);
+        bytes memory resultBytes = bytes(result);
+
+        if (queryBytes.length != resultBytes.length) {
+            return false;
+        }
+
+        for (uint256 i = 0; i < queryBytes.length; i++) {
+            if (queryBytes[i] >= 0x61 && queryBytes[i] <= 0x7A) {
+                // If lowercase, it should be capitalized in the result
+                if (uint8(resultBytes[i]) != uint8(queryBytes[i]) - 32) {
+                    return false;
+                }
+            } else {
+                // If not lowercase, it should remain the same
+                if (resultBytes[i] != queryBytes[i]) {
+                    return false;
+                }
+            }
+        }
+
+        return true;
+    }
+
+    // Implementing required functions from IStatement
+    function getSchemaAbi() public pure override returns (string memory) {
+        return SCHEMA_ABI;
+    }
+
+    function getDemandAbi() public pure override returns (string memory) {
+        return DEMAND_ABI;
+    }
+}
+```
+
+This validator demonstrates the key components we discussed:
+
+1. Initialization: The `startValidation` function initializes the validation process.
+2. Validation Logic: The `checkStatement` function implements the core validation logic.
+3. Finalization: The `mediate` function allows for challenges during the mediation period.
+4. Arbitration Interface: The contract implements `IStatement`, which extends `IArbiter`.
+
+## Using Validators in the Exchange System
+
+To use a validator in our exchange system:
+
+1. Deploy the validator contract.
+2. When creating an offer statement (e.g., `ERC20PaymentStatement`), specify the validator as the arbiter:
+
+```solidity
+ERC20PaymentStatement.StatementData memory paymentData = ERC20PaymentStatement.StatementData({
+    token: address(USDC),
+    amount: 10 * 10**6,
+    arbiter: address(optimisticStringValidator),
+    demand: abi.encode(OptimisticStringValidator.ValidationData({
+        query: "hello world",
+        mediationPeriod: 1 days
+    }))
+});
+
+bytes32 paymentUID = erc20PaymentStatement.makeStatement(paymentData, 0, bytes32(0));
+```
+
+3. When submitting a result, start the validation process:
+
+```solidity
+bytes32 resultUID = stringResultStatement.makeStatement(resultData, paymentUID);
+bytes32 validationUID = optimisticStringValidator.startValidation(resultUID, "hello world", 1 days);
+```
+
+4. To complete the exchange, use the validation UID when collecting the payment:
+
+```solidity
+erc20PaymentStatement.collectPayment(paymentUID, validationUID);
+```
+
+## Beyond Optimistic Validation
+
+While we've implemented an optimistic validator here, other types of validators might work differently. For example:
+
+- An oracle-based validator might require payment to cover the cost of off-chain verification.
+- A multi-step validator might require approvals from multiple parties before considering a result valid.
+- A computation validator might perform complex on-chain calculations or verify zero-knowledge proofs.
+
+The flexibility of this system allows for a wide range of validation strategies to be implemented and used interchangeably, depending on the specific requirements of each exchange.
+
+By separating validators from base statements, we've created a modular and extensible system that can adapt to various validation needs while keeping the core exchange logic simple and consistent.
+
+See the final contracts at
+- [[IArbiter]]
+- [[IStatement]]
+- [[ERC20PaymentStatement]]
+- [[StringResultStatement]]
+- [[OptimisticMediationValidation]]

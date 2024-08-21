@@ -13,7 +13,7 @@
             "state": {
               "type": "markdown",
               "state": {
-                "file": "Alkahest.md",
+                "file": "Examples/Hello World - Tokens for Strings.md",
                 "mode": "source",
                 "source": false
               }
@@ -37,14 +37,13 @@
             "state": {
               "type": "markdown",
               "state": {
-                "file": "Examples/Hello World - Tokens for Strings.md",
-                "mode": "source",
+                "file": "Examples/FAIR Data Pipeline.md",
+                "mode": "preview",
                 "source": false
               }
             }
           }
-        ],
-        "currentTab": 2
+        ]
       }
     ],
     "direction": "vertical"
@@ -171,13 +170,15 @@
       "command-palette:Open command palette": false
     }
   },
-  "active": "5681a208997d6a04",
+  "active": "18712e75ed85141d",
   "lastOpenFiles": [
-    "Components for Exchange.md",
     "Alkahest.md",
+    "Examples/FAIR Data Pipeline.md",
+    "Examples/Hello World - Tokens for Strings.md",
+    "Components/For Negotiation/Schemes.md",
+    "Components for Exchange.md",
     "Asides.md",
     "Implementations/Exchange/Statements/StringResultStatement.md",
-    "Examples/Hello World - Tokens for Strings.md",
     "Components/For Negotiation/Channels.md",
     "Implementations/Exchange/Validations/OptimisticMediationValidation.md",
     "Implementations/Exchange/Validations/MultiValidation.md",
@@ -204,8 +205,6 @@
     "Components/For Exchange/Agreements.md",
     "Implementations/Negotiation",
     "Untitled",
-    "Components/For Exchange/Validations.md",
-    "Components for Negotiation.md",
     "Implementations/Exchange",
     "Implementations",
     "Implementations/Exchange/Agreements"
