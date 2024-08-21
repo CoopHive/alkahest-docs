@@ -792,4 +792,4 @@ See the final contracts at
 - [[IStatement]]
 - [[ERC20PaymentStatement]]
 - [[StringResultStatement]]
-- [[OptimisticMediationValidation]]
+- [[OptimisticStringValidator]]

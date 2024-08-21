@@ -13,7 +13,7 @@
             "state": {
               "type": "markdown",
               "state": {
-                "file": "Examples/Hello World - Tokens for Strings.md",
+                "file": "Implementations/Exchange/IStatement.md",
                 "mode": "source",
                 "source": false
               }
@@ -109,7 +109,7 @@
             "state": {
               "type": "backlink",
               "state": {
-                "file": "Examples/Hello World - Tokens for Strings.md",
+                "file": "Implementations/Exchange/IStatement.md",
                 "collapseAll": false,
                 "extraContext": false,
                 "sortOrder": "alphabetical",
@@ -126,7 +126,7 @@
             "state": {
               "type": "outgoing-link",
               "state": {
-                "file": "Examples/Hello World - Tokens for Strings.md",
+                "file": "Implementations/Exchange/IStatement.md",
                 "linksCollapsed": false,
                 "unlinkedCollapsed": true
               }
@@ -149,7 +149,7 @@
             "state": {
               "type": "outline",
               "state": {
-                "file": "Examples/Hello World - Tokens for Strings.md"
+                "file": "Implementations/Exchange/IStatement.md"
               }
             }
           }
@@ -172,23 +172,23 @@
   },
   "active": "18712e75ed85141d",
   "lastOpenFiles": [
+    "Implementations/Exchange/IArbiter.md",
+    "Implementations/Exchange/Validations/OptimisticStringValidator.md",
+    "Implementations/Exchange/Validations/MultiValidation.md",
+    "Implementations/Exchange/Statements/StringResultStatement.md",
+    "Implementations/Exchange/Statements/ERC20PaymentStatement.md",
+    "Examples/Hello World - Tokens for Strings.md",
     "Alkahest.md",
     "Examples/FAIR Data Pipeline.md",
-    "Examples/Hello World - Tokens for Strings.md",
     "Components/For Negotiation/Schemes.md",
     "Components for Exchange.md",
     "Asides.md",
-    "Implementations/Exchange/Statements/StringResultStatement.md",
     "Components/For Negotiation/Channels.md",
-    "Implementations/Exchange/Validations/OptimisticMediationValidation.md",
-    "Implementations/Exchange/Validations/MultiValidation.md",
     "Implementations/Exchange/Validations",
     "Implementations/Exchange/Statements/MultiStatement.md",
-    "Implementations/Exchange/Statements/ERC20PaymentStatement.md",
     "Implementations/Exchange/Statements",
     "Implementations/Exchange/IValidator.md",
     "Implementations/Exchange/IStatement.md",
-    "Implementations/Exchange/IArbiter.md",
     "Components/For Negotiation/Markets.md",
     "Contracts/IValidator.md",
     "Contracts/IStatement.md",
