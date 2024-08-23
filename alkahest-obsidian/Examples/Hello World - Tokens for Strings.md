@@ -365,13 +365,14 @@ This function will:
 This system provides a trustless way for users to exchange ERC20 tokens for specific string manipulations, with on-chain verification of the results. The use of EAS attestations for both the payment and the result provides a standardized and extensible foundation for more complex exchanges.
 
 In the next section, we'll explore how to replace the direct use of `StringResultStatement` as an arbiter with a separate validator contract, demonstrating the pluggable nature of arbiters in this system.
-
 ## In Practice (TypeScript + viem)
-Let's walk through how users would interact with the `ERC20PaymentStatement` and `StringResultStatement` contracts using viem's contract instances API and TypeScript to facilitate a trade of ERC20 tokens for an uppercased string.
+
+Let's walk through how users would interact with the `ERC20PaymentStatement` and `StringResultStatement` contracts using viem's contract instances API and TypeScript to facilitate a trade of ERC20 tokens for an uppercased string.
 
 ### Setting Up the Environment
 
 First, we set up our environment with viem:
+
 ```typescript
 import { createPublicClient, createWalletClient, http, parseAbi, getContract } from 'viem';
 import { privateKeyToAccount } from 'viem/accounts';
@@ -417,10 +418,12 @@ const stringResultStatement = getContract({
   walletClient,
 });
 ```
+
 ### Setting Up the Trade
 
 1. Alice wants to pay 10 USDC for the uppercased version of the string "hello world".
 2. Alice creates an ERC20 payment statement:
+
 ```typescript
 async function createPaymentStatement() {
   const stringResultDemandAbi = await stringResultStatement.read.getDemandAbi();
@@ -441,21 +444,21 @@ async function createPaymentStatement() {
     }]
   );
 
-  const paymentHash = await erc20PaymentStatement.write.makeStatement(
+  const paymentUID = await erc20PaymentStatement.write.makeStatement(
     [paymentData, 0n, '0x' + '0'.repeat(64)],
     { account: aliceAccount }
   );
 
-  console.log('Payment statement created:', paymentHash);
+  console.log('Payment statement created:', paymentUID);
 
-  const paymentReceipt = await publicClient.waitForTransactionReceipt({ hash: paymentHash });
-  const paymentUID = extractPaymentUIDFromLogs(paymentReceipt.logs);
   return paymentUID;
 }
 ```
+
 ### Fulfilling the Trade
 
 3. Bob sees Alice's offer and decides to fulfill it. Bob creates a string result statement:
+
 ```typescript
 async function createResultStatement(paymentUID: `0x${string}`) {
   const stringResultSchemaAbi = await stringResultStatement.read.getSchemaAbi();
@@ -465,32 +468,34 @@ async function createResultStatement(paymentUID: `0x${string}`) {
     [{ result: 'HELLO WORLD' }]
   );
 
-  const resultHash = await stringResultStatement.write.makeStatement(
+  const resultUID = await stringResultStatement.write.makeStatement(
     [resultData, paymentUID],
     { account: bobAccount }
   );
 
-  console.log('Result statement created:', resultHash);
+  console.log('Result statement created:', resultUID);
 
-  const resultReceipt = await publicClient.waitForTransactionReceipt({ hash: resultHash });
-  const resultUID = extractResultUIDFromLogs(resultReceipt.logs);
   return resultUID;
 }
 ```
+
 ### Completing the Exchange
 
-4. Bob can now complete the exchange by calling `collectPayment` on the `ERC20PaymentStatement` contract:
+4. Bob can now complete the exchange by calling `collectPayment` on the `ERC20PaymentStatement` contract:
+
 ```typescript
 async function collectPayment(paymentUID: `0x${string}`, resultUID: `0x${string}`) {
-  const collectHash = await erc20PaymentStatement.write.collectPayment(
+  const success = await erc20PaymentStatement.write.collectPayment(
     [paymentUID, resultUID],
     { account: bobAccount }
   );
 
-  console.log('Payment collected:', collectHash);
+  console.log('Payment collected:', success);
 }
 ```
+
 ### Putting It All Together
+
 ```typescript
 async function trade() {
   const paymentUID = await createPaymentStatement();
@@ -500,7 +505,6 @@ async function trade() {
 
 trade().catch(console.error);
 ```
-
 # Validators
 
 In our initial implementation of the exchange system, we used statement contracts to represent both offers and results. While this approach works for simple exchanges, it has several limitations when dealing with more complex scenarios:

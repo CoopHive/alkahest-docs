@@ -7,9 +7,9 @@ The components we implement along the way will also allow paying for any other t
 
 [Statements](./../Components/For_Exchange/Statements.md) represent a party's fulfillment of one side of an agreement. The most basic exchange requires just two statements - one for the ask and one for the bid. We'll implement this first, then modify the implementation to support a pluggable validator contract.
 
-Statements have three main parts - an initialization function, inherent validity checks, and term finalization functions. ion The initialization function is called by the party offering what the statement represents, and performs all on-chain actions necessary to enact its finalization terms, as well as for any relevant validators to validate the statement. Finalization functions represent individual conditions of an agreement, and can be called by the agreement counterparty, passing in the host contract statement and a statement or validation representing their side of the deal. Checks are what finalization functions use to parametrically assess validity of other statements. Let's make this clearer with an example.
+Statements have three main parts - an initialization function, inherent validity checks, and term finalization functions. The initialization function is called by the party offering what the statement represents, and performs all on-chain actions necessary to enact its finalization terms, as well as for any relevant validators to validate the statement. Finalization functions represent individual conditions of an agreement, and can be called by the agreement counterparty, passing in the host contract statement and a statement or validation representing their side of the deal. Checks are what finalization functions use to parametrically assess validity of other statements. Let's make this clearer with an example.
 
-To make a statement contract for ERC20 payments, we need the statement creator to deposit tokens into escrow, which are then available to be claimed by a valid counterparty. When other statements require ERC20 payments from a counterparty, they'll want to check if the at least a specified amount of a specified token is available for collection.
+To make a statement contract for ERC20 payments, we need the statement creator to deposit tokens into escrow, which are then available to be claimed by a valid counterparty. When other statements require ERC20 payments from a counterparty, they'll want to check if at least a specified amount of a specified token is available for collection.
 
 ### Initialization
 We'll first implement statement creation via depositing an ERC20 token and specifying what's demanded from the counterparty.
@@ -67,7 +67,7 @@ Let's walk through it part by part.
 
 The `constructor` is just a call to [IStatement](./../Implementations/Exchange/IStatement.md)'s constructor with specialized parameters. It registers the statement schema with EAS and sets the schema UID as a public parameter on the contract called `ATTESTATION_SCHEMA`. EAS schemas specify if attestations are revokable or not, and in this case, they are, with revocation meaning the cancelation of an unfinished deal.
 
-`makeStatement` is the statement's initialization function. Callers specify a token and amount, a demand for the counterparty, optionally an expiration time (0 if none), and optionally a refUID if the statement is fulfilling the demand of another specific existing statement. The role of refUID on statements will be explained in more detail when implementing [StringResultStatement](./../Implementations/Exchange/Statements/StringResultStatement.md). The function transfers the specified amount of the specified token from the caller to the contract, produces an on-chain attestation with EAS containing the `StatementData` passed in, and returns the bytes32 UID of the attestation.
+`makeStatement` is the statement's initialization function. Callers specify a token and amount, a demand for the counterparty, optionally an expiration time (0 if none), and optionally a refUID if the statement is fulfilling the demand of another specific existing statement. The function transfers the specified amount of the specified token from the caller to the contract, produces an on-chain attestation with EAS containing the `StatementData` passed in, and returns the bytes32 UID of the attestation.
 ### Checks
 
 The main thing counterparties will want to check about ERC20 payment statements is whether at least a specific amount of a specific token is deposited, with a specific demand. We'll implement `checkStatement` to enable this.
@@ -367,13 +367,14 @@ This function will:
 This system provides a trustless way for users to exchange ERC20 tokens for specific string manipulations, with on-chain verification of the results. The use of EAS attestations for both the payment and the result provides a standardized and extensible foundation for more complex exchanges.
 
 In the next section, we'll explore how to replace the direct use of `StringResultStatement` as an arbiter with a separate validator contract, demonstrating the pluggable nature of arbiters in this system.
-
 ## In Practice (TypeScript + viem)
-Let's walk through how users would interact with the `ERC20PaymentStatement` and `StringResultStatement` contracts using viem's contract instances API and TypeScript to facilitate a trade of ERC20 tokens for an uppercased string.
+
+Let's walk through how users would interact with the `ERC20PaymentStatement` and `StringResultStatement` contracts using viem's contract instances API and TypeScript to facilitate a trade of ERC20 tokens for an uppercased string.
 
 ### Setting Up the Environment
 
 First, we set up our environment with viem:
+
 ```typescript
 import { createPublicClient, createWalletClient, http, parseAbi, getContract } from 'viem';
 import { privateKeyToAccount } from 'viem/accounts';
@@ -419,10 +420,12 @@ const stringResultStatement = getContract({
   walletClient,
 });
 ```
+
 ### Setting Up the Trade
 
 1. Alice wants to pay 10 USDC for the uppercased version of the string "hello world".
 2. Alice creates an ERC20 payment statement:
+
 ```typescript
 async function createPaymentStatement() {
   const stringResultDemandAbi = await stringResultStatement.read.getDemandAbi();
@@ -443,21 +446,21 @@ async function createPaymentStatement() {
     }]
   );
 
-  const paymentHash = await erc20PaymentStatement.write.makeStatement(
+  const paymentUID = await erc20PaymentStatement.write.makeStatement(
     [paymentData, 0n, '0x' + '0'.repeat(64)],
     { account: aliceAccount }
   );
 
-  console.log('Payment statement created:', paymentHash);
+  console.log('Payment statement created:', paymentUID);
 
-  const paymentReceipt = await publicClient.waitForTransactionReceipt({ hash: paymentHash });
-  const paymentUID = extractPaymentUIDFromLogs(paymentReceipt.logs);
   return paymentUID;
 }
 ```
+
 ### Fulfilling the Trade
 
 3. Bob sees Alice's offer and decides to fulfill it. Bob creates a string result statement:
+
 ```typescript
 async function createResultStatement(paymentUID: `0x${string}`) {
   const stringResultSchemaAbi = await stringResultStatement.read.getSchemaAbi();
@@ -467,32 +470,34 @@ async function createResultStatement(paymentUID: `0x${string}`) {
     [{ result: 'HELLO WORLD' }]
   );
 
-  const resultHash = await stringResultStatement.write.makeStatement(
+  const resultUID = await stringResultStatement.write.makeStatement(
     [resultData, paymentUID],
     { account: bobAccount }
   );
 
-  console.log('Result statement created:', resultHash);
+  console.log('Result statement created:', resultUID);
 
-  const resultReceipt = await publicClient.waitForTransactionReceipt({ hash: resultHash });
-  const resultUID = extractResultUIDFromLogs(resultReceipt.logs);
   return resultUID;
 }
 ```
+
 ### Completing the Exchange
 
-4. Bob can now complete the exchange by calling `collectPayment` on the `ERC20PaymentStatement` contract:
+4. Bob can now complete the exchange by calling `collectPayment` on the `ERC20PaymentStatement` contract:
+
 ```typescript
 async function collectPayment(paymentUID: `0x${string}`, resultUID: `0x${string}`) {
-  const collectHash = await erc20PaymentStatement.write.collectPayment(
+  const success = await erc20PaymentStatement.write.collectPayment(
     [paymentUID, resultUID],
     { account: bobAccount }
   );
 
-  console.log('Payment collected:', collectHash);
+  console.log('Payment collected:', success);
 }
 ```
+
 ### Putting It All Together
+
 ```typescript
 async function trade() {
   const paymentUID = await createPaymentStatement();
@@ -502,7 +507,6 @@ async function trade() {
 
 trade().catch(console.error);
 ```
-
 # Validators
 
 In our initial implementation of the exchange system, we used statement contracts to represent both offers and results. While this approach works for simple exchanges, it has several limitations when dealing with more complex scenarios:

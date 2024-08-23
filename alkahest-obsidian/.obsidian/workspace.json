@@ -172,9 +172,12 @@
   },
   "active": "18712e75ed85141d",
   "lastOpenFiles": [
+    "Examples/FAIR Data Pipeline.md",
+    "Examples/Cooperative MapReduce.md",
+    "Examples/Hello World - Tokens for Strings.md",
+    "Implementations/Exchange/Statements/ERC20PaymentStatement.md",
     "Asides.md",
     "Alkahest.md",
-    "Examples/Hello World - Tokens for Strings.md",
     "Components/For Exchange.md",
     "Components/For Negotiation.md",
     "alkahest-obsidian",
@@ -205,9 +208,6 @@
     "alkahest-mdbook/src/Examples/Cooperative MapReduce.md",
     "alkahest-mdbook/src/Examples/Computation Marketplace.md",
     "alkahest-mdbook/src/Components/For Negotiation/Strategies.md",
-    "alkahest-mdbook/src/Components/For Negotiation/Schemes.md",
-    "alkahest-mdbook/src/Components/For Negotiation/Markets.md",
-    "alkahest-mdbook/src/Components/For Exchange/Validations.md",
     "alkahest-mdbook/book/FontAwesome/fonts/fontawesome-webfont.svg",
     "alkahest-mdbook/book/favicon.svg",
     "alkahest-mdbook/book/favicon.png"
