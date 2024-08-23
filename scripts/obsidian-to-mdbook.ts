@@ -1,8 +1,7 @@
 #!/usr/bin/env bun
 
-import { readdir, mkdir } from "node:fs/promises";
+import { readdir, mkdir, rmdir } from "node:fs/promises";
 import path from "path";
-import fs from "fs";
 
 const nameFromPath = (filePath: string) => {
   return path.basename(filePath, path.extname(filePath)).replace(/_/g, " ");
@@ -122,6 +121,9 @@ const files: string[] = (
 
 // paste to ../alkahest-mdbook
 const mdbookDir = "../alkahest-mdbook/src";
+
+await rmdir(mdbookDir, { recursive: true });
+await mkdir(mdbookDir, { recursive: true });
 await Promise.all(
   files.map(async ($) => {
     const sourcePath = path.join(obsidianDir, $);
