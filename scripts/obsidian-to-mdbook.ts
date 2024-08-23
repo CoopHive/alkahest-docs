@@ -131,17 +131,8 @@ await Promise.all(
     const convertedContent = convertObsidianLinks(rawContent, $, files);
     const content = `# ${nameFromPath($)}\n\n${convertedContent}`;
 
-    // Check if the file has the same name as its parent folder
-    const dirName = path.dirname($);
-    const baseName = path.basename($, ".md");
-    let targetPath;
-
-    if (baseName.toLowerCase() === path.basename(dirName).toLowerCase()) {
-      // This file should become README.md in its parent folder
-      targetPath = path.join(mdbookDir, dirName, "README.md");
-    } else {
-      targetPath = path.join(mdbookDir, spacesToUnder($));
-    }
+    // mdBook requires no spaces in file names
+    const targetPath = path.join(mdbookDir, spacesToUnder($));
 
     // Ensure the directory exists
     await mkdir(path.dirname(targetPath), { recursive: true });
