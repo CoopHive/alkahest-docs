@@ -13,7 +13,7 @@
             "state": {
               "type": "markdown",
               "state": {
-                "file": "Components/For Exchange.md",
+                "file": "Examples/Hello World - Tokens for Strings.md",
                 "mode": "source",
                 "source": false
               }
@@ -109,7 +109,7 @@
             "state": {
               "type": "backlink",
               "state": {
-                "file": "Components/For Exchange.md",
+                "file": "Examples/Hello World - Tokens for Strings.md",
                 "collapseAll": false,
                 "extraContext": false,
                 "sortOrder": "alphabetical",
@@ -126,7 +126,7 @@
             "state": {
               "type": "outgoing-link",
               "state": {
-                "file": "Components/For Exchange.md",
+                "file": "Examples/Hello World - Tokens for Strings.md",
                 "linksCollapsed": false,
                 "unlinkedCollapsed": true
               }
@@ -149,7 +149,7 @@
             "state": {
               "type": "outline",
               "state": {
-                "file": "Components/For Exchange.md"
+                "file": "Examples/Hello World - Tokens for Strings.md"
               }
             }
           }
@@ -172,7 +172,9 @@
   },
   "active": "18712e75ed85141d",
   "lastOpenFiles": [
+    "Asides.md",
     "Alkahest.md",
+    "Examples/Hello World - Tokens for Strings.md",
     "Components/For Exchange.md",
     "Components/For Negotiation.md",
     "alkahest-obsidian",
@@ -206,8 +208,6 @@
     "alkahest-mdbook/src/Components/For Negotiation/Schemes.md",
     "alkahest-mdbook/src/Components/For Negotiation/Markets.md",
     "alkahest-mdbook/src/Components/For Exchange/Validations.md",
-    "alkahest-mdbook/src/Components/For Exchange/Statements.md",
-    "alkahest-mdbook/src/Components/For Exchange/Agreements.md",
     "alkahest-mdbook/book/FontAwesome/fonts/fontawesome-webfont.svg",
     "alkahest-mdbook/book/favicon.svg",
     "alkahest-mdbook/book/favicon.png"
