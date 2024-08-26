@@ -4,7 +4,7 @@ A central piece, in the definition of global, off-chain states of agents is the 
 
 ## Job
 
-Some examples of a Job Schema are, for compute (stateless) tasks:
+Some examples of a Job Scheme are, for compute (stateless) tasks:
 - A docker image and its input(s);
 - A github repository and an associated command.
 
