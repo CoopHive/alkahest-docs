@@ -9,10 +9,11 @@ import {
     IEAS, AttestationRequest, AttestationRequestData, RevocationRequest, RevocationRequestData
 } from "@eas/IEAS.sol";
 import {ISchemaRegistry} from "@eas/ISchemaRegistry.sol";
-import {IStatement} from "./IStatement.sol";
 import {IArbiter} from "./IArbiter.sol";
+import {IValidator} from "./IValidator.sol";
+import {StringResultStatement} from "./StringResultStatement.sol";
 
-contract OptimisticStringValidator is IStatement {
+contract OptimisticStringValidator is IValidator {
     struct ValidationData {
         string query;
         uint64 mediationPeriod;
@@ -35,32 +36,30 @@ contract OptimisticStringValidator is IStatement {
     address public immutable BASE_STATEMENT;
 
     constructor(IEAS _eas, ISchemaRegistry _schemaRegistry, address _baseStatement)
-        IStatement(_eas, _schemaRegistry, SCHEMA_ABI, IS_REVOCABLE)
+        IValidator(_eas, _schemaRegistry, SCHEMA_ABI, IS_REVOCABLE)
     {
         BASE_STATEMENT = _baseStatement;
     }
 
-    function startValidation(bytes32 resultUID, string calldata query, uint64 mediationPeriod)
+    function startValidation(bytes32 resultUID, ValidationData calldata validationData)
         external
         returns (bytes32 validationUID_)
     {
-        ValidationData memory data = ValidationData({query: query, mediationPeriod: mediationPeriod});
-
         validationUID_ = eas.attest(
             AttestationRequest({
                 schema: ATTESTATION_SCHEMA,
                 data: AttestationRequestData({
                     recipient: msg.sender,
-                    expirationTime: uint64(block.timestamp) + mediationPeriod,
+                    expirationTime: uint64(block.timestamp) + validationData.mediationPeriod,
                     revocable: true,
                     refUID: resultUID,
-                    data: abi.encode(data),
+                    data: abi.encode(validationData),
                     value: 0
                 })
             })
         );
 
-        emit ValidationStarted(validationUID_, resultUID, query);
+        emit ValidationStarted(validationUID_, resultUID, validationData.query);
     }
 
     function mediate(bytes32 validationUID) external returns (bool success_) {
@@ -71,7 +70,9 @@ contract OptimisticStringValidator is IStatement {
         if (block.timestamp > validation.time + data.mediationPeriod) revert MediationPeriodExpired();
 
         Attestation memory resultAttestation = eas.getAttestation(validation.refUID);
-        success_ = _isCapitalized(data.query, abi.decode(resultAttestation.data, (string)));
+        StringResultStatement.StatementData memory resultData =
+            abi.decode(resultAttestation.data, (StringResultStatement.StatementData));
+        success_ = _isCapitalized(data.query, resultData.result);
 
         if (!success_) {
             eas.revoke(
@@ -94,18 +95,20 @@ contract OptimisticStringValidator is IStatement {
         if (statement.schema != ATTESTATION_SCHEMA) revert InvalidStatementSchema();
         if (statement.revocationTime != 0) revert StatementRevoked();
 
-        (string memory query, uint64 mediationPeriod) = abi.decode(demand, (string, uint64));
-        ValidationData memory data = abi.decode(statement.data, (ValidationData));
+        ValidationData memory demandData = abi.decode(demand, (ValidationData));
+        ValidationData memory statementData = abi.decode(statement.data, (ValidationData));
 
-        if (keccak256(bytes(data.query)) != keccak256(bytes(query))) revert QueryMismatch();
-        if (data.mediationPeriod != mediationPeriod) revert MediationPeriodMismatch();
+        if (keccak256(bytes(statementData.query)) != keccak256(bytes(demandData.query))) revert QueryMismatch();
+        if (statementData.mediationPeriod != demandData.mediationPeriod) revert MediationPeriodMismatch();
 
-        if (block.timestamp <= statement.time + data.mediationPeriod) {
+        if (block.timestamp <= statement.time + statementData.mediationPeriod) {
             return false;
         }
 
         return IArbiter(BASE_STATEMENT).checkStatement(
-            eas.getAttestation(statement.refUID), abi.encode(data.query), counteroffer
+            eas.getAttestation(statement.refUID),
+            abi.encode(StringResultStatement.DemandData({query: statementData.query})),
+            counteroffer
         );
     }
 

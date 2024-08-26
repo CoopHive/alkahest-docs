@@ -5,14 +5,34 @@ We take the **peer-to-peer agreement** as the basic unit of exchange, where part
 
 [[Statements]] represent the fulfillment of a party's obligation in an **agreement**. 
 
-For example, the sample [[ERC20PaymentStatement]] is an EAS resolver contract with a function `makeStatement(address token, uint amount, address arbiter): Attestation`, requiring the attester to deposit an amount of an ERC20 token, and producing an attestation stating they've done so. It has another function `collectPayment(Attestation payment, Attestation validation)`, which the counterparty can call to collect the payment, passing in an attestation from the specified arbiter address, which could be a **statement**, **validator**, **agreement**, or even a user address. In practice, the contract should be extended so that the payment maker can specify in the statement what they're demanding from the counterparty, and check within `collectPayment` whether it was actually fulfilled.
+For example, the sample [[ERC20PaymentStatement]] is an EAS resolver contract with a function
+```solidity
+    struct StatementData {
+        address token;
+        uint256 amount;
+        address arbiter;
+        bytes demand;
+    }
+    ...
+    makeStatement(StatementData calldata data, uint64 expirationTime, bytes32 refUID)
+```
+requiring the attester to deposit an amount of an ERC20 token, and producing an attestation stating they've done so. It has another function `collectPayment(bytes32 _payment, bytes32 _fulfillment)`, which the counterparty can call to collect the payment, passing in an attestation from the specified arbiter address, which could be a **statement**, **validator**, or even a user address. In practice, the contract should be extended so that the payment maker can specify in the statement what they're demanding from the counterparty, and check within `collectPayment` whether it was actually fulfilled.
 
  Statements can directly [reference](https://docs.attest.org/docs/tutorials/referenced-attestations) other statement attestations and interact with other statement contracts, sometimes enabling complete negotiation flows even without dedicated **agreement** contracts or **validators**.
 ## Validations
 
 [[Validations]] represent properties of **statements** which are difficult to determine or cannot be determined via their raw data, and are often produced by third parties. They can be used for conditional finalization of terms in **agreements**.
 
-For example, the sample [[OptimisticStringValidator]] for [[StringResultStatement]] statements has a function `getValidation(Attestation statement)`, which produces an attestation [referencing](https://docs.attest.org/docs/tutorials/referenced-attestations) the specified statement after a certain amount of time unless the counterparty calls `requestMediate(Attestation statement)`. If the counterparty requests mediation, a trusted oracle retries the job and produces the requested attestation only if it gets the same result as specified in the original statement.
+For example, the sample [[OptimisticStringValidator]] for [[StringResultStatement]] statements has a function 
+```solidity
+	struct ValidationData {
+        string query;
+        uint64 mediationPeriod;
+    }
+    ...
+	startValidation(bytes32 resultUID, ValidationData calldata validationData)
+```
+which produces an attestation [referencing](https://docs.attest.org/docs/tutorials/referenced-attestations) the specified statement after a certain amount of time unless the counterparty calls `mediate(bytes32 validationUID)`. If the counterparty requests mediation, a trusted oracle retries the job and produces the requested attestation only if it gets the same result as specified in the original statement.
 
 If specified as the `arbiter` in an [[ERC20PaymentStatement]], the attestation from [[OptimisticStringValidator]] can be passed into `collectPayment` to claim payment for agreements. In this case, `collectPayment` should be extended to check if each validation's underlying [[StringResultStatement]] actually fulfills the specified payment via the `job` and `counterparty` fields of the statement's attestation schema.
 ## Agreements
