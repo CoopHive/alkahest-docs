@@ -1,3 +1,13 @@
+In this section we demostrate a possible use of **schemes** and **agents** by building a compute marketplace where users' hardwares are associated with Agents autonomously negotiating and scheduling compute tasks.
+
+TODO:
+
+Hierarchically:
+- Use of RL primitives as specific implementations of Agents.
+- Use of particular dimensions to define the state space as specific implementations of Agents.
+
+Please give an example of Actions implemented at the level of Schemas and of Actions implemented inside the Agents policy.
+
 ## State Space
 
 Autonomous Agents are associated with policies why are defined in conjunction with a state space. The dimensions of such state space can be categorized in different ways. One way is distinguishing between both local states (i.e., variables associated with agents themselves) and global information (i.e., global, environmental variables which are not a function of the agent). Another categorization is distinguishing between off-chain and on-chain states.
