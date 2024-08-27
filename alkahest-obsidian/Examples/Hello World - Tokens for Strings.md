@@ -20,6 +20,8 @@ contract ERC20PaymentStatement is IStatement {
         address arbiter;
         bytes demand;
     }
+    
+    error InvalidPayment();
 
     string public constant SCHEMA_ABI = "address token, uint256 amount, address arbiter, bytes demand";
     bool public constant IS_REVOCABLE = true;
@@ -32,8 +34,9 @@ contract ERC20PaymentStatement is IStatement {
         public
         returns (bytes32)
     {
-        // require token transfer from attestation recipient
-        IERC20(data.token).transferFrom(msg.sender, address(this), data.amount);
+        if (!IERC20(data.token).transferFrom(msg.sender, address(this), data.amount)) {
+            revert InvalidPayment();
+        }
 
         return eas.attest(
             AttestationRequest({
@@ -74,22 +77,17 @@ The main thing counterparties will want to check about ERC20 payment statements 
 contract ERC20PaymentStatement is IStatement {
 
 	...
-	
-    string public constant DEMAND_ABI = "address token, uint256 amount, address arbiter, bytes demand";
-
-	mapping(bytes32 => bytes32) public collectedFor;
-    
+    string public constant DEMAND_ABI = "address token, uint256 amount, address arbiter, bytes demand";    
 	...
 
-    function checkStatement(
-        Attestation memory statement,
-        bytes memory demand, /* (address token, uint256 amount, address arbiter, bytes demand) */
-        bytes32 counteroffer
-    ) public view override returns (bool) {
+    function checkStatement(Attestation memory statement, bytes memory demand, bytes32 counteroffer)
+        public
+        view
+        override
+        returns (bool)
+    {
         if (!_checkIntrinsic(statement)) {
-            // Check alternative valid condition for revoked statements
-            return statement.schema == ATTESTATION_SCHEMA && statement.refUID != bytes32(0)
-                && statement.refUID == counteroffer;
+            return false;
         }
 
         StatementData memory payment = abi.decode(statement.data, (StatementData));
@@ -109,11 +107,7 @@ contract ERC20PaymentStatement is IStatement {
 
 `DEMAND_ABI` for ERC20 payment statements is the same as `SCHEMA_ABI`, which will often but not always be the case. Here, counterparties want to know that a statement represents at least an `amount` of a `token` for a specific counteroffer, but `DEMAND_ABI` - or more precisely, the return of `getDemandAbi` - just represents parameters passed into `checkStatement`.
 
-`collectedFor` will record what counteroffers payments are collected for, and is used in `checkStatement`. 
-
-`checkStatement` considers two conditions valid:
-1. The statement is produced by this contract and active (not expired nor revoked). It contains at least the demanded amount of the demanded token, available for collection.
-2. The statement is produced by this contract and has already been collected for the specified counteroffer. This check is needed so that payments that have already been collected can still be used to finalize counterparty statements.
+`checkStatement` checks that the statement is produced by this contract and active (not expired nor revoked), and that it contains at least the demanded amount of the demanded token, available for collection by the demanded fulfillment (i.e., arbiter and demand).
 
 ### Finalization
 
@@ -126,26 +120,20 @@ contract ERC20PaymentStatement is IStatement {
     error InvalidFulfillment();
     error UnauthorizedCall();
 	...
-	mapping(bytes32 => bytes32) public collectedFor;
-	...
-    
+
     function collectPayment(bytes32 _payment, bytes32 _fulfillment) public returns (bool) {
         Attestation memory payment = eas.getAttestation(_payment);
         Attestation memory fulfillment = eas.getAttestation(_fulfillment);
 
         if (!_checkIntrinsic(payment)) revert InvalidPaymentAttestation();
 
-        if (payment.refUID != bytes32(0) && payment.refUID != _fulfillment) {
-            revert InvalidFulfillment();
-        }
-
         StatementData memory paymentData = abi.decode(payment.data, (StatementData));
 
-        if (!IArbiter(paymentData.arbiter).checkStatement(fulfillment, paymentData.demand, _payment)) {
+        // Check if the fulfillment is valid
+        if (!_isValidFulfillment(payment, fulfillment, paymentData)) {
             revert InvalidFulfillment();
         }
 
-        collectedFor[_payment] = _fulfillment;
         eas.revoke(
             RevocationRequest({schema: ATTESTATION_SCHEMA, data: RevocationRequestData({uid: _payment, value: 0})})
         );
@@ -161,14 +149,26 @@ contract ERC20PaymentStatement is IStatement {
         StatementData memory data = abi.decode(attestation.data, (StatementData));
         return IERC20(data.token).transfer(msg.sender, data.amount);
     }
+    
+    function _isValidFulfillment(
+        Attestation memory payment,
+        Attestation memory fulfillment,
+        StatementData memory paymentData
+    ) internal view returns (bool) {
+        // Special case: If the payment references this fulfillment, consider it valid
+        if (payment.refUID == fulfillment.uid) {
+            return true;
+        }
+
+        // Regular case: check using the arbiter
+        return IArbiter(paymentData.arbiter).checkStatement(fulfillment, paymentData.demand, payment.uid);
+    }
 }
 ```
 
 We add the three errors `InvalidPaymentAttestation`, `InvalidFulfillment`, and `UnauthorizedCall` as possible failure modes during payment collection or cancellation.
 
-`collectedFor` keeps track of what counteroffer statement payments are collected for, as used in the second validation condition in `checkStatement`. This ensures that statements for already-collected payments can only be used to finalize the statement that was actually used to collect the payment.
-
-`collectPayment` is called by the counterparty to claim a payment. First, it checks if the payment is actually issued by this contract, and still active (i.e. not expired, canceled or collected). It then checks if the payment is for a specific counteroffer, and whether the attestation provided corresponds to that counteroffer.  Finally, it checks if the fulfillment attestation fulfills the payments demands, and if so, revokes the payment attestation, records the fulfillment attestation as `collectedFor[_payment]`, and transfers the token collateral deposited when the payment was made to the caller.
+`collectPayment` is called by the counterparty to claim a payment. First, it checks if the payment is actually issued by this contract, and still active (i.e. not expired, canceled or collected). It then checks if the payment is for a specific counteroffer (via its refUID), and whether the attestation provided corresponds to that counteroffer. Finally, it checks if the fulfillment attestation fulfills the payments demands, and if so, revokes the payment attestation and transfers the token collateral deposited when the payment was made to the caller.
 
 `cancelStatement` allows a payment statement creator to revoke their statement, reclaiming their tokens and ending an agreement prematurely. Note that this basic implementation of `cancelStatement` shouldn't be directly used in production, since there are no protection checks or collateral to ensure that a buyer can't cancel their payment after a seller has already provided them with a benefit, but before the seller has had time to claim their payment.
 
@@ -302,7 +302,7 @@ As before, the string result statement doesn't require a separate finalization s
 
 This simplified implementation of `StringResultStatement` complements the `ERC20PaymentStatement`, allowing for a straightforward exchange system where users can pay in ERC20 tokens for uppercased strings. In the next section on validation, we'll modify this implementation to perform a simpler check (like comparing string lengths) and defer the full capitalization check to an external validator.
 
-See the final contract at [[Implementations/Exchange/Statements/StringResultStatement|StringResultStatement]].
+See the final contract at [[Implementations/Exchange/Statements/StringResultStatement|StringResultStatement]] (\*note that we modify `checkStatement` later in this tutorial, when adding an external validator to the system).
 ## In Practice (Solidity)
 
 Let's walk through a practical example of how users would interact with the `ERC20PaymentStatement` and `StringResultStatement` contracts to facilitate a trade of ERC20 tokens for an uppercased string.
@@ -596,19 +596,22 @@ We'll create an `OptimisticStringValidator` that implements optimistic validatio
 pragma solidity 0.8.26;
 
 import {Attestation} from "@eas/Common.sol";
-import {IEAS, AttestationRequest, AttestationRequestData, RevocationRequest, RevocationRequestData} from "@eas/IEAS.sol";
+import {
+    IEAS, AttestationRequest, AttestationRequestData, RevocationRequest, RevocationRequestData
+} from "@eas/IEAS.sol";
 import {ISchemaRegistry} from "@eas/ISchemaRegistry.sol";
-import {IStatement} from "./IStatement.sol";
 import {IArbiter} from "./IArbiter.sol";
+import {IValidator} from "./IValidator.sol";
+import {StringResultStatement} from "./StringResultStatement.sol";
 
-contract OptimisticStringValidator is IStatement {
+contract OptimisticStringValidator is IValidator {
     struct ValidationData {
         string query;
         uint64 mediationPeriod;
     }
 
     event ValidationStarted(bytes32 indexed validationUID, bytes32 indexed resultUID, string query);
-    event MediationRequested(bytes32 indexed validationUID, bool success);
+    event MediationRequested(bytes32 indexed validationUID, bool success_);
 
     error InvalidValidationSchema();
     error MediationPeriodExpired();
@@ -624,61 +627,32 @@ contract OptimisticStringValidator is IStatement {
     address public immutable BASE_STATEMENT;
 
     constructor(IEAS _eas, ISchemaRegistry _schemaRegistry, address _baseStatement)
-        IStatement(_eas, _schemaRegistry, SCHEMA_ABI, IS_REVOCABLE)
+        IValidator(_eas, _schemaRegistry, SCHEMA_ABI, IS_REVOCABLE)
     {
         BASE_STATEMENT = _baseStatement;
     }
 
-    // Initialization
-    function startValidation(bytes32 resultUID, string calldata query, uint64 mediationPeriod)
+    function startValidation(bytes32 resultUID, ValidationData calldata validationData)
         external
         returns (bytes32 validationUID_)
     {
-        ValidationData memory data = ValidationData({query: query, mediationPeriod: mediationPeriod});
-
         validationUID_ = eas.attest(
             AttestationRequest({
                 schema: ATTESTATION_SCHEMA,
                 data: AttestationRequestData({
                     recipient: msg.sender,
-                    expirationTime: uint64(block.timestamp) + mediationPeriod,
+                    expirationTime: uint64(block.timestamp) + validationData.mediationPeriod,
                     revocable: true,
                     refUID: resultUID,
-                    data: abi.encode(data),
+                    data: abi.encode(validationData),
                     value: 0
                 })
             })
         );
 
-        emit ValidationStarted(validationUID_, resultUID, query);
+        emit ValidationStarted(validationUID_, resultUID, validationData.query);
     }
 
-    // Validation Logic (part of the Arbiter interface)
-    function checkStatement(Attestation memory statement, bytes memory demand, bytes32 counteroffer)
-        public
-        view
-        override
-        returns (bool)
-    {
-        if (statement.schema != ATTESTATION_SCHEMA) revert InvalidStatementSchema();
-        if (statement.revocationTime != 0) revert StatementRevoked();
-
-        (string memory query, uint64 mediationPeriod) = abi.decode(demand, (string, uint64));
-        ValidationData memory data = abi.decode(statement.data, (ValidationData));
-
-        if (keccak256(bytes(data.query)) != keccak256(bytes(query))) revert QueryMismatch();
-        if (data.mediationPeriod != mediationPeriod) revert MediationPeriodMismatch();
-
-        if (block.timestamp <= statement.time + data.mediationPeriod) {
-            return false;
-        }
-
-        return IArbiter(BASE_STATEMENT).checkStatement(
-            eas.getAttestation(statement.refUID), abi.encode(data.query), counteroffer
-        );
-    }
-
-    // Finalization (Mediation)
     function mediate(bytes32 validationUID) external returns (bool success_) {
         Attestation memory validation = eas.getAttestation(validationUID);
         if (validation.schema != ATTESTATION_SCHEMA) revert InvalidValidationSchema();
@@ -687,7 +661,9 @@ contract OptimisticStringValidator is IStatement {
         if (block.timestamp > validation.time + data.mediationPeriod) revert MediationPeriodExpired();
 
         Attestation memory resultAttestation = eas.getAttestation(validation.refUID);
-        success_ = _isCapitalized(data.query, abi.decode(resultAttestation.data, (string)));
+        StringResultStatement.StatementData memory resultData =
+            abi.decode(resultAttestation.data, (StringResultStatement.StatementData));
+        success_ = _isCapitalized(data.query, resultData.result);
 
         if (!success_) {
             eas.revoke(
@@ -701,7 +677,32 @@ contract OptimisticStringValidator is IStatement {
         emit MediationRequested(validationUID, success_);
     }
 
-    // Helper function for validation logic
+    function checkStatement(Attestation memory statement, bytes memory demand, bytes32 counteroffer)
+        public
+        view
+        override
+        returns (bool)
+    {
+        if (statement.schema != ATTESTATION_SCHEMA) revert InvalidStatementSchema();
+        if (statement.revocationTime != 0) revert StatementRevoked();
+
+        ValidationData memory demandData = abi.decode(demand, (ValidationData));
+        ValidationData memory statementData = abi.decode(statement.data, (ValidationData));
+
+        if (keccak256(bytes(statementData.query)) != keccak256(bytes(demandData.query))) revert QueryMismatch();
+        if (statementData.mediationPeriod != demandData.mediationPeriod) revert MediationPeriodMismatch();
+
+        if (block.timestamp <= statement.time + statementData.mediationPeriod) {
+            return false;
+        }
+
+        return IArbiter(BASE_STATEMENT).checkStatement(
+            eas.getAttestation(statement.refUID),
+            abi.encode(StringResultStatement.DemandData({query: statementData.query})),
+            counteroffer
+        );
+    }
+
     function _isCapitalized(string memory query, string memory result) internal pure returns (bool) {
         bytes memory queryBytes = bytes(query);
         bytes memory resultBytes = bytes(result);
@@ -727,7 +728,6 @@ contract OptimisticStringValidator is IStatement {
         return true;
     }
 
-    // Implementing required functions from IStatement
     function getSchemaAbi() public pure override returns (string memory) {
         return SCHEMA_ABI;
     }
@@ -736,6 +736,7 @@ contract OptimisticStringValidator is IStatement {
         return DEMAND_ABI;
     }
 }
+
 ```
 
 This validator demonstrates the key components we discussed:
