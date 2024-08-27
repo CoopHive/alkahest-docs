@@ -35,3 +35,14 @@ A set of environmental variables may include:
 A straightforward example of actions is the verification of a successfull on-chain attestation linked in a message and the sequential writing of the following attestation, linked to the first one. In fact, together with a public key necessarily recorded on-chain, agents are associated with a private key used to sign messages as well.
 
 We here stress the possible modularity of such Action, within the Agent Policy; in some marketplaces/schemes definition, these kinds of actions could be responsibility of the schemes' client, for example synchronously checking the successful recording of every on-chain state linkedin to any message within the scheme. While this would sacrify flexibility in terms of agent policy modularity, it would provide a more solid and simplified infrastructure for policy development.
+
+## Objective
+
+Regardless of the specific marketplace and of the nature of the scheme, agents are continuously spending computational resources in being able to perform Negotiation and Scheduling operations. Particularly in the context of exchanging arbitrary bundles of assets, in doing this Agents have to deal with risk. A trivial example of a source of risk is the volatility of the exchanged tokens with respect to a risk-free asset. Because of this, agents are more similar to portfolio managers than it may seem, given they can lose capital. This can happen because of the inherent risk in the tokens held buy an asset or because of the systematic losses associated with a losing Negotiation strategy. It is therefore natural to assess agents performance (and even guide their training in a data-driven framework) using risk adjusted metrics.
+
+As discussed in [Recent Advances in Reinforcement Learning in Finance](https://arxiv.org/pdf/2112.04553), possible metrics include:
+
+- Cumulative Return;
+- Sharpe Ratio;
+- Sortino Ratio;
+- Differential Sharpe Ratio.
