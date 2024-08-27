@@ -1,32 +1,34 @@
-In this section we demostrate a possible use of **schemes** and **agents** by building a compute marketplace where users' hardwares are associated with Agents autonomously negotiating and scheduling compute tasks.
+In this section we demostrate a possible use of **schemes** and **agents** by building a compute marketplace where users' hardwares are associated with Agents autonomously negotiating and scheduling compute tasks. While the fundamental structure of the main modules, together with their interfaces, is constrained, the actual contents of Schemes and Agents are dependent on the specificities of the marketplace, and the user design choices. In this tutorial we give a possible architecture for the internal logic of an Agent.
 
-TODO:
+## Sequential Decision-making Primitives
 
-Hierarchically:
-- Use of RL primitives as specific implementations of Agents.
-- Use of particular dimensions to define the state space as specific implementations of Agents.
+In the implementation of Agents, interacting with the state machine defined by the Scheme, a natural design choice following the usage of Sequential Decision-making Primitives. Given the absence of an explicit model of the system, this perspective overlaps with the field of Multi-Agent Reinforcement Learning.
 
-Please give an example of Actions implemented at the level of Schemas and of Actions implemented inside the Agents policy.
+Nevertheless, Agents (both clients and resource providers) interact with an Environment receiving and submitting information. While the bulk of observations are about reading the state machine, other observations about both on-chain and off-chain states can be used, generalizing the definition of Environment. In the same way, while the main output of Agents is about updating the state machine, other *writing* tasks exists, enabling agents to interact and modify other aspects of the Environment.
 
 ## State Space
 
-Autonomous Agents are associated with policies why are defined in conjunction with a state space. The dimensions of such state space can be categorized in different ways. One way is distinguishing between both local states (i.e., variables associated with agents themselves) and global information (i.e., global, environmental variables which are not a function of the agent). Another categorization is distinguishing between off-chain and on-chain states.
+Autonomous Agents are associated with policies which are defined in conjunction with a state space. The dimensions of such state space can be categorized in different ways. One way is distinguishing between both local states (i.e., variables associated with agents themselves) and global information (i.e., global, environmental variables which are not a function of the agent). In this perspective, we can break further break down the policy equation for agent $i$:
 
-### Global States
+$$
+\begin{bmatrix}
+y_{t+1} \\
+a_{i, t+1}
+\end{bmatrix}
+= f_i(y_t, X_{i, t}, Z_{i, t}, p_{i, t}), \quad \text{for each } i \in \{1, \ldots, N\}
+$$
 
-A set of environmental variables appearing necessary for actors to construct optimal policies include:
+In other terms, we can further break down the state of the system in:
 
-- L1 and L2 tokens price. We believe the dynamics of the protocol, being based on smart contracts and EVM technology, to be driven by the state of the L1 (Ethereum) and L2 protocol. One shallow proxy for this is the point-in-time price of the two protocols. A deeper understanding of the protocol dynamics could inform the modeling of payment token prices forecasting, informing the optimal behaviour of agents in this blockchain-based marketplace.
+- $y$, state of the state machine, the same for every agent and associated with schemas;
+- $X$, additional state components of the environment. These components are defined by each agent, and are characterized by variables which are hidden to all the other $N-1$ agents in the system. We call the components of $X$ *Local States*.
+- $Z$, additional state components of the environment. While these components are still defined by each agent, they are characterized by variables which are shared by all agents. We call the components of $Z$ *Global States*.
 
-- Gas Fees: because of the need to record the outcome of a negotiation on the blockchain, the point-in-time gas fees of the protocol blockchain is necessary to build policies. This is akin to a time-dependent transaciton cost model in trad-fi: the profitability of a position is a function of the (current) transaction costs. Here we refer to the gas fees of the L2 associated with CoopHive; as per prices, the gas fee time series of Ethereum may be relevant in modeling the dynamics of costs for agents recording states on-chain in the interaction with the protocol.
-
-- Electricity costs. This is a space-time dependent variable defining the cost of electricity in the world. Agents, aware of their own location, are interested in measuring the point-in-time field of the cost of electricity to understand the hedge they may have against other potential agents in different locations. This means that agents may have a module solely focused on the [modeling, forecasting and uncertainty quantification](https://arxiv.org/abs/2106.06033) of electricity prices to enhance the state space and then use that as an input for the optimal controller.
-
-- On-chain states: the history of credible commitments recorded on chain is a valuable information to inform policies. While agents cannot be forced to share their local states on chain, one solution could be to enable an emergent secondary marketplace of jobs specifications, in which machines can associate (and this can be verified) their hardware specifications to a given job. The market is emergent as if agents want to become autonomous and this dataset is valuable, they will create it. An important point, on this, is that an agent looking at a given open job is in principle not able to say exactly its computational cost. It can learn from past data only if they are associated with specific schemas that enable the agent to interpolate the input space of the task for that schema (in the presence of enough datapoints to approximate the cost function).
+This distinction alligns with the general framework of *Partially observable Markov Games*, characterizing the protocol.
 
 ### Local States
 
-The specifications of the machine (hardware or virtual machine) associated with an agent (in turn, associated with a public key), include:
+The specifications of the machine (hardware or virtual machine) associated with an agent (in turn, associated with a public key), is an example of Local States. These include:
 
  * CPU
  * GPU
@@ -34,8 +36,22 @@ The specifications of the machine (hardware or virtual machine) associated with 
 
 These information may or may not be recorded on-chain; regadless, profiling enables agent to know their own states and inform their policies with this information.
 
-Together with a public key necessarily recorded on-chain, agents are associated with a private key used to sign messages as well.
+Every agent hardware specifications may limit the state space size. For example, some IoT actors would only be able to store and act based on on-chain data. For the same reason, some agents may be unable to perform certain tasks. In other words, each agent has different constraints on both their state space and action space.
 
-Every agent hardware specifications may limit the state space size. For example, some IoT actors would only be able to remember and act based on on-chain data, while others may be able to have a bigger memory and bigger state space. For the same reason, some agents may be unable to perform certain tasks (that may be costly and limited by time, in fact the validation could also check constraints in the tasks, like the time it took to complete.). In other words, each agent has different constraints on both their state space and action space.
+### Global States
 
-A task shall be associated with a variable specifying the possibility for it to be distributed. It could also specify the specific/maximum/minimum number of agents to take the task. The minimum case is to enforce federate learning in the case in which sensitive data needs to be broken down. This creates a negotiation with some kind of waiting room in which people can subscribe to participate and can opt-out before the room is full. From the resource provider side, the federate learning scenario could also motivate the introduction of a *Swarm* abstraction, combining different agents that decide to cooperate to a certain degree, for example sharing their state space or their policies.
+A set of environmental variables may include:
+
+- L1 and L2 tokens price. The dynamics of the protocol, being based on smart contracts and EVM technology, may be driven by the state of the L1 (Ethereum) and L2 protocol. One shallow proxy for this is the point-in-time price of the two protocols. A deeper understanding of the protocol dynamics could inform the modeling of payment token prices forecasting, informing the optimal behaviour of agents in this blockchain-based marketplace, informing in turn the agent policy.
+
+- Gas Fees: because of the need to record the outcome of a negotiation on the blockchain, the point-in-time gas fees of the protocol blockchain is necessary to build policies: the profitability of a job is a function of the (current) transaction costs. Here we refer to the gas fees of the L2 associated with CoopHive; as per prices, the gas fee time series of Ethereum may be relevant in modeling the dynamics of costs for agents recording states on-chain in the interaction with the protocol.
+
+- Electricity costs. This is a space-time dependent variable defining the cost of electricity in the world. Agents, aware of their own location, are interested in measuring the point-in-time field of the cost of electricity to understand the hedge they may have against other potential agents in different locations. This means that agents could have a module solely focused on the modeling, forecasting and uncertainty quantification of electricity prices to enhance the state space.
+
+- On-chain states: the history of credible commitments recorded on chain is a valuable information to inform policies.
+
+## Schemas-dependent and Agent-dependent Actions
+
+A straightforward example of actions is the verification of a successfull on-chain attestation linked in a message and the sequential writing of the following attestation, linked to the first one. In fact, together with a public key necessarily recorded on-chain, agents are associated with a private key used to sign messages as well.
+
+We here stress the possible modularity of such Action, within the Agent Policy; in some marketplaces/schemes definition, these kinds of actions could be responsibility of the schemes' client, for example synchronously checking the successful recording of every on-chain state linkedin to any message within the scheme. While this would sacrify flexibility in terms of agent policy modularity, it would provide a more solid and simplified infrastructure for policy development.

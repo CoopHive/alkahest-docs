@@ -13,6 +13,7 @@ Alkahest is a toolkit for dissolving consolidated economies and creating atomic 
 - [[Hello World - Tokens for Strings]]
 - Components [[For Exchange]]
 - [[Hello World - Agent-based Modeling for Negotiation and Scheduling]]
+- [[Hello World - Schemes implementation using Redis]]
 - Components [[For Negotiation]]
 - [[Asides]]
 
