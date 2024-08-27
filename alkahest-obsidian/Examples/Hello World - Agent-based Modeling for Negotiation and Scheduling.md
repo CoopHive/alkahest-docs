@@ -6,27 +6,7 @@ In the implementation of Agents, interacting with the state machine defined by t
 
 Nevertheless, Agents (both clients and resource providers) interact with an Environment receiving and submitting information. While the bulk of observations are about reading the state machine, other observations about both on-chain and off-chain states can be used, generalizing the definition of Environment. In the same way, while the main output of Agents is about updating the state machine, other *writing* tasks exists, enabling agents to interact and modify other aspects of the Environment.
 
-## State Space
-
-Autonomous Agents are associated with policies which are defined in conjunction with a state space. The dimensions of such state space can be categorized in different ways. One way is distinguishing between both local states (i.e., variables associated with agents themselves) and global information (i.e., global, environmental variables which are not a function of the agent). In this perspective, we can break further break down the policy equation for agent $i$:
-
-$$
-\begin{bmatrix}
-y_{t+1} \\
-a_{i, t+1}
-\end{bmatrix}
-= f_i(y_t, X_{i, t}, Z_{i, t}, p_{i, t}), \quad \text{for each } i \in \{1, \ldots, N\}
-$$
-
-In other terms, we can further break down the state of the system in:
-
-- $y$, state of the state machine, the same for every agent and associated with schemas;
-- $X$, additional state components of the environment. These components are defined by each agent, and are characterized by variables which are hidden to all the other $N-1$ agents in the system. We call the components of $X$ *Local States*.
-- $Z$, additional state components of the environment. While these components are still defined by each agent, they are characterized by variables which are shared by all agents. We call the components of $Z$ *Global States*.
-
-This distinction alligns with the general framework of *Partially observable Markov Games*, characterizing the protocol.
-
-### Local States
+## Local States
 
 The specifications of the machine (hardware or virtual machine) associated with an agent (in turn, associated with a public key), is an example of Local States. These include:
 
@@ -38,7 +18,7 @@ These information may or may not be recorded on-chain; regadless, profiling enab
 
 Every agent hardware specifications may limit the state space size. For example, some IoT actors would only be able to store and act based on on-chain data. For the same reason, some agents may be unable to perform certain tasks. In other words, each agent has different constraints on both their state space and action space.
 
-### Global States
+## Global States
 
 A set of environmental variables may include:
 
