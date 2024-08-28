@@ -42,7 +42,17 @@ A set of environmental variables may include:
 
 - On-chain states: the history of credible commitments recorded on chain is a valuable information to inform policies.
 
-## Schemas-dependent and Agent-dependent Actions
+## Schemes
+
+A specific instatiation of a schema, for this marketplace, can look like:
+
+- request: A client agent signals a need for compute resources, specifying some terms.
+- offer: A provider agent responds with available resources and counter-terms.
+- accept: Agreement to terms, triggering task commencement.
+- attestation: Verification that a task has been initiated or completed.
+- terminate: Signaling the end of a negotiation, either due to task completion, timeout, or error.
+
+## Schemes-dependent and Agent-dependent Actions
 
 A straightforward example of actions is the verification of a successfull on-chain attestation linked in a message and the sequential writing of the following attestation, linked to the first one. In fact, together with a public key necessarily recorded on-chain, agents are associated with a private key used to sign messages as well.
 
