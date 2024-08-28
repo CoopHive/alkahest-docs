@@ -11,7 +11,7 @@ Alkahest is a toolkit for dissolving consolidated economies and creating atomic 
 ## Get Started
 
 - [[Hello World - Tokens for Strings]]
-- [[Compute Marketplace Negotiation]]
+- [[Examples/Negotiation/Compute Marketplace]]
 - Components [[For Exchange]]
 - Components [[For Negotiation]]
 - [[Asides]]
