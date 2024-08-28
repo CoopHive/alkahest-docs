@@ -10,10 +10,10 @@ TODO.
 
 ## Agents
 
-The existance of distributed and heterogenous hardwares and the potential construction of data-driven policies for optimal decision making do not motivate by themselves the usage of an agent-based perspective in the modeling of the system.
+The existence of distributed and heterogenous hardwares and the potential construction of data-driven policies for optimal decision making do not motivate by themselves the usage of an agent-based perspective in the modeling of the system.
 
-The case for Agent-based modeling resides in the fact that nodes participating in the network keep *agency* over themselves, i.e. they are continuously able to accept or reject jobs, and this capatibility is never delegated to a central entity.
+The case for Agent-based modeling resides in the fact that nodes participating in the network keep *agency* over themselves, i.e. they are continuously able to accept or reject jobs, and this capability is never delegated to a central entity.
 
-Moreover, an [agent-based perspective](https://www.doynefarmer.com/publications) can be used to relax conventional assumptions in standard models and, in the spirit of [complex systems theory](https://www.econophysix.com/publications), to view marco phenomena as *emerging properties* of the atomic units of behaviour. This perspective has the potential to avoid the suboptimality following the choice of a misspecificed macro model.
+Moreover, an [agent-based perspective](https://www.doynefarmer.com/publications) can be used to relax conventional assumptions in standard models and, in the spirit of [complex systems theory](https://www.econophysix.com/publications), to view macro phenomena as *emergent properties* of the atomic units of behavior. This perspective has the potential to avoid the suboptimality following the choice of a misspecified macro model.
 
-Finally, in the spirit of barter, the line between buy and sell side gets less well defined, beside the actions order in a given negotiation, and it's possible to have every player in the protocol be defined by the same, universal modes of behaviour.
+Finally, in the spirit of barter, the line between buy and sell side gets less well defined, beside the actions order in a given negotiation, and it's possible to have every player in the protocol be defined by the same, universal modes of behavior.
