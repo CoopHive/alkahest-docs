@@ -1,4 +1,4 @@
-In this section we demostrate a possible use of **schemes** and **agents** by building a compute marketplace where users' hardwares are associated with Agents autonomously negotiating and scheduling compute tasks. While the fundamental structure of the main modules, together with their interfaces, is constrained, the actual contents of Schemes and Agents are dependent on the specificities of the marketplace, and the user design choices. In this tutorial we give a possible architecture for the internal logic of an Agent.
+In this section we demonstrate a possible use of **schemes** and **agents** by building a compute marketplace where users' hardwares are associated with Agents autonomously negotiating and scheduling compute tasks. While the fundamental structure of the main modules, together with their interfaces, is constrained, the actual contents of Schemes and Agents are dependent on the specificities of the marketplace, and the user design choices. In this tutorial we give a possible architecture for the internal logic of an Agent.
 
 ## Sequential Decision-making Primitives
 

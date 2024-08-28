@@ -8,7 +8,7 @@ import {ISchemaRegistry} from "@eas/ISchemaRegistry.sol";
 import {SchemaResolver} from "@eas/resolver/SchemaResolver.sol";
 import {Attestation} from "@eas/Common.sol";
 
-abstract contract IStatement is IArbiter, SchemaResolver {
+abstract contract IValidator is IArbiter, SchemaResolver {
     ISchemaRegistry public immutable schemaRegistry;
     IEAS public immutable eas;
 
