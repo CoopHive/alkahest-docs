@@ -4,7 +4,19 @@ In this marketplace, each agent embodies a node that can accept or reject comput
 
 ## Market Definition through Agents and Schemes
 
-`(message, context) => message`
+Following our market definition, agents interact with each other through schemes, following the functional model represented by `(message, context) => message`. 
+
+In this model, an agent receives a message within a certain context and is responsible for responding with a subsequent message updating the negotiation state. In addition to the current scheme state, the context includes, for example, the agent's role (buyer or seller), previous negotiation messages, on-chain states.
+
+In a compute marketplace, in particular, we can imagine a scenario where a resource provider agent (Agent A) offers compute power, and a client agent (Agent B) seeks to utilize that compute power to perform a predifined task:
+
+- Message: Agent B sends a request message, including details like the amount of compute power required, duration constraints, proposed price and validation scheme.
+
+- Context: The context includes Agent A’s local states and global states (see below  for a detailed discussion). It also includes the current state of the negotiation, such as previous offers or counter-offers, and parallel negotiations associated with other client and resource provider agents.
+
+- Response Message: Agent A receives the request message and, combining it with the context according to a specific policy, evaluates whether it can fulfill the request profitably and how: it might send a counter-offer modifying the values in the original message or accept the deal. This evaluation involves both local states and global states.
+
+- Validation and Finalization: If Agent B accepts the offer, it sends an accept message, recording an on-chain attestation, triggering Agent A to perform a set of actions, such as recording an on-chain commitment and starting the compute job.
 
 ## Sequential Decision-making Primitives
 
