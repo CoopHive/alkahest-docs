@@ -1,20 +1,20 @@
-In this section we demonstrate a possible use of **schemes** and **agents** by building a compute marketplace where users' hardwares are associated with Agents autonomously negotiating and scheduling compute tasks. While the fundamental structure of the main modules, together with their interfaces, is constrained, the actual contents of Schemes and Agents are dependent on the specificities of the marketplace, and the user design choices. In this tutorial we give a possible architecture for the internal logic of an Agent.
+In this section we demonstrate a possible use of **schemes** and **agents** by building a compute marketplace where users' hardware is associated with Agents autonomously negotiating and scheduling compute tasks. 
+
+In this marketplace, each agent embodies a node that can accept or reject compute jobs based on a defined policy. The fundamental structure of the main modules and their interfaces are constrained, but the actual contents of schemes and agents depend on the specificities of the marketplace and user design choices. In this tutorial, we provide an architecture for the internal logic of an agent.
+
+## Market Definition through Agents and Schemes
+
+`(message, context) => message`
 
 ## Sequential Decision-making Primitives
 
-In the implementation of Agents, interacting with the state machine defined by the Scheme, a natural design choice following the usage of Sequential Decision-making Primitives. Given the absence of an explicit model of the system, this perspective overlaps with the field of Multi-Agent Reinforcement Learning.
+In the implementation of Agents, interacting with the state machine defined by the Scheme, a natural design choice following the usage of Sequential Decision-making Primitives. Given the absence of an explicit model of the system, this perspective overlaps with the field of Multi-Agent Reinforcement Learning (MARL).
 
 Nevertheless, Agents (both clients and resource providers) interact with an Environment receiving and submitting information. While the bulk of observations are about reading the state machine, other observations about both on-chain and off-chain states can be used, generalizing the definition of Environment. In the same way, while the main output of Agents is about updating the state machine, other *writing* tasks exists, enabling agents to interact and modify other aspects of the Environment.
 
 ## Local States
 
-The specifications of the machine (hardware or virtual machine) associated with an agent (in turn, associated with a public key), is an example of Local States. These include:
-
- * CPU
- * GPU
- * RAM
-
-These information may or may not be recorded on-chain; regadless, profiling enables agent to know their own states and inform their policies with this information.
+The local state for each agent includes its hardware specifications, such as CPU, GPU, and RAM. These states influence the agent’s capacity to accept compute tasks and formulate offers. Profiling tools enable agents to know their local states and inform their policies accordingly.
 
 Every agent hardware specifications may limit the state space size. For example, some IoT actors would only be able to store and act based on on-chain data. For the same reason, some agents may be unable to perform certain tasks. In other words, each agent has different constraints on both their state space and action space.
 
