@@ -4,7 +4,7 @@ Since schemes correspond with a real-world process (an actual exchange), agents 
 
 ## Actions
 
-Agents are not only responsible for sending scheme-conformant messages. The negotiation and scheduling of tasks requires interaction with the Components [For Exchange](../For Exchange.md), and with the real world. We call this set of interactions **actions**. 
+Agents are not only responsible for sending scheme-conformant messages. The negotiation and scheduling of tasks requires interaction with the Components [For Exchange](../For_Exchange.md), and with the real world. We call this set of interactions **actions**. 
 
 In general, it's the agent's responsibility to execute actions when a scheme specifies that a message represents a real-world state change (e.g. a registered EAS attestation), as well as to verify other agents' messages corresponding to real world states. However, scheme clients could be implemented to perform actions common between many agents participating in a scheme, to lighten the implementation load for agents.
 
