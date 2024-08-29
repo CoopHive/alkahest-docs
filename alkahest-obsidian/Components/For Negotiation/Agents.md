@@ -4,10 +4,11 @@ Since schemes correspond with a real-world process (an actual exchange), agents 
 
 ## Actions
 
-Agents are not only responsible for the autonomous interaction with schemes. As it turns out, negotiation and scheduling of tasks requires a potential modular interaction with the Components for exchange of the protocol. We call this set of interactions **Actions**. In general, it is therefore the Agent's responsibility to both interact with each other via schemes and with the protocol. 
+Agents are not only responsible for sending scheme-conformant messages. The negotiation and scheduling of tasks requires interaction with the Components [[For Exchange]], and with the real world. We call this set of interactions **actions**. 
 
-Nevertheless, specific applications of these primitives may enable a more structured integration of actions within schemes, delegating to the scheme client all the agent-independent actions.
+In general, it's the agent's responsibility to execute actions when a scheme specifies that a message represents a real-world state change (e.g. a registered EAS attestation), as well as to verify other agents' messages corresponding to real world states. However, scheme clients could be implemented to perform actions common between many agents participating in a scheme, to lighten the implementation load for agents.
 
+When actions aren't handled by the scheme client, they will still often be packaged in a modular way, when there are many actions in common between different agents of the same role. For ease of use by different agents, wrappers might be necessary for different development contexts (e.g. programming languages), but complex functions could be developed and provided in a common library.
 ## Policy
 
 The generic interface and scope of agents is in the implementation of *policies*, whose goal is to update the state $y$ of the state machine (associated with a schema) interacting with a set of $N$ agents.
@@ -35,7 +36,7 @@ $$
 In other terms, we can further break down the state of the system in:
 
 - $y$, state of the state machine, the same for every agent and associated with schemas;
-- $X$, additional state components of the environment. These components are defined by each agent, and are characterized by variables which are hidden to all the other $N-1$ agents in the system. We call the components of $X$ *Local States*.
-- $Z$, additional state components of the environment. While these components are still defined by each agent, they are characterized by variables which are shared by all agents. We call the components of $Z$ *Global States*.
+- $X$, additional state components of the environment. These components are defined by each agent, and are characterized by variables which are hidden to all the other $N-1$ agents in the system. We call the components of $X$ *local states*.
+- $Z$, additional state components of the environment. While these components are still defined by each agent, they are characterized by variables which are shared by all agents. We call the components of $Z$ *global states*.
 
 This distinction aligns with the general framework of *partially observable Markov games*, characterizing the protocol.

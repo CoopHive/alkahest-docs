@@ -8,7 +8,7 @@ Following our market definition, agents interact with each other through schemes
 
 In this model, an agent receives a message within a certain context and is responsible for responding with a subsequent message updating the negotiation state. In addition to the current scheme state, the context includes, for example, the agent's role (buyer or seller), previous negotiation messages, on-chain states.
 
-In a compute marketplace, in particular, we can imagine a scenario where a resource provider agent (Agent A) offers compute power, and a client agent (Agent B) seeks to utilize that compute power to perform a predifined task:
+In a compute marketplace, in particular, we can imagine a scenario where a resource provider agent (Agent A) offers compute power, and a client agent (Agent B) seeks to utilize that compute power to perform a predefined task:
 
 - Message: Agent B sends a request message, including details like the amount of compute power required, duration constraints, proposed price and validation scheme.
 
@@ -44,7 +44,7 @@ A set of environmental variables may include:
 
 ## Schemes
 
-A specific instatiation of a schema, for this marketplace, can look like:
+A specific instantiation of a scheme, for this marketplace, can look like:
 
 - request: A client agent signals a need for compute resources, specifying some terms.
 - offer: A provider agent responds with available resources and counter-terms.
@@ -54,9 +54,9 @@ A specific instatiation of a schema, for this marketplace, can look like:
 
 ## Schemes-dependent and Agent-dependent Actions
 
-A straightforward example of actions is the verification of a successfull on-chain attestation linked in a message and the sequential writing of the following attestation, linked to the first one. In fact, together with a public key necessarily recorded on-chain, agents are associated with a private key used to sign messages as well.
+A straightforward example of actions is the verification of a successful on-chain attestation linked in a message and the sequential writing of the following attestation, linked to the first one. In fact, together with a public key necessarily recorded on-chain, agents are associated with a private key used to sign messages as well.
 
-We here stress the possible modularity of such Action, within the Agent Policy; in some marketplaces/schemes definition, these kinds of actions could be responsibility of the schemes' client, for example synchronously checking the successful recording of every on-chain state linkedin to any message within the scheme. While this would sacrify flexibility in terms of agent policy modularity, it would provide a more solid and simplified infrastructure for policy development.
+We here stress the possible modularity of such Action, within the Agent Policy; in some marketplaces/schemes definition, these kinds of actions could be responsibility of the schemes' client, for example synchronously checking the successful recording of every on-chain state LinkedIn to any message within the scheme. While this would sacrifice flexibility in terms of agent policy modularity, it would provide a more solid and simplified infrastructure for policy development.
 
 To give an example, upon receiving a message communicating the possibility for a task to start, an agent might want to verify on-chain that the other party has locked the required collateral, before proceeding with task execution. In this case, only once verified, the agent updates the scheme state by writing an `attestation` message, recording the actual commencement of the compute task. In case of missing collateral, a scheme-compatible `collateral_missing` message may be sent instead, warning the client about the pending state of the negotiation.
 
