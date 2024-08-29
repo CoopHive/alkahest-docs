@@ -39,7 +39,7 @@ def convert_obsidian_links(source: str, files: list[str]) -> str:
         if not matching_file:
             return match.group(0)  # Return original if no match found
         relative_path = get_relative_path(source, matching_file)
-        return f"[{link}]({relative_path})"
+        return f"[{link}]({relative_path.replace(' ', '_')})"
 
     with open(source, "r", encoding="utf-8") as file:
         content = file.read()
