@@ -37,4 +37,3 @@
 		- [Markets]()
 		- [Schemes]()
 		- [Strategies]()
-- [Pasted image 20240902222721]()

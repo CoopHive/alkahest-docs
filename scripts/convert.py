@@ -12,6 +12,9 @@ files = [
     if ".obsidian" not in f and ".git" not in f
 ]
 
+def is_image_file(f):
+    return any(f.lower().endswith(ext) for ext in ['.png', '.jpg', '.jpeg', '.gif'])
+
 def convert_obsidian_links(source, files):
     def get_relative_path(source_path, target_path):
         return os.path.relpath(target_path, os.path.dirname(source_path)).replace("\\", "/")
@@ -51,7 +54,7 @@ for f in files:
             )
             with open(f"{dest_path}/{f}".replace(" ", "_"), "w") as dest:
                 dest.write(content)
-    elif any(f.lower().endswith(ext) for ext in ['.png', '.jpg', '.jpeg', '.gif']):
+    elif is_image_file(f):
         # Copy image files
         dest_dir = f"{dest_path}/{os.path.dirname(f)}".replace(" ", "_")
         os.makedirs(dest_dir, exist_ok=True)
@@ -61,6 +64,8 @@ for f in files:
 def file_to_line(f):
     tabs = f.count("/") * "\t"
     title = f.split("/")[-1].split(".")[0]
+    if is_image_file(f): 
+        return ""
     if f.endswith(".md"):
         return f"{tabs}- [{title}](./{f.replace(" ", "_")})\n"
     else:
