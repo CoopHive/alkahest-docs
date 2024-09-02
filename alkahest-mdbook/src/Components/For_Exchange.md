@@ -1,6 +1,8 @@
 We take the **peer-to-peer agreement** as the basic unit of exchange, where party A agrees to X in exchange for party B's Y. We call X and Y **statements** and represent them by EAS [attestations](https://docs.attest.org/docs/core--concepts/attestations) - usually produced by [resolver contracts](https://docs.attest.org/docs/core--concepts/resolver-contracts) - which could represent an on-chain token payment, another on-chain action, a direct reference to an off-chain action (e.g. some data's URI), an oracle's guarantee of an off-chain action, or anything else.
 
 **Statements** can be tested by reusable and modular **validators**, which produce **validation** attestations that deal parties can use in smart contracts to trustlessly finalize on-chain actions (e.g. payment) if and only if the counterparty fulfills their part of the agreement.
+
+![Pasted image 20240902222721.png](../Pasted_image_20240902222721.png)
 ## Statements
 
 [Statements](For_Exchange/Statements.md) represent the fulfillment of a party's obligation in an **agreement**. 

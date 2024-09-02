@@ -22,7 +22,7 @@ Building out a system of composable and modular interconnected token contracts r
 It's relatively simple to make [[Statements]] that represent token deposits, as demonstrated in [[ERC20PaymentStatement]], so token-centric architectures can still be implemented, for example when tokens with existing functions (e.g. NFT-gating or DeFi derivatives) already exist.
 ## Why Not Specialized Networks?
 
-[[Alkahest]]'s Components [[For Exchange]] are designed as a public good without a protocol-level governance or fee token. The goal is to enable a truly composable and extensible ecosystem, where new [[Statements]] and [[Validations]] can be made to connect any existing good or service, whether on-chain or offchain, with or without distributed validation, within an open network for peer-to-peer exchange.
+[[Alkahest]]'s Components [[For Exchange]] are designed as a public good without a protocol-level governance or fee token. The goal is to enable a truly composable and extensible ecosystem, where new [[Statements]] and [[Validations]] can be made to connect any existing good or service, whether on-chain or off-chain, with or without distributed validation, within an open network for peer-to-peer exchange.
 
 Many existing DePIN protocols require a network-level token for use and participation. This makes composing services across different DePIN networks more difficult, since users must hold a different token (and possibly participate in different token mechanics) for each protocol that they're using.
 
