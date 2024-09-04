@@ -7,3 +7,4 @@ title = "Alkahest"
 
 [output.html]
 mathjax-support = true
+cname = alkahest.coophive.network
