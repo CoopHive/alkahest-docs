@@ -1,4 +1,6 @@
-is an open-source public good for on-chain peer-to-peer agreements, built on [EAS](https://attest.org).
+# Alkahest
+
+Alkahest is an open-source public good for on-chain peer-to-peer agreements, built on [EAS](https://attest.org).
 
 Everything is dissolving.
 
