@@ -41,8 +41,8 @@ def convert_obsidian_links(source, files):
         content = f"# {os.path.basename(source).split('.')[0]}\n\n"
         content += file.read()
 
-    content = re.sub(r"\[\[(.*?)\]\]", replace_link, content)
-    content = re.sub(r"!\[\[(.*?)\]\]", replace_image_link, content)
+    content = re.sub(r"\\[\\[(.*?)\\]\\]", replace_link, content)
+    content = re.sub(r"!\\[\\[(.*?)\\]\\]", replace_image_link, content)
     return content
 
 

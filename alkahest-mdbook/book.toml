@@ -1,6 +1,9 @@
 [book]
-authors = ["疒奀"]
+authors = ["疒奀, Matteo Manzi, Levi Rybalov"]
 language = "en"
 multilingual = false
 src = "src"
 title = "Alkahest"
+
+[output.html]
+mathjax-support = true
