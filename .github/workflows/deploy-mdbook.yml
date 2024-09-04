@@ -1,12 +1,11 @@
+# https://rust-lang.github.io/mdBook/continuous-integration.html
+
 name: Deploy mdBook
 
 on:
   push:
     branches:
       - main
-  pull_request: # TODO: remove me once development terminated to avoid dev deploys.
-    branches:
-    - main
 
 jobs:
   build-and-deploy:
@@ -15,9 +14,15 @@ jobs:
     steps:
       - name: Checkout code
         uses: actions/checkout@v3
-
+      
       - name: Install mdBook
-        run: cargo install mdbook
+        run: cargo install mdbook --no-default-features --features search --vers "^0.4" --locked
 
       - name: Build the book
         run: mdbook build ./alkahest-mdbook
+
+      - name: Deploy to GitHub Pages
+        uses: peaceiris/actions-gh-pages@v3
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: ./alkahest-mdbook/book
