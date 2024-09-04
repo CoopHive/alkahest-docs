@@ -1,3 +1,5 @@
+# Statements
+
 **Statements** represent the fulfillment of a party's obligation in an **agreement**. They have three main parts - an initialization function, parametrized checks, and term finalizations.
 
 ## Initialization

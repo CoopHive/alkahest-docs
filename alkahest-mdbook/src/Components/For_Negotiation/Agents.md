@@ -1,3 +1,5 @@
+# Agents
+
 **Agents** are the participants in the negotiation games defined by [Schemes](Schemes.md). Generally, they can be characterized by an (effectful) function `(message, context) => message`, where `message` represents a phase of a scheme, and `context` consists of the agent's role (e.g. buyer or seller), the scheme state including previous messages, on-chain state, and any-other scheme-specific contextual information. The agent listens for messages, and replies with a message to advance the scheme state when it's responsible to do so. 
 
 Since schemes correspond with a real-world process (an actual exchange), agents are also responsible for performing the in-world actions that the scheme state is supposed to represent, as well as for independently confirming the veracity of real world state represented by scheme messages from other (untrusted) parties.
