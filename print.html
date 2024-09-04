@@ -1,0 +1,1678 @@
+<!DOCTYPE HTML>
+<html lang="en" class="light" dir="ltr">
+    <head>
+        <!-- Book generated using mdBook -->
+        <meta charset="UTF-8">
+        <title>Alkahest</title>
+        <meta name="robots" content="noindex">
+
+
+        <!-- Custom HTML head -->
+        
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="theme-color" content="#ffffff">
+
+        <link rel="icon" href="favicon.svg">
+        <link rel="shortcut icon" href="favicon.png">
+        <link rel="stylesheet" href="css/variables.css">
+        <link rel="stylesheet" href="css/general.css">
+        <link rel="stylesheet" href="css/chrome.css">
+        <link rel="stylesheet" href="css/print.css" media="print">
+
+        <!-- Fonts -->
+        <link rel="stylesheet" href="FontAwesome/css/font-awesome.css">
+        <link rel="stylesheet" href="fonts/fonts.css">
+
+        <!-- Highlight.js Stylesheets -->
+        <link rel="stylesheet" href="highlight.css">
+        <link rel="stylesheet" href="tomorrow-night.css">
+        <link rel="stylesheet" href="ayu-highlight.css">
+
+        <!-- Custom theme stylesheets -->
+
+        <!-- MathJax -->
+        <script async src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    </head>
+    <body class="sidebar-visible no-js">
+    <div id="body-container">
+        <!-- Provide site root to javascript -->
+        <script>
+            var path_to_root = "";
+            var default_theme = window.matchMedia("(prefers-color-scheme: dark)").matches ? "navy" : "light";
+        </script>
+
+        <!-- Work around some values being stored in localStorage wrapped in quotes -->
+        <script>
+            try {
+                var theme = localStorage.getItem('mdbook-theme');
+                var sidebar = localStorage.getItem('mdbook-sidebar');
+
+                if (theme.startsWith('"') && theme.endsWith('"')) {
+                    localStorage.setItem('mdbook-theme', theme.slice(1, theme.length - 1));
+                }
+
+                if (sidebar.startsWith('"') && sidebar.endsWith('"')) {
+                    localStorage.setItem('mdbook-sidebar', sidebar.slice(1, sidebar.length - 1));
+                }
+            } catch (e) { }
+        </script>
+
+        <!-- Set the theme before any content is loaded, prevents flash -->
+        <script>
+            var theme;
+            try { theme = localStorage.getItem('mdbook-theme'); } catch(e) { }
+            if (theme === null || theme === undefined) { theme = default_theme; }
+            var html = document.querySelector('html');
+            html.classList.remove('light')
+            html.classList.add(theme);
+            var body = document.querySelector('body');
+            body.classList.remove('no-js')
+            body.classList.add('js');
+        </script>
+
+        <input type="checkbox" id="sidebar-toggle-anchor" class="hidden">
+
+        <!-- Hide / unhide sidebar before it is displayed -->
+        <script>
+            var body = document.querySelector('body');
+            var sidebar = null;
+            var sidebar_toggle = document.getElementById("sidebar-toggle-anchor");
+            if (document.body.clientWidth >= 1080) {
+                try { sidebar = localStorage.getItem('mdbook-sidebar'); } catch(e) { }
+                sidebar = sidebar || 'visible';
+            } else {
+                sidebar = 'hidden';
+            }
+            sidebar_toggle.checked = sidebar === 'visible';
+            body.classList.remove('sidebar-visible');
+            body.classList.add("sidebar-" + sidebar);
+        </script>
+
+        <nav id="sidebar" class="sidebar" aria-label="Table of contents">
+            <div class="sidebar-scrollbox">
+                <ol class="chapter"><li class="chapter-item expanded "><a href="Alkahest.html"><strong aria-hidden="true">1.</strong> Alkahest</a></li><li class="chapter-item expanded "><a href="Introduction.html"><strong aria-hidden="true">2.</strong> Introduction</a></li><li class="chapter-item expanded "><a href="Asides.html"><strong aria-hidden="true">3.</strong> Asides</a></li><li class="chapter-item expanded "><div><strong aria-hidden="true">4.</strong> Components</div></li><li><ol class="section"><li class="chapter-item expanded "><a href="Components/For_Exchange.html"><strong aria-hidden="true">4.1.</strong> For Exchange</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="Components/For_Exchange/Statements.html"><strong aria-hidden="true">4.1.1.</strong> Statements</a></li><li class="chapter-item expanded "><a href="Components/For_Exchange/Validations.html"><strong aria-hidden="true">4.1.2.</strong> Validations</a></li><li class="chapter-item expanded "><a href="Components/For_Exchange/Agreements.html"><strong aria-hidden="true">4.1.3.</strong> Agreements</a></li></ol></li><li class="chapter-item expanded "><a href="Components/For_Negotiation.html"><strong aria-hidden="true">4.2.</strong> For Negotiation</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="Components/For_Negotiation/Agents.html"><strong aria-hidden="true">4.2.1.</strong> Agents</a></li><li class="chapter-item expanded "><a href="Components/For_Negotiation/Schemes.html"><strong aria-hidden="true">4.2.2.</strong> Schemes</a></li><li class="chapter-item expanded "><a href="Components/For_Negotiation/Markets.html"><strong aria-hidden="true">4.2.3.</strong> Markets</a></li></ol></li></ol></li><li class="chapter-item expanded "><div><strong aria-hidden="true">5.</strong> Examples</div></li><li><ol class="section"><li class="chapter-item expanded "><div><strong aria-hidden="true">5.1.</strong> Exchange</div></li><li><ol class="section"><li class="chapter-item expanded "><a href="Examples/Exchange/Hello_World_-_Tokens_for_Strings.html"><strong aria-hidden="true">5.1.1.</strong> Hello World - Tokens for Strings</a></li><li class="chapter-item expanded "><a href="Examples/Exchange/Compute_Marketplace.html"><strong aria-hidden="true">5.1.2.</strong> Compute Marketplace</a></li><li class="chapter-item expanded "><a href="Examples/Exchange/Cooperative_MapReduce.html"><strong aria-hidden="true">5.1.3.</strong> Cooperative MapReduce</a></li><li class="chapter-item expanded "><a href="Examples/Exchange/Decentralized_SaaS_Provision.html"><strong aria-hidden="true">5.1.4.</strong> Decentralized SaaS Provision</a></li><li class="chapter-item expanded "><a href="Examples/Exchange/Decentralized_Vector_Database.html"><strong aria-hidden="true">5.1.5.</strong> Decentralized Vector Database</a></li></ol></li><li class="chapter-item expanded "><div><strong aria-hidden="true">5.2.</strong> Negotiation</div></li><li><ol class="section"><li class="chapter-item expanded "><a href="Examples/Negotiation/Compute_Marketplace.html"><strong aria-hidden="true">5.2.1.</strong> Compute Marketplace</a></li></ol></li></ol></li><li class="chapter-item expanded "><div><strong aria-hidden="true">6.</strong> Implementations</div></li><li><ol class="section"><li class="chapter-item expanded "><div><strong aria-hidden="true">6.1.</strong> Exchange</div></li><li><ol class="section"><li class="chapter-item expanded "><a href="Implementations/Exchange/IArbiter.html"><strong aria-hidden="true">6.1.1.</strong> IArbiter</a></li><li class="chapter-item expanded "><a href="Implementations/Exchange/IStatement.html"><strong aria-hidden="true">6.1.2.</strong> IStatement</a></li><li class="chapter-item expanded "><a href="Implementations/Exchange/IValidator.html"><strong aria-hidden="true">6.1.3.</strong> IValidator</a></li><li class="chapter-item expanded "><div><strong aria-hidden="true">6.1.4.</strong> Statements</div></li><li><ol class="section"><li class="chapter-item expanded "><a href="Implementations/Exchange/Statements/ERC20PaymentStatement.html"><strong aria-hidden="true">6.1.4.1.</strong> ERC20PaymentStatement</a></li><li class="chapter-item expanded "><a href="Implementations/Exchange/Statements/StringResultStatement.html"><strong aria-hidden="true">6.1.4.2.</strong> StringResultStatement</a></li><li class="chapter-item expanded "><a href="Implementations/Exchange/Statements/MultiStatement.html"><strong aria-hidden="true">6.1.4.3.</strong> MultiStatement</a></li></ol></li><li class="chapter-item expanded "><div><strong aria-hidden="true">6.1.5.</strong> Validations</div></li><li><ol class="section"><li class="chapter-item expanded "><a href="Implementations/Exchange/Validations/OptimisticStringValidator.html"><strong aria-hidden="true">6.1.5.1.</strong> OptimisticStringValidator</a></li><li class="chapter-item expanded "><a href="Implementations/Exchange/Validations/MultiValidation.html"><strong aria-hidden="true">6.1.5.2.</strong> MultiValidation</a></li></ol></li></ol></li></ol></li></ol>
+            </div>
+            <div id="sidebar-resize-handle" class="sidebar-resize-handle">
+                <div class="sidebar-resize-indicator"></div>
+            </div>
+        </nav>
+
+        <!-- Track and set sidebar scroll position -->
+        <script>
+            var sidebarScrollbox = document.querySelector('#sidebar .sidebar-scrollbox');
+            sidebarScrollbox.addEventListener('click', function(e) {
+                if (e.target.tagName === 'A') {
+                    sessionStorage.setItem('sidebar-scroll', sidebarScrollbox.scrollTop);
+                }
+            }, { passive: true });
+            var sidebarScrollTop = sessionStorage.getItem('sidebar-scroll');
+            sessionStorage.removeItem('sidebar-scroll');
+            if (sidebarScrollTop) {
+                // preserve sidebar scroll position when navigating via links within sidebar
+                sidebarScrollbox.scrollTop = sidebarScrollTop;
+            } else {
+                // scroll sidebar to current active section when navigating via "next/previous chapter" buttons
+                var activeSection = document.querySelector('#sidebar .active');
+                if (activeSection) {
+                    activeSection.scrollIntoView({ block: 'center' });
+                }
+            }
+        </script>
+
+        <div id="page-wrapper" class="page-wrapper">
+
+            <div class="page">
+                                <div id="menu-bar-hover-placeholder"></div>
+                <div id="menu-bar" class="menu-bar sticky">
+                    <div class="left-buttons">
+                        <label id="sidebar-toggle" class="icon-button" for="sidebar-toggle-anchor" title="Toggle Table of Contents" aria-label="Toggle Table of Contents" aria-controls="sidebar">
+                            <i class="fa fa-bars"></i>
+                        </label>
+                        <button id="theme-toggle" class="icon-button" type="button" title="Change theme" aria-label="Change theme" aria-haspopup="true" aria-expanded="false" aria-controls="theme-list">
+                            <i class="fa fa-paint-brush"></i>
+                        </button>
+                        <ul id="theme-list" class="theme-popup" aria-label="Themes" role="menu">
+                            <li role="none"><button role="menuitem" class="theme" id="light">Light</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="rust">Rust</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="coal">Coal</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="navy">Navy</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="ayu">Ayu</button></li>
+                        </ul>
+                        <button id="search-toggle" class="icon-button" type="button" title="Search. (Shortkey: s)" aria-label="Toggle Searchbar" aria-expanded="false" aria-keyshortcuts="S" aria-controls="searchbar">
+                            <i class="fa fa-search"></i>
+                        </button>
+                    </div>
+
+                    <h1 class="menu-title">Alkahest</h1>
+
+                    <div class="right-buttons">
+                        <a href="print.html" title="Print this book" aria-label="Print this book">
+                            <i id="print-button" class="fa fa-print"></i>
+                        </a>
+
+                    </div>
+                </div>
+
+                <div id="search-wrapper" class="hidden">
+                    <form id="searchbar-outer" class="searchbar-outer">
+                        <input type="search" id="searchbar" name="searchbar" placeholder="Search this book ..." aria-controls="searchresults-outer" aria-describedby="searchresults-header">
+                    </form>
+                    <div id="searchresults-outer" class="searchresults-outer hidden">
+                        <div id="searchresults-header" class="searchresults-header"></div>
+                        <ul id="searchresults">
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- Apply ARIA attributes after the sidebar and the sidebar toggle button are added to the DOM -->
+                <script>
+                    document.getElementById('sidebar-toggle').setAttribute('aria-expanded', sidebar === 'visible');
+                    document.getElementById('sidebar').setAttribute('aria-hidden', sidebar !== 'visible');
+                    Array.from(document.querySelectorAll('#sidebar a')).forEach(function(link) {
+                        link.setAttribute('tabIndex', sidebar === 'visible' ? 0 : -1);
+                    });
+                </script>
+
+                <div id="content" class="content">
+                    <main>
+                        <h1 id="alkahest"><a class="header" href="#alkahest">Alkahest</a></h1>
+<p>Alkahest is an open-source public good for on-chain peer-to-peer agreements, built on <a href="https://attest.org">EAS</a>.</p>
+<p>Everything is dissolving.</p>
+<p>Goods and services become increasingly discrete and non-fungible as their provision is decentralized. One seller at a particular time does not demand nor offer exactly the same as another selling a similar thing, and negotiation must become case-specific and fine-grained.</p>
+<p>At the same time, the atomization of provision means that aspects of negotiation, scheduling, settlement, and quality-control formerly unilaterally and opaquely controlled by sell-side monopolies can now be shared within an open ecosystem.</p>
+<p>Alkahest is a toolkit for dissolving consolidated economies and creating atomic ones, providing a set of lightweight and composable units for common processes in peer-to-peer negotiation and exchange. Solve et coagula.</p>
+<h2 id="get-started"><a class="header" href="#get-started">Get Started</a></h2>
+<ul>
+<li><a href="Examples/Exchange/Hello_World_-_Tokens_for_Strings.html">Hello World - Tokens for Strings</a></li>
+<li><a href="Examples/Negotiation/Compute_Marketplace.html">Examples/Negotiation/Compute Marketplace</a></li>
+<li>Components <a href="Components/For_Exchange.html">For Exchange</a></li>
+<li>Components <a href="Components/For_Negotiation.html">For Negotiation</a></li>
+<li><a href="Asides.html">Asides</a></li>
+</ul>
+<div style="break-before: page; page-break-before: always;"></div><h1 id="introduction"><a class="header" href="#introduction">Introduction</a></h1>
+<p>CoopHive is building peer-to-peer bartering systems where autonomous agents can exchange bundles of assets with each other. The protocol is based on three primitives: the exchange of bundles of assets, a series of credible commitments, and agent-to-agent negotiation. These primitives enable a wide range of use cases, the most salient of which at the current moment is the creation and composition of different kinds of decentralized marketplaces, like compute, storage, data, bandwidth, energy, and so on.</p>
+<h1 id="exchange-of-bundle-of-assets"><a class="header" href="#exchange-of-bundle-of-assets">Exchange of bundle of assets</a></h1>
+<p>Most economic exchange, whether with digital currencies or otherwise, is done via a pairwise transfer of individual goods. However, there is a robust, untapped game theory literature on the exchange of bundles of assets. Exchanging bundles of assets increases the dimensionality of potential exchanges, and increases the welfare of the participants involved.</p>
+<h1 id="series-of-credible-commitments"><a class="header" href="#series-of-credible-commitments">Series of credible commitments</a></h1>
+<p>Most economic exchange throughout history occurs either between two actors directly, or via an intermediary that acts as a trusted third party. In the latter case, the intermediary will usually hold assets in escrow until they are released based on the terms of the deal. With blockchains, it is possible to create credible commitments on-chain. A credible commitment is simply that – a commitment (e.g. to do some computation, to pay some entity assuming some qualifier is met) that is credible (which is facilitated by smart contracts). With blockchains, each party can make a claim about what it will do, and at every milestone in the lifecycle of the deal, the assets deposited in escrow can move. This collateralization process can be used to model many different kinds of marketplaces.</p>
+<h1 id="agent-to-agent-negotiation"><a class="header" href="#agent-to-agent-negotiation">Agent-to-agent negotiation</a></h1>
+<p>Web-based commerce that augments human-to-human interactions necessitates a message-passing system that enables agents to make direct exchanges with each other. Once message-passing is in place, the agents can also negotiate over the terms of the deal. In most game theory literature, agents are assumed to be utility-maximizing; they aim to maximize some metric (called their utility) with their behavior (like bidding on an item that it wants to purchase). This notion of utility-maximization is at the core of agent-to-agent negotiation, and uses the other two primitives to accomplish its larger goals.</p>
+<h1 id="all-together"><a class="header" href="#all-together">All together</a></h1>
+<p>These three primitives together form the basis of multi-agent systems. With them, a wide variety of marketplaces can be implemented.</p>
+<p>For more information, please see CoopHive's whitepaper.</p>
+<div style="break-before: page; page-break-before: always;"></div><h1 id="asides"><a class="header" href="#asides">Asides</a></h1>
+<h2 id="why-eas"><a class="header" href="#why-eas">Why EAS?</a></h2>
+<p>Barter is back. Fungible currency allowed us to reduce the complexity of trading by always selling for and buying with the same thing, but its adoption is not free. Even in today's highly efficient markets, there is always a cost to exchanging X for Y for Z, over exchanging X for Z directly - usually collected by traders of Y. The cost is non-trivial anywhere Y has poor liquidity or inconvenient means of exchange, including most blockchain programs.</p>
+<p>In a barter economy, we want to facilitate the exchange of anything for anything else, since there is no longer a standard "fungible currency" that everything can be exchanged for. The <a href="https://attest.org">Ethereum Attestation Service</a> is a good option for representing obligation fulfillments in this system, since the <a href="https://docs.attest.org/docs/core--concepts/how-eas-works">fundamental abstraction</a> of EAS is "A saying X about B", which could be a party making a claim that they've fulfilled an obligation, or a trusted facilitator (e.g. an on-chain contract or an <a href="https://docs.eigenlayer.xyz/eigenlayer/avs-guides/avs-developer-guide">AVS</a>) making a claim that someone fulfilled an obligation through it.</p>
+<p>Many of the abstractions that EAS provides are directly relevant to validated exchange:</p>
+<ul>
+<li>schemas, to have structured <a href="Components/For_Exchange/Statements.html">Statements</a> and <a href="Components/For_Exchange/Validations.html">Validations</a></li>
+<li>referenced attestations
+<ul>
+<li>a fulfillment offer can reference the offer it fulfills</li>
+<li>a validation can reference the statement it's about</li>
+</ul>
+</li>
+<li>expiry/revocation, for time limits and cancelation conditions on deals</li>
+</ul>
+<h2 id="why-not-tokens"><a class="header" href="#why-not-tokens">Why Not Tokens?</a></h2>
+<p>One way to implement on-chain peer-to-peer exchange would be to rely on the existing infrastructure for token trading, such as DEXs and NFT markets like OpenSea, and to make contracts that create a mechanical association between a token and other underlying assets to be exchanged.</p>
+<p>However, this introduces unnecessary overhead compared to using EAS attestations to represent <a href="Components/For_Exchange/Statements.html">Statements</a>, since the creation of an EAS attestation, even according to a new schema, is more lightweight than deploying a new token contract. More importantly, EAS is already designed to represent links between attestations and real-world facts, whereas token standards like ERC-20, ERC-721, ERC-1155, and ERC-6909 are not.</p>
+<p>Building out a system of composable and modular interconnected token contracts representing obligations and validations would still require reimplementation of much of the abstraction work that's already handled by EAS, such as relationships between attestations.</p>
+<p>It's relatively simple to make <a href="Components/For_Exchange/Statements.html">Statements</a> that represent token deposits, as demonstrated in <a href="Implementations/Exchange/Statements/ERC20PaymentStatement.html">ERC20PaymentStatement</a>, so token-centric architectures can still be implemented, for example when tokens with existing functions (e.g. NFT-gating or DeFi derivatives) already exist.</p>
+<h2 id="why-not-specialized-networks"><a class="header" href="#why-not-specialized-networks">Why Not Specialized Networks?</a></h2>
+<p><a href="Alkahest.html">Alkahest</a>'s Components <a href="Components/For_Exchange.html">For Exchange</a> are designed as a public good without a protocol-level governance or fee token. The goal is to enable a truly composable and extensible ecosystem, where new <a href="Components/For_Exchange/Statements.html">Statements</a> and <a href="Components/For_Exchange/Validations.html">Validations</a> can be made to connect any existing good or service, whether on-chain or off-chain, with or without distributed validation, within an open network for peer-to-peer exchange.</p>
+<p>Many existing DePIN protocols require a network-level token for use and participation. This makes composing services across different DePIN networks more difficult, since users must hold a different token (and possibly participate in different token mechanics) for each protocol that they're using.</p>
+<p>Also, many protocols use a network-level token to provide network-wide guarantees in <a href="https://en.wikipedia.org/wiki/Proof_of_stake">proof of stake</a> type systems. This is often very performance inefficient relative to untrusted service provision, and leads to <a href="https://docs.eigenlayer.xyz/assets/files/EigenLayer_WhitePaper-88c47923ca0319870c611decd6e562ad.pdf">security bottlenecks</a> at the least-staked node of a system.</p>
+<p>We envision a much more fragmented ecosystem, where concerns about validity are either local to a deal, in which case security collaterals are also local (and token-agnostic) rather than network-wide, and provision is unencumbered by network-level guarantees, or network validity is secured by large pools like <a href="https://www.eigenlayer.xyz">EigenLayer</a>.</p>
+<p>Special <a href="Components/For_Exchange/Statements.html">Statements</a> or <a href="Components/For_Exchange/Validations.html">Validations</a> can and will be developed to guarantee that a service is provided by a token-secured network, but the ecosystem we are facilitating does not require its own network token, since it's more like a community standard than a crypto-economic network.</p>
+<div style="break-before: page; page-break-before: always;"></div><h1 id="for-exchange"><a class="header" href="#for-exchange">For Exchange</a></h1>
+<p>We take the <strong>peer-to-peer agreement</strong> as the basic unit of exchange, where party A agrees to X in exchange for party B's Y. We call X and Y <strong>statements</strong> and represent them by EAS <a href="https://docs.attest.org/docs/core--concepts/attestations">attestations</a> - usually produced by <a href="https://docs.attest.org/docs/core--concepts/resolver-contracts">resolver contracts</a> - which could represent an on-chain token payment, another on-chain action, a direct reference to an off-chain action (e.g. some data's URI), an oracle's guarantee of an off-chain action, or anything else.</p>
+<p><strong>Statements</strong> can be tested by reusable and modular <strong>validators</strong>, which produce <strong>validation</strong> attestations that deal parties can use in smart contracts to trustlessly finalize on-chain actions (e.g. payment) if and only if the counterparty fulfills their part of the agreement.</p>
+<p><img src="Components/../Pasted_image_20240902222721.png" alt="Pasted image 20240902222721.png" /></p>
+<h2 id="statements"><a class="header" href="#statements">Statements</a></h2>
+<p><a href="Components/For_Exchange/Statements.html">Statements</a> represent the fulfillment of a party's obligation in an <strong>agreement</strong>.</p>
+<p>For example, the sample <a href="Components/../Implementations/Exchange/Statements/ERC20PaymentStatement.html">ERC20PaymentStatement</a> is an EAS resolver contract with a function</p>
+<pre><code class="language-solidity">    struct StatementData {
+        address token;
+        uint256 amount;
+        address arbiter;
+        bytes demand;
+    }
+    ...
+    makeStatement(StatementData calldata data, uint64 expirationTime, bytes32 refUID)
+</code></pre>
+<p>requiring the attester to deposit an amount of an ERC20 token, and producing an attestation stating they've done so. It has another function <code>collectPayment(bytes32 _payment, bytes32 _fulfillment)</code>, which the counterparty can call to collect the payment, passing in an attestation from the specified arbiter address, which could be a <strong>statement</strong>, <strong>validator</strong>, or even a user address. In practice, the contract should be extended so that the payment maker can specify in the statement what they're demanding from the counterparty, and check within <code>collectPayment</code> whether it was actually fulfilled.</p>
+<p>Statements can directly <a href="https://docs.attest.org/docs/tutorials/referenced-attestations">reference</a> other statement attestations and interact with other statement contracts, sometimes enabling complete negotiation flows even without dedicated <strong>agreement</strong> contracts or <strong>validators</strong>.</p>
+<h2 id="validations"><a class="header" href="#validations">Validations</a></h2>
+<p><a href="Components/For_Exchange/Validations.html">Validations</a> represent properties of <strong>statements</strong> which are difficult to determine or cannot be determined via their raw data, and are often produced by third parties. They can be used for conditional finalization of terms in <strong>agreements</strong>.</p>
+<p>For example, the sample <a href="Components/../Implementations/Exchange/Validations/OptimisticStringValidator.html">OptimisticStringValidator</a> for <a href="Components/../Implementations/Exchange/Statements/StringResultStatement.html">StringResultStatement</a> statements has a function</p>
+<pre><code class="language-solidity">	struct ValidationData {
+        string query;
+        uint64 mediationPeriod;
+    }
+    ...
+	startValidation(bytes32 resultUID, ValidationData calldata validationData)
+</code></pre>
+<p>which produces an attestation <a href="https://docs.attest.org/docs/tutorials/referenced-attestations">referencing</a> the specified statement after a certain amount of time unless the counterparty calls <code>mediate(bytes32 validationUID)</code>. If the counterparty requests mediation, a trusted oracle retries the job and produces the requested attestation only if it gets the same result as specified in the original statement.</p>
+<p>If specified as the <code>arbiter</code> in an <a href="Components/../Implementations/Exchange/Statements/ERC20PaymentStatement.html">ERC20PaymentStatement</a>, the attestation from <a href="Components/../Implementations/Exchange/Validations/OptimisticStringValidator.html">OptimisticStringValidator</a> can be passed into <code>collectPayment</code> to claim payment for agreements. In this case, <code>collectPayment</code> should be extended to check if each validation's underlying <a href="Components/../Implementations/Exchange/Statements/StringResultStatement.html">StringResultStatement</a> actually fulfills the specified payment via the <code>job</code> and <code>counterparty</code> fields of the statement's attestation schema.</p>
+<h2 id="agreements"><a class="header" href="#agreements">Agreements</a></h2>
+<p>How does the buy-side in our example so far know when it should request mediation? It could listen to events from the <a href="Components/../Implementations/Exchange/Validations/OptimisticStringValidator.html">OptimisticStringValidator</a> it specified, filtering by those referring to <strong>statements</strong> it made, and requesting mediation on unsatisfactory results. Indeed, in many cases, <a href="Components/For_Exchange/Agreements.html">Agreements</a> can be an informal concept enacted through interactions with other contracts.</p>
+<p>However, more complex negotiations may sometimes require dedicated contracts to manage the relationship between <strong>statements</strong> and <strong>validations</strong>. One use for agreement contracts is as a component of multi-step processes consisting of several atomic <strong>agreement steps</strong>.</p>
+<div style="break-before: page; page-break-before: always;"></div><h1 id="statements-1"><a class="header" href="#statements-1">Statements</a></h1>
+<p><strong>Statements</strong> represent the fulfillment of a party's obligation in an <strong>agreement</strong>. They have three main parts - an initialization function, parametrized checks, and term finalizations.</p>
+<h2 id="initialization"><a class="header" href="#initialization">Initialization</a></h2>
+<p>Initializing a statement means doing all on-chain actions necessary to fulfill the obligation represented by the statement, and getting an attestation from the statement contract stating that you've done so. For example, in <a href="Components/For_Exchange/../../Implementations/Exchange/Statements/ERC20PaymentStatement.html">ERC20PaymentStatement</a>, the initialization function <code>makeStatement</code> requires a deposit of an ERC20 token which the counterparty is eligible to collect by producing a statement representing their side of the agreement.</p>
+<p>Generally, the attestation produced by a statement will have the form <code>{offerData, arbiter, demand}</code>, where offerData has a particular type per statement contract (e.g. <code>address token, uint amount</code> in <a href="Components/For_Exchange/../../Implementations/Exchange/Statements/ERC20PaymentStatement.html">ERC20PaymentStatement</a>). The other fields specify the demand the counterparty must fulfill to finalize the statement. Statements made in fulfillment of an existing statement can reference that statement in its refUID, and implement its finalization functions to check for this as a special case.</p>
+<h2 id="checks"><a class="header" href="#checks">Checks</a></h2>
+<p>Statements implement <a href="Components/For_Exchange/../../Implementations/Exchange/IArbiter.html">IArbiter</a>, including the abstract function <code>checkStatement(Attestation memory statement, bytes memory demand, bytes32 counteroffer)</code>, used to verify if a statement meets the specified demand. It checks if an attestation follows the correct schema, if it's still valid and not revoked, and if it meets the demands specified as <code>demand</code>, which for <a href="Components/For_Exchange/../../Implementations/Exchange/Statements/ERC20PaymentStatement.html">ERC20PaymentStatement</a> is <code>address token, uint256 amount, address arbiter, bytes demand</code>, demanding at least a certain amount of a certain ERC20 token, as well as that a particular fulfillment is demanded, which will be usable to collect the payment.</p>
+<p>A call to <code>IArbiter(address).checkStatement</code> on a trusted arbiter contract should be sufficient to determine that any untrusted attestation is actually a valid statement fulfilling a specified demand. Sometimes, the statement contract itself will not be able to sufficiently guarantee the validity of statements produced from itself, and counterparties will need to rely on <a href="Components/For_Exchange/Validations.html">Validations</a> from other validators. In these cases, the statement's implementation of <code>checkStatement</code> is often still useful to validator contracts, which could guarantee additional properties on top of the statement contract's intrinsic guarantees.</p>
+<h2 id="finalizations"><a class="header" href="#finalizations">Finalizations</a></h2>
+<p>Finalizations can be thought of as asynchronous terms of statements, represented as functions from conditions to effects. Their conditions are typically represented as attestations, especially from contracts implementing <a href="Components/For_Exchange/../../Implementations/Exchange/IArbiter.html">IArbiter</a> - i.e., <a href="Components/For_Exchange/Statements.html">Statements</a> or <a href="Components/For_Exchange/Validations.html">Validations</a>. Conditions can vary per statement by depending on <code>arbiter</code> and <code>demand</code>, or interpretation of its EAS parameters, and common conditions like only being fulfillable by a specific counterparty are implemented as utilities in <a href="Components/For_Exchange/../../Implementations/Exchange/IStatement.html">IStatement</a> itself (* coming soon).</p>
+<p>For example, <a href="Components/For_Exchange/../../Implementations/Exchange/Statements/ERC20PaymentStatement.html">ERC20PaymentStatement</a> has the finalization function <code>collectPayment(bytes32 payment, bytes32 fulfillment)</code>, which takes the UIDs of a payment and a fulfillment attestation. It checks if the either the payment attestation explicitly specifies the fulfillment attestation (by its refUID), or the fulfillment attestation fulfills the demands specified in the payment statement's <code>arbiter</code> and <code>demand</code> fields, and transfers the payment collateral to the caller if either condition holds.</p>
+<div style="break-before: page; page-break-before: always;"></div><h1 id="validations-1"><a class="header" href="#validations-1">Validations</a></h1>
+<p><strong>Validations</strong> represent properties of <strong>statements</strong> which are difficult to determine or cannot be determined via their raw data, and are often produced by third parties. They can be used for conditional finalization of terms in <strong>agreements</strong>.</p>
+<p>Generally, validations are requested on <a href="Components/For_Exchange/Statements.html">Statements</a> or other <a href="Components/For_Exchange/Validations.html">Validations</a> by the underlying statement creator, and returned asynchronously in an event emission.</p>
+<h2 id="requests"><a class="header" href="#requests">Requests</a></h2>
+<p>Validation requests don't have a consistent abstract interface, because they can vary a lot based on what the validation is for. Often, they will accept statement or other other validation attestations to be validated, along with additional parameters specifying the properties to be validated if they aren't already defined in the base attestations.</p>
+<h2 id="checks-1"><a class="header" href="#checks-1">Checks</a></h2>
+<p>Validators implement <a href="Components/For_Exchange/../../Implementations/Exchange/IArbiter.html">IArbiter</a>, and their implementation of <code>checkStatement(Attestation memory statement, bytes memory demand, bytes32 counteroffer)</code> should be interpreted as checking a validation according to parametrized demands. The <code>counteroffer</code> UID is explicitly passed in because a demand is often specified in a counteroffer attestation, but it's impossible to know the UID of an attestation before it's created.</p>
+<p>It's good practice to call <code>IArbiter(statement).checkStatement</code> inside a statement validator's implementation of <code>checkStatement</code>, so that <a href="Components/For_Exchange/Statements.html">Statements</a> can specify a single arbiter as the source of truth inside finalization clauses.</p>
+<h2 id="emission"><a class="header" href="#emission">Emission</a></h2>
+<p>Often, validations must be produced asynchronously via a function call by an off-chain oracle or another contract. One way to implement this, as demonstrated in <a href="Components/For_Exchange/../../Implementations/Exchange/Validations/OptimisticStringValidator.html">OptimisticStringValidator</a>, is optimistic mediation, where <code>checkStatement</code> is implemented to return valid after a given mediation period unless mediation is requested, in which case the validation attestation is revoked if it's invalid.</p>
+<p>Another way is to produce the attestation asynchronously, only after validation actually happens. An event should be emitted when validations are produced if this architecture is used, but the event is not defined in <a href="Components/For_Exchange/../../Implementations/Exchange/IValidator.html">IValidator</a> (*subject to change), because architectural details vary too much per validation scheme.</p>
+<h2 id="examples"><a class="header" href="#examples">Examples</a></h2>
+<ul>
+<li>Oracle-based validators can have off-chain entities produce a validation attestation on request. E.g., to retry a deterministic compute job and verify its correctness</li>
+<li>Reputation validators can accept collateral and produce positive validations for a particular entity's statements by default, while allowing authority oracles or a network of anonymous informers to revoke validations and slash collateral for entities that misbehave</li>
+<li>Combination validators can accept several other validations and combine them into a single one - e.g., indicating that all of them are valid, or that their sum fulfills some condition</li>
+</ul>
+<div style="break-before: page; page-break-before: always;"></div><h1 id="agreements-1"><a class="header" href="#agreements-1">Agreements</a></h1>
+<p>Dedicated <strong>agreement</strong> contracts are useful for coordinating and providing a single interface to many <a href="Components/For_Exchange/Statements.html">Statements</a> and <a href="Components/For_Exchange/Validations.html">Validations</a> during complex exchanges, or for providing abstract units of agreement that can be composed into composite processes.</p>
+<div style="break-before: page; page-break-before: always;"></div><h1 id="for-negotiation"><a class="header" href="#for-negotiation">For Negotiation</a></h1>
+<p>In this section we conceptualize the high-level design choices and primitive definitions of the protocol, with regards to its multi-agent systems, potential data-driven optimal control, agent-to-agent negotiation and scheduling. It serves as the reference point to define the building blocks of the schemes and agents marketplace and their APIs to both on-chain and other off-chain modules of the protocol.</p>
+<p>The <strong>negotiation</strong> framework is defined for validatable, terminable tasks with collateral transfer after validation. In this context, we talk about "stateless" tasks to stress their inner reproducibility (their lack of dependence against client-specific state variables). The presence of agent-based modeling (whose policy is potentially data-driven, tapping into ML/RL), is motivated by the need to orchestrate a decentralized network of agents in a way that leads to competitive pricing/scheduling, from the user perspective. At the same time, the use of blockchain is motivated by the trustless and automatic transfer of collateral after validation.</p>
+<h2 id="schemes"><a class="header" href="#schemes">Schemes</a></h2>
+<p><a href="Components/For_Negotiation/Schemes.html">Schemes</a> define the structured interaction framework between <a href="Components/For_Negotiation/Agents.html">Agents</a>. They consist of a set of messages and rules that dictate how agents can interact with each other and participate in negotiations. The schemes outline the negotiation protocol, ensuring that all agents operate under the same set of rules, fostering a standardized and trustless environment for task negotiation and execution.</p>
+<h2 id="agents"><a class="header" href="#agents">Agents</a></h2>
+<p>The existence of distributed and heterogenous hardwares and the potential construction of data-driven policies for optimal decision making do not motivate by themselves the usage of an agent-based perspective in the modeling of the system.</p>
+<p>The case for Agent-based modeling resides in the fact that nodes participating in the network keep <em>agency</em> over themselves, i.e. they are continuously able to accept or reject jobs, and this capability is never delegated to a central entity.</p>
+<p>Moreover, an <a href="https://www.doynefarmer.com/publications">agent-based perspective</a> can be used to relax conventional assumptions in standard models and, in the spirit of <a href="https://www.econophysix.com/publications">complex systems theory</a>, to view macro phenomena as <em>emergent properties</em> of the atomic units of behavior. This perspective has the potential to avoid the suboptimality following the choice of a misspecified macro model.</p>
+<p>Finally, in the spirit of barter, the line between buy and sell side gets less well defined, beside the actions order in a given negotiation, and it's possible to have every player in the protocol be defined by the same, universal modes of behavior.</p>
+<div style="break-before: page; page-break-before: always;"></div><h1 id="agents-1"><a class="header" href="#agents-1">Agents</a></h1>
+<p><strong>Agents</strong> are the participants in the negotiation games defined by <a href="Components/For_Negotiation/Schemes.html">Schemes</a>. Generally, they can be characterized by an (effectful) function <code>(message, context) =&gt; message</code>, where <code>message</code> represents a phase of a scheme, and <code>context</code> consists of the agent's role (e.g. buyer or seller), the scheme state including previous messages, on-chain state, and any-other scheme-specific contextual information. The agent listens for messages, and replies with a message to advance the scheme state when it's responsible to do so.</p>
+<p>Since schemes correspond with a real-world process (an actual exchange), agents are also responsible for performing the in-world actions that the scheme state is supposed to represent, as well as for independently confirming the veracity of real world state represented by scheme messages from other (untrusted) parties.</p>
+<h2 id="actions"><a class="header" href="#actions">Actions</a></h2>
+<p>Agents are not only responsible for sending scheme-conformant messages. The negotiation and scheduling of tasks requires interaction with the Components <a href="Components/For_Negotiation/../For_Exchange.html">For Exchange</a>, and with the real world. We call this set of interactions <strong>actions</strong>.</p>
+<p>In general, it's the agent's responsibility to execute actions when a scheme specifies that a message represents a real-world state change (e.g. a registered EAS attestation), as well as to verify other agents' messages corresponding to real world states. However, scheme clients could be implemented to perform actions common between many agents participating in a scheme, to lighten the implementation load for agents.</p>
+<p>When actions aren't handled by the scheme client, they will still often be packaged in a modular way, when there are many actions in common between different agents of the same role. For ease of use by different agents, wrappers might be necessary for different development contexts (e.g. programming languages), but complex functions could be developed and provided in a common library.</p>
+<h2 id="policy"><a class="header" href="#policy">Policy</a></h2>
+<p>The generic interface and scope of agents is in the implementation of <em>policies</em>, whose goal is to update the state \( y \) of the state machine (associated with a schema) interacting with a set of \( N \) agents.</p>
+<p>\[ \begin{bmatrix} y_{t+1} \ a_{i, t+1} \end{bmatrix} = f_i(y_t, X_{i, t}, p_{i, t}), \quad \text{for each } i \in {1, \ldots, N} \]</p>
+<p>Please note the agent-independence of the state \( y \) and the agent-dependence of all the other variables. In particular, we represent with \( a \) all the additional Actions performed by agents, as discussed in the previous section; we represent with \( X \) additional variables used to inform agents actions, with \( p \) a set of parameters defining the inner state of agents' policies and with \( f \) the functional form relating all these variables.</p>
+<p>The dimensions of the state space can be categorized in different ways. One way is distinguishing between both local states (i.e., variables associated with agents themselves) and global information (i.e., global, environmental variables which are not a function of the agent). In this perspective, we can break further break down the policy equation for agent \( i \):</p>
+<p>\[ \begin{bmatrix} y_{t+1} \ a_{i, t+1} \end{bmatrix} = f_i(y_t, X_{i, t}, Z_{i, t}, p_{i, t}), \quad \text{for each } i \in {1, \ldots, N} \]</p>
+<p>In other terms, we can further break down the state of the system in:</p>
+<ul>
+<li>\( y \), state of the state machine, the same for every agent and associated with schemas;</li>
+<li>\( X \), additional state components of the environment. These components are defined by each agent, and are characterized by variables which are hidden to all the other \( N-1 \) agents in the system. We call the components of \( X \) <em>local states</em>.</li>
+<li>\( Z \), additional state components of the environment. While these components are still defined by each agent, they are characterized by variables which are shared by all agents. We call the components of \( Z \) <em>global states</em>.</li>
+</ul>
+<p>This distinction aligns with the general framework of <em>partially observable Markov games</em>, characterizing the protocol.</p>
+<div style="break-before: page; page-break-before: always;"></div><h1 id="schemes-1"><a class="header" href="#schemes-1">Schemes</a></h1>
+<p>A <strong>scheme</strong> is a definition of a negotiation game in which <a href="Components/For_Negotiation/Agents.html">Agents</a> notify each other of their intents and actions via a sequence of messages. Schemes are defined according to a set of typed messages communicated via <a href="https://en.wikipedia.org/wiki/Publish%E2%80%93subscribe_pattern">pubsub</a> channels, and a set of rules that define:</p>
+<ul>
+<li>what messages are valid (either mandatory or optional) responses from what kinds of agents, under what contexts;</li>
+<li>what real-world (i.e. out-of-band) state particular messages represent, and what kinds of checks are available to agents to verify messages that represent out-of-band facts;</li>
+<li>what messages are available to what agents under what contexts, and guidelines for what messages agents should be interested in, and when they should start/stop listening to particular topics;</li>
+<li>what conditions represent termination of a negotiation.</li>
+</ul>
+<p>Schemes can be thought of as all the information that agents in a negotiation game have access to, other than the information they get from local observations. Relatedly, they also represent all the universally shared state within a negotiation other than on-chain state and other publicly accessible real-world state.</p>
+<h2 id="messages"><a class="header" href="#messages">Messages</a></h2>
+<p>Messages are the individual phases of a scheme as a state machine, and the public actions of a scheme as a multi-agent game. Generally, messages either represent a claim about agent intent (e.g. an offer in a negotiation), or a notification about out-of-band state, which other interested agents are then responsible for verifying.</p>
+<p>A scheme is responsible for defining what messages are part of a negotiation game, what messages agents in particular roles and contexts should be interested in, and what messages agents in particular roles and contexts are allowed or required to send. It also defines what out-of-band state messages are supposed to represent, though it's the responsibility of interested agents to locally validate the correspondence between messages representing out-of-band state and the state they're supposed to represent.</p>
+<h2 id="topics"><a class="header" href="#topics">Topics</a></h2>
+<p>Messages are communicated in topics following a pubsub architecture. A scheme defines the organization of messages into topics, and what special kinds of messages indicate interest (subscription) or disinterest (unsubscription) in a particular topic.</p>
+<p>Messages within a topic have guaranteed order between agents, while messages across different topics don't. As such, topics often represent independent negotiations within a market where multiple simultaneous negotiations can happen. A series of (scheme-conforming) messages within a topic can be interpreted as a branch of a game tree, or a realization of a Markov game.</p>
+<h2 id="rules"><a class="header" href="#rules">Rules</a></h2>
+<p>A scheme is responsible for defining not just a set of typed messages, but a protocol in which they communicate intent and action in a negotiation process. This protocol can be interpreted as a state machine or a multi-agent game. As a state machine, the scheme rules define its complete evolution. As a game, the scheme rules define the valid action space for each agent, conditioned on the scheme state.</p>
+<p>Scheme rules can be seen a constraint on the <a href="Components/For_Negotiation/Agents.html">Agents</a> policy function <code>(message, context) =&gt; message</code>, defining what messages are valid in response to what messages in what contexts. It's also the scheme's responsibility to describe what out-of-band actions agents are responsible for realizing to maintain the correspondence between the scheme and the real-world process it's intended to represent.</p>
+<div style="break-before: page; page-break-before: always;"></div><h1 id="markets"><a class="header" href="#markets">Markets</a></h1>
+<p><strong>Markets</strong> are concrete instantiations of <a href="Components/For_Negotiation/Agents.html">Agents</a> negotiating according to <a href="Components/For_Negotiation/Schemes.html">Schemes</a>.</p>
+<div style="break-before: page; page-break-before: always;"></div><h1 id="hello-world---tokens-for-strings"><a class="header" href="#hello-world---tokens-for-strings">Hello World - Tokens for Strings</a></h1>
+<p>Let's demonstrate the use of <strong>statements</strong> and <strong>validations</strong> by building an example marketplace where users buy string manipulations for ERC20 tokens. Buyers will be able to submit a token payment in an arbitrary ERC20 token, demanding a particular string to be capitalized. Sellers who submit a valid capitalization of the buyer's string, verified optimistically directly in a smart contract in our example, will be able to claim the buyer's token payment.</p>
+<p>The components we implement along the way will also allow paying for any other task in ERC20 tokens, or selling on-chain validated string capitalizations for anything else, only requiring an implementation of the relevant counterparty component. The example optimistic mediation validator should also be extensible to support verification of much more complex tasks.</p>
+<h2 id="paying-tokens"><a class="header" href="#paying-tokens">Paying Tokens</a></h2>
+<p><a href="Examples/Exchange/../../Components/For_Exchange/Statements.html">Statements</a> represent a party's fulfillment of one side of an agreement. The most basic exchange requires just two statements - one for the ask and one for the bid. We'll implement this first, then modify the implementation to support a pluggable validator contract.</p>
+<p>Statements have three main parts - an initialization function, inherent validity checks, and term finalization functions. The initialization function is called by the party offering what the statement represents, and performs all on-chain actions necessary to enact its finalization terms, as well as for any relevant validators to validate the statement. Finalization functions represent individual conditions of an agreement, and can be called by the agreement counterparty, passing in the host contract statement and a statement or validation representing their side of the deal. Checks are what finalization functions use to parametrically assess validity of other statements. Let's make this clearer with an example.</p>
+<p>To make a statement contract for ERC20 payments, we need the statement creator to deposit tokens into escrow, which are then available to be claimed by a valid counterparty. When other statements require ERC20 payments from a counterparty, they'll want to check if at least a specified amount of a specified token is available for collection.</p>
+<h3 id="initialization-1"><a class="header" href="#initialization-1">Initialization</a></h3>
+<p>We'll first implement statement creation via depositing an ERC20 token and specifying what's demanded from the counterparty.</p>
+<pre><code class="language-solidity">contract ERC20PaymentStatement is IStatement {
+    struct StatementData {
+        address token;
+        uint256 amount;
+        address arbiter;
+        bytes demand;
+    }
+    
+    error InvalidPayment();
+
+    string public constant SCHEMA_ABI = "address token, uint256 amount, address arbiter, bytes demand";
+    bool public constant IS_REVOCABLE = true;
+
+    constructor(IEAS _eas, ISchemaRegistry _schemaRegistry)
+        IStatement(_eas, _schemaRegistry, SCHEMA_ABI, IS_REVOCABLE)
+    {}
+
+    function makeStatement(StatementData calldata data, uint64 expirationTime, bytes32 refUID)
+        public
+        returns (bytes32)
+    {
+        if (!IERC20(data.token).transferFrom(msg.sender, address(this), data.amount)) {
+            revert InvalidPayment();
+        }
+
+        return eas.attest(
+            AttestationRequest({
+                schema: ATTESTATION_SCHEMA,
+                data: AttestationRequestData({
+                    recipient: msg.sender,
+                    expirationTime: expirationTime,
+                    revocable: true,
+                    refUID: refUID,
+                    data: abi.encode(data),
+                    value: 0
+                })
+            })
+        );
+    }
+
+    function getSchemaAbi() public pure override returns (string memory) {
+        return SCHEMA_ABI;
+    }
+}
+
+</code></pre>
+<p>Let's walk through it part by part.</p>
+<p><code>struct StatementData</code> is the data specific to each statement made from this contract. In this case, each statement represents depositing an <code>amount</code> of an arbitrary ERC20 <code>token</code>, specified by its contract address. <code>arbiter</code> and <code>demand</code> together represent what's demanded from the counterparty to collect payment, which we'll explain in more detail when implementing the <code>checkStatement</code> function required by <a href="Examples/Exchange/../../Implementations/Exchange/IArbiter.html">IArbiter</a>. <code>arbiter</code> is the contract whose implementation of <code>checkStatement</code> we accept as a source of truth on counterparty validity, and <code>demand</code> is passed into <code>IArbiter(arbiter).checkStatement</code> to allow parametrized demands.</p>
+<p><code>SCHEMA_ABI</code> is the ABI form of <code>StatementData</code>, and is returned from <code>getSchemaAbi</code>, which is a virtual function defined in <a href="Examples/Exchange/../../Implementations/Exchange/IStatement.html">IStatement</a>. <code>SCHEMA_ABI</code> and <code>StatementData</code> themselves aren't actually part of <a href="Examples/Exchange/../../Implementations/Exchange/IStatement.html">IStatement</a>, but <code>getSchemaAbi</code> must return the statement data ABI as a string, because the EAS attestations that statement contracts produce will encode the data as bytes, which other contracts will sometimes want to decode.</p>
+<p>The <code>constructor</code> is just a call to <a href="Examples/Exchange/../../Implementations/Exchange/IStatement.html">IStatement</a>'s constructor with specialized parameters. It registers the statement schema with EAS and sets the schema UID as a public parameter on the contract called <code>ATTESTATION_SCHEMA</code>. EAS schemas specify if attestations are revokable or not, and in this case, they are, with revocation meaning the cancelation of an unfinished deal.</p>
+<p><code>makeStatement</code> is the statement's initialization function. Callers specify a token and amount, a demand for the counterparty, optionally an expiration time (0 if none), and optionally a refUID if the statement is fulfilling the demand of another specific existing statement. The function transfers the specified amount of the specified token from the caller to the contract, produces an on-chain attestation with EAS containing the <code>StatementData</code> passed in, and returns the bytes32 UID of the attestation.</p>
+<h3 id="checks-2"><a class="header" href="#checks-2">Checks</a></h3>
+<p>The main thing counterparties will want to check about ERC20 payment statements is whether at least a specific amount of a specific token is deposited, with a specific demand. We'll implement <code>checkStatement</code> to enable this.</p>
+<pre><code class="language-solidity">contract ERC20PaymentStatement is IStatement {
+
+	...
+    string public constant DEMAND_ABI = "address token, uint256 amount, address arbiter, bytes demand";    
+	...
+
+    function checkStatement(Attestation memory statement, bytes memory demand, bytes32 counteroffer)
+        public
+        view
+        override
+        returns (bool)
+    {
+        if (!_checkIntrinsic(statement)) {
+            return false;
+        }
+
+        StatementData memory payment = abi.decode(statement.data, (StatementData));
+        StatementData memory demandData = abi.decode(demand, (StatementData));
+
+        return payment.token == demandData.token &amp;&amp; payment.amount &gt;= demandData.amount
+            &amp;&amp; payment.arbiter == demandData.arbiter &amp;&amp; keccak256(payment.demand) == keccak256(demandData.demand);
+    }
+
+	...
+	
+    function getDemandAbi() public pure override returns (string memory) {
+        return DEMAND_ABI;
+    }
+}
+</code></pre>
+<p><code>DEMAND_ABI</code> for ERC20 payment statements is the same as <code>SCHEMA_ABI</code>, which will often but not always be the case. Here, counterparties want to know that a statement represents at least an <code>amount</code> of a <code>token</code> for a specific counteroffer, but <code>DEMAND_ABI</code> - or more precisely, the return of <code>getDemandAbi</code> - just represents parameters passed into <code>checkStatement</code>.</p>
+<p><code>checkStatement</code> checks that the statement is produced by this contract and active (not expired nor revoked), and that it contains at least the demanded amount of the demanded token, available for collection by the demanded fulfillment (i.e., arbiter and demand).</p>
+<h3 id="finalization"><a class="header" href="#finalization">Finalization</a></h3>
+<p>To complete our ERC20 payment statement, we'll add functions for collecting payments and cancelling statements.</p>
+<pre><code class="language-solidity">contract ERC20PaymentStatement is IStatement {
+	...
+	error InvalidPaymentAttestation();
+    error InvalidFulfillment();
+    error UnauthorizedCall();
+	...
+
+    function collectPayment(bytes32 _payment, bytes32 _fulfillment) public returns (bool) {
+        Attestation memory payment = eas.getAttestation(_payment);
+        Attestation memory fulfillment = eas.getAttestation(_fulfillment);
+
+        if (!_checkIntrinsic(payment)) revert InvalidPaymentAttestation();
+
+        StatementData memory paymentData = abi.decode(payment.data, (StatementData));
+
+        // Check if the fulfillment is valid
+        if (!_isValidFulfillment(payment, fulfillment, paymentData)) {
+            revert InvalidFulfillment();
+        }
+
+        eas.revoke(
+            RevocationRequest({schema: ATTESTATION_SCHEMA, data: RevocationRequestData({uid: _payment, value: 0})})
+        );
+        return IERC20(paymentData.token).transfer(fulfillment.recipient, paymentData.amount);
+    }
+
+    function cancelStatement(bytes32 uid) public returns (bool) {
+        Attestation memory attestation = eas.getAttestation(uid);
+        if (msg.sender != attestation.recipient) revert UnauthorizedCall();
+
+        eas.revoke(RevocationRequest({schema: ATTESTATION_SCHEMA, data: RevocationRequestData({uid: uid, value: 0})}));
+
+        StatementData memory data = abi.decode(attestation.data, (StatementData));
+        return IERC20(data.token).transfer(msg.sender, data.amount);
+    }
+    
+    function _isValidFulfillment(
+        Attestation memory payment,
+        Attestation memory fulfillment,
+        StatementData memory paymentData
+    ) internal view returns (bool) {
+        // Special case: If the payment references this fulfillment, consider it valid
+        if (payment.refUID == fulfillment.uid) {
+            return true;
+        }
+
+        // Regular case: check using the arbiter
+        return IArbiter(paymentData.arbiter).checkStatement(fulfillment, paymentData.demand, payment.uid);
+    }
+}
+</code></pre>
+<p>We add the three errors <code>InvalidPaymentAttestation</code>, <code>InvalidFulfillment</code>, and <code>UnauthorizedCall</code> as possible failure modes during payment collection or cancellation.</p>
+<p><code>collectPayment</code> is called by the counterparty to claim a payment. First, it checks if the payment is actually issued by this contract, and still active (i.e. not expired, canceled or collected). It then checks if the payment is for a specific counteroffer (via its refUID), and whether the attestation provided corresponds to that counteroffer. Finally, it checks if the fulfillment attestation fulfills the payments demands, and if so, revokes the payment attestation and transfers the token collateral deposited when the payment was made to the caller.</p>
+<p><code>cancelStatement</code> allows a payment statement creator to revoke their statement, reclaiming their tokens and ending an agreement prematurely. Note that this basic implementation of <code>cancelStatement</code> shouldn't be directly used in production, since there are no protection checks or collateral to ensure that a buyer can't cancel their payment after a seller has already provided them with a benefit, but before the seller has had time to claim their payment.</p>
+<p>For cases where the seller's obligation can be finalized on-chain in one block, including this example, this can be mitigated by bundling sell-side statement creation and payment collection into a single transaction, but for more complex exchanges, a more robust protection and collateral system is recommended.</p>
+<p>See the final contract at [[Implementations/Exchange/Statements/ERC20PaymentStatement|ERC20PaymentStatement]].</p>
+<h2 id="submitting-strings"><a class="header" href="#submitting-strings">Submitting Strings</a></h2>
+<p>To complement our ERC20 payment statement, we'll implement a statement contract for submitting string results. This will allow sellers to provide uppercased strings in response to buyers' queries. The string result statement will be non-revocable and non-expiring, as the result, once recorded on-chain, is available indefinitely.</p>
+<h3 id="initialization-2"><a class="header" href="#initialization-2">Initialization</a></h3>
+<p>We'll start by implementing statement creation for submitting string results:</p>
+<pre><code class="language-solidity">contract StringResultStatement is IStatement {
+    struct StatementData {
+        string result;
+    }
+
+    struct DemandData {
+        string query;
+    }
+
+    string public constant SCHEMA_ABI = "string result";
+    string public constant DEMAND_ABI = "string query";
+    bool public constant IS_REVOCABLE = false;
+
+    constructor(IEAS _eas, ISchemaRegistry _schemaRegistry)
+        IStatement(_eas, _schemaRegistry, SCHEMA_ABI, IS_REVOCABLE)
+    {}
+
+    function makeStatement(StatementData calldata data, bytes32 refUID)
+        public
+        returns (bytes32)
+    {
+        return eas.attest(
+            AttestationRequest({
+                schema: ATTESTATION_SCHEMA,
+                data: AttestationRequestData({
+                    recipient: msg.sender,
+                    expirationTime: 0,
+                    revocable: false,
+                    refUID: refUID,
+                    data: abi.encode(data),
+                    value: 0
+                })
+            })
+        );
+    }
+}
+</code></pre>
+<p>Let's break it down:</p>
+<p><code>struct StatementData</code> contains only the <code>result</code> string, which is the capitalized version of the query.</p>
+<p><code>struct DemandData</code> represents the demand structure, which only includes the <code>query</code> string to be capitalized.</p>
+<p><code>SCHEMA_ABI</code> and <code>DEMAND_ABI</code> are simplified to reflect the reduced data structures.</p>
+<p><code>IS_REVOCABLE</code> is set to <code>false</code>, as string results, once recorded on-chain, cannot be meaningfully revoked.</p>
+<p>The <code>constructor</code> remains similar, registering the statement schema with EAS.</p>
+<p><code>makeStatement</code> is the initialization function for creating a string result statement. It creates a non-revocable, non-expiring on-chain attestation with EAS containing the <code>StatementData</code> and returns the attestation's UID.</p>
+<h3 id="checks-3"><a class="header" href="#checks-3">Checks</a></h3>
+<p>For string result statements, we'll implement <code>checkStatement</code> to verify if a submitted result is the correctly capitalized version of the query:</p>
+<pre><code class="language-solidity">contract StringResultStatement is IStatement {
+    function checkStatement(
+        Attestation memory statement,
+        bytes memory demand, /* (string query) */
+        bytes32 counteroffer
+    ) public view override returns (bool) {
+        if (!_checkIntrinsic(statement)) {
+            return false;
+        }
+
+        // Check if the statement is intended to fulfill the specific counteroffer
+        if (statement.refUID != bytes32(0) &amp;&amp; statement.refUID != counteroffer) {
+            return false;
+        }
+
+        StatementData memory result = abi.decode(statement.data, (StatementData));
+        DemandData memory demandData = abi.decode(demand, (DemandData));
+
+        return _isCapitalized(demandData.query, result.result);
+    }
+
+    function _isCapitalized(string memory query, string memory result) internal pure returns (bool) {
+        bytes memory queryBytes = bytes(query);
+        bytes memory resultBytes = bytes(result);
+
+        if (queryBytes.length != resultBytes.length) {
+            return false;
+        }
+
+        for (uint256 i = 0; i &lt; queryBytes.length; i++) {
+            if (queryBytes[i] &gt;= 0x61 &amp;&amp; queryBytes[i] &lt;= 0x7A) {
+                // If lowercase, it should be capitalized in the result
+                if (uint8(resultBytes[i]) != uint8(queryBytes[i]) - 32) {
+                    return false;
+                }
+            } else {
+                // If not lowercase, it should remain the same
+                if (resultBytes[i] != queryBytes[i]) {
+                    return false;
+                }
+            }
+        }
+
+        return true;
+    }
+}
+</code></pre>
+<p><code>checkStatement</code> verifies that:</p>
+<ol>
+<li>The statement is produced by this contract.</li>
+<li>If the statement has a non-zero <code>refUID</code>, it matches the provided <code>counteroffer</code>.</li>
+<li>The submitted result is the correctly capitalized version of the query.</li>
+</ol>
+<p>The <code>_isCapitalized</code> function performs a character-by-character comparison to ensure the result is the correctly capitalized version of the query. We use explicit type coercion to <code>uint8</code> when comparing character values to ensure correct arithmetic operations.</p>
+<h3 id="finalization-1"><a class="header" href="#finalization-1">Finalization</a></h3>
+<p>As before, the string result statement doesn't require a separate finalization step. Once a statement is created, it's immediately available for validation and use by counterparties. The non-revocable and non-expiring nature of these statements means that they persist indefinitely on-chain.</p>
+<p>This simplified implementation of <code>StringResultStatement</code> complements the <code>ERC20PaymentStatement</code>, allowing for a straightforward exchange system where users can pay in ERC20 tokens for uppercased strings. In the next section on validation, we'll modify this implementation to perform a simpler check (like comparing string lengths) and defer the full capitalization check to an external validator.</p>
+<p>See the final contract at [[Implementations/Exchange/Statements/StringResultStatement|StringResultStatement]] (*note that we modify <code>checkStatement</code> later in this tutorial, when adding an external validator to the system).</p>
+<h2 id="in-practice-solidity"><a class="header" href="#in-practice-solidity">In Practice (Solidity)</a></h2>
+<p>Let's walk through a practical example of how users would interact with the <code>ERC20PaymentStatement</code> and <code>StringResultStatement</code> contracts to facilitate a trade of ERC20 tokens for an uppercased string.</p>
+<h3 id="setting-up-the-trade"><a class="header" href="#setting-up-the-trade">Setting Up the Trade</a></h3>
+<ol>
+<li>The buyer (Alice) wants to pay 10 USDC for the uppercased version of the string "hello world".</li>
+<li>Alice creates an ERC20 payment statement:</li>
+</ol>
+<pre><code>ERC20PaymentStatement.StatementData memory paymentData = ERC20PaymentStatement.StatementData({
+    token: address(USDC),
+    amount: 10 * 10**6, // Assuming 6 decimal places for USDC
+    arbiter: address(stringResultStatement), // The StringResultStatement contract acts as the arbiter
+    demand: abi.encode(StringResultStatement.DemandData({
+        query: "hello world"
+    }))
+});
+
+bytes32 paymentUID = erc20PaymentStatement.makeStatement(paymentData, 0, bytes32(0));
+</code></pre>
+<p>This creates an on-chain attestation representing Alice's offer to pay 10 USDC for the uppercased version of "hello world".</p>
+<h3 id="fulfilling-the-trade"><a class="header" href="#fulfilling-the-trade">Fulfilling the Trade</a></h3>
+<ol start="3">
+<li>The seller (Bob) sees Alice's offer and decides to fulfill it. Bob creates a string result statement:</li>
+</ol>
+<pre><code class="language-solidity">StringResultStatement.StatementData memory resultData = StringResultStatement.StatementData({
+    result: "HELLO WORLD"
+});
+
+bytes32 resultUID = stringResultStatement.makeStatement(resultData, paymentUID);
+</code></pre>
+<p>This creates an on-chain attestation representing Bob's fulfillment of Alice's request. Note that the <code>refUID</code> is set to <code>paymentUID</code>, linking this result to Alice's specific payment offer.</p>
+<h3 id="completing-the-exchange"><a class="header" href="#completing-the-exchange">Completing the Exchange</a></h3>
+<ol start="4">
+<li>Bob can now complete the exchange by calling <code>collectPayment</code> on the <code>ERC20PaymentStatement</code> contract:</li>
+</ol>
+<pre><code class="language-solidity">erc20PaymentStatement.collectPayment(paymentUID, resultUID);
+</code></pre>
+<p>This function will:</p>
+<ul>
+<li>Verify that the payment statement is valid and hasn't been collected.</li>
+<li>Check that the result statement matches the payment's demand (correct query).</li>
+<li>Use the <code>StringResultStatement</code> contract (specified as the arbiter) to validate that the result is correctly capitalized.</li>
+<li>If all checks pass, transfer the USDC from the contract to Bob.</li>
+</ul>
+<h3 id="key-points"><a class="header" href="#key-points">Key Points</a></h3>
+<ul>
+<li>The <code>arbiter</code> in the payment statement is set to the <code>StringResultStatement</code> contract address. This means the <code>ERC20PaymentStatement</code> contract will use the <code>StringResultStatement</code>'s <code>checkStatement</code> function to validate the result.</li>
+<li>The <code>demand</code> field in the payment statement contains the encoded <code>DemandData</code> from the <code>StringResultStatement</code>. This specifies exactly what string needs to be capitalized.</li>
+<li>The <code>refUID</code> in the result statement is set to the payment statement's UID. This creates a direct link between the offer and its fulfillment, ensuring that a result can only be used to collect the payment it was intended for.</li>
+<li>Only Bob (the creator of the result statement) can collect the payment. This is enforced by the <code>collectPayment</code>function checking if <code>msg.sender</code> is the recipient of the fulfillment attestation.</li>
+<li>The <code>StringResultStatement</code> doesn't need to specify an arbiter or demand, as it's not responsible for finalizing any other statements.</li>
+</ul>
+<p>This system provides a trustless way for users to exchange ERC20 tokens for specific string manipulations, with on-chain verification of the results. The use of EAS attestations for both the payment and the result provides a standardized and extensible foundation for more complex exchanges.</p>
+<p>In the next section, we'll explore how to replace the direct use of <code>StringResultStatement</code> as an arbiter with a separate validator contract, demonstrating the pluggable nature of arbiters in this system.</p>
+<h2 id="in-practice-typescript--viem"><a class="header" href="#in-practice-typescript--viem">In Practice (TypeScript + viem)</a></h2>
+<p>Let's walk through how users would interact with the <code>ERC20PaymentStatement</code> and <code>StringResultStatement</code> contracts using viem's contract instances API and TypeScript to facilitate a trade of ERC20 tokens for an uppercased string.</p>
+<h3 id="setting-up-the-environment"><a class="header" href="#setting-up-the-environment">Setting Up the Environment</a></h3>
+<p>First, we set up our environment with viem:</p>
+<pre><code class="language-typescript">import { createPublicClient, createWalletClient, http, parseAbi, getContract } from 'viem';
+import { privateKeyToAccount } from 'viem/accounts';
+import { mainnet } from 'viem/chains';
+
+const publicClient = createPublicClient({
+  chain: mainnet,
+  transport: http()
+});
+
+const walletClient = createWalletClient({
+  chain: mainnet,
+  transport: http()
+});
+
+// Replace with actual private keys (never hardcode in production!)
+const aliceAccount = privateKeyToAccount('0xalice_private_key');
+const bobAccount = privateKeyToAccount('0xbob_private_key');
+
+// Contract addresses (replace with actual deployed addresses)
+const ERC20_PAYMENT_STATEMENT_ADDRESS = '0x...' as `0x${string}`;
+const STRING_RESULT_STATEMENT_ADDRESS = '0x...' as `0x${string}`;
+const USDC_ADDRESS = '0xA0b86991c6218b36c1d19D4a2e9Eb0cE3606eB48';
+
+const statementAbi = parseAbi([
+  'function getDemandAbi() public view returns (string)',
+  'function getSchemaAbi() public view returns (string)',
+  'function makeStatement(tuple data, uint64 expirationTime, bytes32 refUID) public returns (bytes32)',
+  'function collectPayment(bytes32 payment, bytes32 fulfillment) public returns (bool)',
+]);
+
+const erc20PaymentStatement = getContract({
+  address: ERC20_PAYMENT_STATEMENT_ADDRESS,
+  abi: statementAbi,
+  publicClient,
+  walletClient,
+});
+
+const stringResultStatement = getContract({
+  address: STRING_RESULT_STATEMENT_ADDRESS,
+  abi: statementAbi,
+  publicClient,
+  walletClient,
+});
+</code></pre>
+<h3 id="setting-up-the-trade-1"><a class="header" href="#setting-up-the-trade-1">Setting Up the Trade</a></h3>
+<ol>
+<li>Alice wants to pay 10 USDC for the uppercased version of the string "hello world".</li>
+<li>Alice creates an ERC20 payment statement:</li>
+</ol>
+<pre><code class="language-typescript">async function createPaymentStatement() {
+  const stringResultDemandAbi = await stringResultStatement.read.getDemandAbi();
+  const paymentSchemaAbi = await erc20PaymentStatement.read.getSchemaAbi();
+
+  const demandData = encodeAbiParameters(
+    parseAbi([stringResultDemandAbi]),
+    [{ query: 'hello world' }]
+  );
+
+  const paymentData = encodeAbiParameters(
+    parseAbi([paymentSchemaAbi]),
+    [{
+      token: USDC_ADDRESS,
+      amount: 10_000_000n, // 10 USDC (6 decimals)
+      arbiter: STRING_RESULT_STATEMENT_ADDRESS,
+      demand: demandData,
+    }]
+  );
+
+  const paymentUID = await erc20PaymentStatement.write.makeStatement(
+    [paymentData, 0n, '0x' + '0'.repeat(64)],
+    { account: aliceAccount }
+  );
+
+  console.log('Payment statement created:', paymentUID);
+
+  return paymentUID;
+}
+</code></pre>
+<h3 id="fulfilling-the-trade-1"><a class="header" href="#fulfilling-the-trade-1">Fulfilling the Trade</a></h3>
+<ol start="3">
+<li>Bob sees Alice's offer and decides to fulfill it. Bob creates a string result statement:</li>
+</ol>
+<pre><code class="language-typescript">async function createResultStatement(paymentUID: `0x${string}`) {
+  const stringResultSchemaAbi = await stringResultStatement.read.getSchemaAbi();
+
+  const resultData = encodeAbiParameters(
+    parseAbi([stringResultSchemaAbi]),
+    [{ result: 'HELLO WORLD' }]
+  );
+
+  const resultUID = await stringResultStatement.write.makeStatement(
+    [resultData, paymentUID],
+    { account: bobAccount }
+  );
+
+  console.log('Result statement created:', resultUID);
+
+  return resultUID;
+}
+</code></pre>
+<h3 id="completing-the-exchange-1"><a class="header" href="#completing-the-exchange-1">Completing the Exchange</a></h3>
+<ol start="4">
+<li>Bob can now complete the exchange by calling <code>collectPayment</code> on the <code>ERC20PaymentStatement</code> contract:</li>
+</ol>
+<pre><code class="language-typescript">async function collectPayment(paymentUID: `0x${string}`, resultUID: `0x${string}`) {
+  const success = await erc20PaymentStatement.write.collectPayment(
+    [paymentUID, resultUID],
+    { account: bobAccount }
+  );
+
+  console.log('Payment collected:', success);
+}
+</code></pre>
+<h3 id="putting-it-all-together"><a class="header" href="#putting-it-all-together">Putting It All Together</a></h3>
+<pre><code class="language-typescript">async function trade() {
+  const paymentUID = await createPaymentStatement();
+  const resultUID = await createResultStatement(paymentUID);
+  await collectPayment(paymentUID, resultUID);
+}
+
+trade().catch(console.error);
+</code></pre>
+<h1 id="validators"><a class="header" href="#validators">Validators</a></h1>
+<p>In our initial implementation of the exchange system, we used statement contracts to represent both offers and results. While this approach works for simple exchanges, it has several limitations when dealing with more complex scenarios:</p>
+<ol>
+<li>
+<p><strong>Coupling of Logic</strong>: The validation logic is tightly coupled with the statement creation logic. This makes it difficult to update or change the validation process without affecting existing statements.</p>
+</li>
+<li>
+<p><strong>Limited Flexibility</strong>: Simple statement contracts can't easily handle complex validation scenarios, such as those requiring multiple steps, off-chain data, or time-delayed challenges.</p>
+</li>
+<li>
+<p><strong>Scalability Issues</strong>: As validation logic becomes more complex, statement contracts can become bloated and expensive to deploy and interact with.</p>
+</li>
+<li>
+<p><strong>Lack of Reusability</strong>: Validation logic implemented directly in statement contracts can't be easily reused across different types of exchanges.</p>
+</li>
+<li>
+<p><strong>Difficulty in Upgrading</strong>: Once deployed, the validation logic in a statement contract can't be easily upgraded or modified.</p>
+</li>
+</ol>
+<p>To address these limitations, we introduce the concept of validator contracts. Validators act as an intermediary between offer statements and result statements, providing a flexible and extensible way to implement complex validation logic.</p>
+<h2 id="validators-bridging-statements-and-arbiters"><a class="header" href="#validators-bridging-statements-and-arbiters">Validators: Bridging Statements and Arbiters</a></h2>
+<p>Validators extend the concept of arbiters, providing more complex and flexible validation mechanisms. They act as a bridge between offer statements (like <code>ERC20PaymentStatement</code>) and result statements (like <code>StringResultStatement</code>), allowing for sophisticated validation logic without complicating the base statement contracts.</p>
+<p>Let's first recap the roles of statements and arbiters in our system to better understand how validators fit into the picture.</p>
+<h3 id="recap-statements-and-arbiters"><a class="header" href="#recap-statements-and-arbiters">Recap: Statements and Arbiters</a></h3>
+<p>Statements represent a party's fulfillment of one side of an agreement. They have three main components:</p>
+<ol>
+<li>Initialization: Functions that set up the statement, often involving on-chain actions like token transfers.</li>
+<li>Checks: Functions that assess the validity of other statements or validations.</li>
+<li>Finalization: Functions that complete the agreement, often transferring assets or updating state.</li>
+</ol>
+<p>Arbiters, on the other hand, are contracts that can check the validity of statements. Both statement contracts and validator contracts implement the <code>IArbiter</code> interface, allowing them to be used interchangeably in many contexts.</p>
+<h3 id="validator-structure"><a class="header" href="#validator-structure">Validator Structure</a></h3>
+<p>While validators can vary significantly in their implementation, they generally include the following components:</p>
+<ol>
+<li>
+<p>Initialization:</p>
+<ul>
+<li>Functions to start the validation process, often creating a new attestation or record.</li>
+<li>May involve setup steps like staking tokens or registering with external services.</li>
+</ul>
+</li>
+<li>
+<p>Validation Logic:</p>
+<ul>
+<li>The core logic for checking the validity of a result.</li>
+<li>Can range from simple on-chain checks to complex multi-step processes involving off-chain data.</li>
+</ul>
+</li>
+<li>
+<p>Finalization:</p>
+<ul>
+<li>Functions to conclude the validation process.</li>
+<li>May involve releasing stakes, updating state, or triggering further on-chain actions.</li>
+</ul>
+</li>
+<li>
+<p>Arbitration Interface:</p>
+<ul>
+<li>Implementation of the <code>IArbiter</code> interface, allowing the validator to be used as an arbiter in statement contracts.</li>
+</ul>
+</li>
+</ol>
+<h3 id="types-of-validators"><a class="header" href="#types-of-validators">Types of Validators</a></h3>
+<p>Validators can implement various validation strategies, including:</p>
+<ol>
+<li>
+<p>Optimistic Validation:</p>
+<ul>
+<li>Results are considered valid unless challenged within a specific time frame.</li>
+<li>Includes a challenge mechanism and often involves staking.</li>
+</ul>
+</li>
+<li>
+<p>Oracle-based Validation:</p>
+<ul>
+<li>Relies on external data providers (oracles) to verify results.</li>
+<li>May involve paying for the oracle service.</li>
+</ul>
+</li>
+<li>
+<p>Multi-step Validation:</p>
+<ul>
+<li>Requires multiple validation steps or approvals from different parties.</li>
+</ul>
+</li>
+<li>
+<p>Threshold Validation:</p>
+<ul>
+<li>Requires a certain number or percentage of validators to approve the result.</li>
+</ul>
+</li>
+<li>
+<p>Computation Validation:</p>
+<ul>
+<li>Performs complex on-chain computations to verify results.</li>
+<li>May use zero-knowledge proofs for efficiency.</li>
+</ul>
+</li>
+</ol>
+<p>By introducing validators, we can overcome the limitations of bare statements:</p>
+<ol>
+<li><strong>Decoupling of Logic</strong>: Validation logic is separated from statement creation, allowing for more flexible and upgradeable systems.</li>
+<li><strong>Increased Flexibility</strong>: Validators can implement complex validation scenarios that would be impractical in simple statement contracts.</li>
+<li><strong>Improved Scalability</strong>: Complex logic is moved to separate contracts, keeping statement contracts lean and efficient.</li>
+<li><strong>Enhanced Reusability</strong>: Validation logic in validator contracts can be easily reused across different types of exchanges.</li>
+<li><strong>Easier Upgrades</strong>: Validator contracts can be designed to be upgradeable, allowing for improvements over time without affecting existing statements.</li>
+</ol>
+<p>Let's implement an example of an optimistic validator to see how these concepts come together in practice.</p>
+<h2 id="implementing-an-optimistic-validator"><a class="header" href="#implementing-an-optimistic-validator">Implementing an Optimistic Validator</a></h2>
+<p>We'll create an <code>OptimisticStringValidator</code> that implements optimistic validation with a challenge period. This validator will check if a string has been correctly capitalized, allowing for a period during which the result can be challenged.</p>
+<pre><code class="language-solidity">// SPDX-License-Identifier: UNLICENSED
+pragma solidity 0.8.26;
+
+import {Attestation} from "@eas/Common.sol";
+import {
+    IEAS, AttestationRequest, AttestationRequestData, RevocationRequest, RevocationRequestData
+} from "@eas/IEAS.sol";
+import {ISchemaRegistry} from "@eas/ISchemaRegistry.sol";
+import {IArbiter} from "./IArbiter.sol";
+import {IValidator} from "./IValidator.sol";
+import {StringResultStatement} from "./StringResultStatement.sol";
+
+contract OptimisticStringValidator is IValidator {
+    struct ValidationData {
+        string query;
+        uint64 mediationPeriod;
+    }
+
+    event ValidationStarted(bytes32 indexed validationUID, bytes32 indexed resultUID, string query);
+    event MediationRequested(bytes32 indexed validationUID, bool success_);
+
+    error InvalidValidationSchema();
+    error MediationPeriodExpired();
+    error InvalidStatementSchema();
+    error StatementRevoked();
+    error QueryMismatch();
+    error MediationPeriodMismatch();
+
+    string public constant SCHEMA_ABI = "string query, uint64 mediationPeriod";
+    string public constant DEMAND_ABI = "string query, uint64 mediationPeriod";
+    bool public constant IS_REVOCABLE = true;
+
+    address public immutable BASE_STATEMENT;
+
+    constructor(IEAS _eas, ISchemaRegistry _schemaRegistry, address _baseStatement)
+        IValidator(_eas, _schemaRegistry, SCHEMA_ABI, IS_REVOCABLE)
+    {
+        BASE_STATEMENT = _baseStatement;
+    }
+
+    function startValidation(bytes32 resultUID, ValidationData calldata validationData)
+        external
+        returns (bytes32 validationUID_)
+    {
+        validationUID_ = eas.attest(
+            AttestationRequest({
+                schema: ATTESTATION_SCHEMA,
+                data: AttestationRequestData({
+                    recipient: msg.sender,
+                    expirationTime: uint64(block.timestamp) + validationData.mediationPeriod,
+                    revocable: true,
+                    refUID: resultUID,
+                    data: abi.encode(validationData),
+                    value: 0
+                })
+            })
+        );
+
+        emit ValidationStarted(validationUID_, resultUID, validationData.query);
+    }
+
+    function mediate(bytes32 validationUID) external returns (bool success_) {
+        Attestation memory validation = eas.getAttestation(validationUID);
+        if (validation.schema != ATTESTATION_SCHEMA) revert InvalidValidationSchema();
+
+        ValidationData memory data = abi.decode(validation.data, (ValidationData));
+        if (block.timestamp &gt; validation.time + data.mediationPeriod) revert MediationPeriodExpired();
+
+        Attestation memory resultAttestation = eas.getAttestation(validation.refUID);
+        StringResultStatement.StatementData memory resultData =
+            abi.decode(resultAttestation.data, (StringResultStatement.StatementData));
+        success_ = _isCapitalized(data.query, resultData.result);
+
+        if (!success_) {
+            eas.revoke(
+                RevocationRequest({
+                    schema: ATTESTATION_SCHEMA,
+                    data: RevocationRequestData({uid: validationUID, value: 0})
+                })
+            );
+        }
+
+        emit MediationRequested(validationUID, success_);
+    }
+
+    function checkStatement(Attestation memory statement, bytes memory demand, bytes32 counteroffer)
+        public
+        view
+        override
+        returns (bool)
+    {
+        if (statement.schema != ATTESTATION_SCHEMA) revert InvalidStatementSchema();
+        if (statement.revocationTime != 0) revert StatementRevoked();
+
+        ValidationData memory demandData = abi.decode(demand, (ValidationData));
+        ValidationData memory statementData = abi.decode(statement.data, (ValidationData));
+
+        if (keccak256(bytes(statementData.query)) != keccak256(bytes(demandData.query))) revert QueryMismatch();
+        if (statementData.mediationPeriod != demandData.mediationPeriod) revert MediationPeriodMismatch();
+
+        if (block.timestamp &lt;= statement.time + statementData.mediationPeriod) {
+            return false;
+        }
+
+        return IArbiter(BASE_STATEMENT).checkStatement(
+            eas.getAttestation(statement.refUID),
+            abi.encode(StringResultStatement.DemandData({query: statementData.query})),
+            counteroffer
+        );
+    }
+
+    function _isCapitalized(string memory query, string memory result) internal pure returns (bool) {
+        bytes memory queryBytes = bytes(query);
+        bytes memory resultBytes = bytes(result);
+
+        if (queryBytes.length != resultBytes.length) {
+            return false;
+        }
+
+        for (uint256 i = 0; i &lt; queryBytes.length; i++) {
+            if (queryBytes[i] &gt;= 0x61 &amp;&amp; queryBytes[i] &lt;= 0x7A) {
+                // If lowercase, it should be capitalized in the result
+                if (uint8(resultBytes[i]) != uint8(queryBytes[i]) - 32) {
+                    return false;
+                }
+            } else {
+                // If not lowercase, it should remain the same
+                if (resultBytes[i] != queryBytes[i]) {
+                    return false;
+                }
+            }
+        }
+
+        return true;
+    }
+
+    function getSchemaAbi() public pure override returns (string memory) {
+        return SCHEMA_ABI;
+    }
+
+    function getDemandAbi() public pure override returns (string memory) {
+        return DEMAND_ABI;
+    }
+}
+
+</code></pre>
+<p>This validator demonstrates the key components we discussed:</p>
+<ol>
+<li>Initialization: The <code>startValidation</code> function initializes the validation process.</li>
+<li>Validation Logic: The <code>checkStatement</code> function implements the core validation logic.</li>
+<li>Finalization: The <code>mediate</code> function allows for challenges during the mediation period.</li>
+<li>Arbitration Interface: The contract implements <code>IStatement</code>, which extends <code>IArbiter</code>.</li>
+</ol>
+<h2 id="using-validators-in-the-exchange-system"><a class="header" href="#using-validators-in-the-exchange-system">Using Validators in the Exchange System</a></h2>
+<p>To use a validator in our exchange system:</p>
+<ol>
+<li>Deploy the validator contract.</li>
+<li>When creating an offer statement (e.g., <code>ERC20PaymentStatement</code>), specify the validator as the arbiter:</li>
+</ol>
+<pre><code class="language-solidity">ERC20PaymentStatement.StatementData memory paymentData = ERC20PaymentStatement.StatementData({
+    token: address(USDC),
+    amount: 10 * 10**6,
+    arbiter: address(optimisticStringValidator),
+    demand: abi.encode(OptimisticStringValidator.ValidationData({
+        query: "hello world",
+        mediationPeriod: 1 days
+    }))
+});
+
+bytes32 paymentUID = erc20PaymentStatement.makeStatement(paymentData, 0, bytes32(0));
+</code></pre>
+<ol start="3">
+<li>When submitting a result, start the validation process:</li>
+</ol>
+<pre><code class="language-solidity">bytes32 resultUID = stringResultStatement.makeStatement(resultData, paymentUID);
+bytes32 validationUID = optimisticStringValidator.startValidation(resultUID, "hello world", 1 days);
+</code></pre>
+<ol start="4">
+<li>To complete the exchange, use the validation UID when collecting the payment:</li>
+</ol>
+<pre><code class="language-solidity">erc20PaymentStatement.collectPayment(paymentUID, validationUID);
+</code></pre>
+<h2 id="beyond-optimistic-validation"><a class="header" href="#beyond-optimistic-validation">Beyond Optimistic Validation</a></h2>
+<p>While we've implemented an optimistic validator here, other types of validators might work differently. For example:</p>
+<ul>
+<li>An oracle-based validator might require payment to cover the cost of off-chain verification.</li>
+<li>A multi-step validator might require approvals from multiple parties before considering a result valid.</li>
+<li>A computation validator might perform complex on-chain calculations or verify zero-knowledge proofs.</li>
+</ul>
+<p>The flexibility of this system allows for a wide range of validation strategies to be implemented and used interchangeably, depending on the specific requirements of each exchange.</p>
+<p>By separating validators from base statements, we've created a modular and extensible system that can adapt to various validation needs while keeping the core exchange logic simple and consistent.</p>
+<p>See the final contracts at</p>
+<ul>
+<li><a href="Examples/Exchange/../../Implementations/Exchange/IArbiter.html">IArbiter</a></li>
+<li><a href="Examples/Exchange/../../Implementations/Exchange/IStatement.html">IStatement</a></li>
+<li><a href="Examples/Exchange/../../Implementations/Exchange/Statements/ERC20PaymentStatement.html">ERC20PaymentStatement</a></li>
+<li><a href="Examples/Exchange/../../Implementations/Exchange/Statements/StringResultStatement.html">StringResultStatement</a></li>
+<li><a href="Examples/Exchange/../../Implementations/Exchange/Validations/OptimisticStringValidator.html">OptimisticStringValidator</a></li>
+</ul>
+<div style="break-before: page; page-break-before: always;"></div><h1 id="compute-marketplace"><a class="header" href="#compute-marketplace">Compute Marketplace</a></h1>
+<p>coming soon</p>
+<div style="break-before: page; page-break-before: always;"></div><h1 id="cooperative-mapreduce"><a class="header" href="#cooperative-mapreduce">Cooperative MapReduce</a></h1>
+<p>coming soon</p>
+<div style="break-before: page; page-break-before: always;"></div><h1 id="decentralized-saas-provision"><a class="header" href="#decentralized-saas-provision">Decentralized SaaS Provision</a></h1>
+<p>coming soon</p>
+<div style="break-before: page; page-break-before: always;"></div><h1 id="decentralized-vector-database"><a class="header" href="#decentralized-vector-database">Decentralized Vector Database</a></h1>
+<p>coming soon</p>
+<div style="break-before: page; page-break-before: always;"></div><h1 id="compute-marketplace-1"><a class="header" href="#compute-marketplace-1">Compute Marketplace</a></h1>
+<p>In this section we demonstrate a possible use of <strong>schemes</strong> and <strong>agents</strong> by building a compute marketplace where users' hardware is associated with Agents autonomously negotiating and scheduling compute tasks.</p>
+<p>In this marketplace, each agent embodies a node that can accept or reject compute jobs based on a defined policy. The fundamental structure of the main modules and their interfaces are constrained, but the actual contents of schemes and agents depend on the specificities of the marketplace and user design choices. In this tutorial, we provide an architecture for the internal logic of an agent.</p>
+<h2 id="market-definition-through-agents-and-schemes"><a class="header" href="#market-definition-through-agents-and-schemes">Market Definition through Agents and Schemes</a></h2>
+<p>Following our market definition, agents interact with each other through schemes, following the functional model represented by <code>(message, context) =&gt; message</code>.</p>
+<p>In this model, an agent receives a message within a certain context and is responsible for responding with a subsequent message updating the negotiation state. In addition to the current scheme state, the context includes, for example, the agent's role (buyer or seller), previous negotiation messages, on-chain states.</p>
+<p>In a compute marketplace, in particular, we can imagine a scenario where a resource provider agent (Agent A) offers compute power, and a client agent (Agent B) seeks to utilize that compute power to perform a predefined task:</p>
+<ul>
+<li>
+<p>Message: Agent B sends a request message, including details like the amount of compute power required, duration constraints, proposed price and validation scheme.</p>
+</li>
+<li>
+<p>Context: The context includes Agent A’s local states and global states (see below  for a detailed discussion). It also includes the current state of the negotiation, such as previous offers or counter-offers, and parallel negotiations associated with other client and resource provider agents.</p>
+</li>
+<li>
+<p>Response Message: Agent A receives the request message and, combining it with the context according to a specific policy, evaluates whether it can fulfill the request profitably and how: it might send a counter-offer modifying the values in the original message or accept the deal. This evaluation involves both local states and global states.</p>
+</li>
+<li>
+<p>Validation and Finalization: If Agent B accepts the offer, it sends an accept message, recording an on-chain <code>attestation</code>, triggering Agent A to perform a set of actions, such as recording an on-chain commitment and starting the compute job.</p>
+</li>
+</ul>
+<h2 id="sequential-decision-making-primitives"><a class="header" href="#sequential-decision-making-primitives">Sequential Decision-making Primitives</a></h2>
+<p>In the implementation of Agents, interacting with the state machine defined by the Scheme, a natural design choice following the usage of Sequential Decision-making Primitives. Given the absence of an explicit model of the system, this perspective overlaps with the field of Multi-Agent Reinforcement Learning (MARL).</p>
+<p>Nevertheless, Agents (both clients and resource providers) interact with an Environment receiving and submitting information. While the bulk of observations are about reading the state machine, other observations about both on-chain and off-chain states can be used, generalizing the definition of Environment. In the same way, while the main output of Agents is about updating the state machine, other <em>writing</em> tasks exists, enabling agents to interact and modify other aspects of the Environment.</p>
+<h2 id="local-states"><a class="header" href="#local-states">Local States</a></h2>
+<p>The local state for each agent includes its hardware specifications, such as CPU, GPU, and RAM. These states influence the agent’s capacity to accept compute tasks and formulate offers. Profiling tools enable agents to know their local states and inform their policies accordingly.</p>
+<p>Every agent hardware specifications may limit the state space size. For example, some IoT actors would only be able to store and act based on on-chain data. For the same reason, some agents may be unable to perform certain tasks. In other words, each agent has different constraints on both their state space and action space.</p>
+<h2 id="global-states"><a class="header" href="#global-states">Global States</a></h2>
+<p>A set of environmental variables may include:</p>
+<ul>
+<li>
+<p>L1 and L2 tokens price. The dynamics of the protocol, being based on smart contracts and EVM technology, may be driven by the state of the L1 (Ethereum) and L2 protocol. One shallow proxy for this is the point-in-time price of the two protocols. A deeper understanding of the protocol dynamics could inform the modeling of payment token prices forecasting, informing the optimal behaviour of agents in this blockchain-based marketplace, informing in turn the agent policy.</p>
+</li>
+<li>
+<p>Gas Fees: because of the need to record the outcome of a negotiation on the blockchain, the point-in-time gas fees of the protocol blockchain is necessary to build policies: the profitability of a job is a function of the (current) transaction costs. Here we refer to the gas fees of the L2 associated with CoopHive; as per prices, the gas fee time series of Ethereum may be relevant in modeling the dynamics of costs for agents recording states on-chain in the interaction with the protocol.</p>
+</li>
+<li>
+<p>Electricity costs. This is a space-time dependent variable defining the cost of electricity in the world. Agents, aware of their own location, are interested in measuring the point-in-time field of the cost of electricity to understand the hedge they may have against other potential agents in different locations. This means that agents could have a module solely focused on the modeling, forecasting and uncertainty quantification of electricity prices to enhance the state space.</p>
+</li>
+<li>
+<p>On-chain states: the history of credible commitments recorded on chain is a valuable information to inform policies.</p>
+</li>
+</ul>
+<h2 id="schemes-2"><a class="header" href="#schemes-2">Schemes</a></h2>
+<p>A specific instantiation of a scheme, for this marketplace, can look like:</p>
+<ul>
+<li>request: A client agent signals a need for compute resources, specifying some terms.</li>
+<li>offer: A provider agent responds with available resources and counter-terms.</li>
+<li>accept: Agreement to terms, triggering task commencement.</li>
+<li>attestation: Verification that a task has been initiated or completed.</li>
+<li>terminate: Signaling the end of a negotiation, either due to task completion, timeout, or error.</li>
+</ul>
+<h2 id="schemes-dependent-and-agent-dependent-actions"><a class="header" href="#schemes-dependent-and-agent-dependent-actions">Schemes-dependent and Agent-dependent Actions</a></h2>
+<p>A straightforward example of actions is the verification of a successful on-chain attestation linked in a message and the sequential writing of the following attestation, linked to the first one. In fact, together with a public key necessarily recorded on-chain, agents are associated with a private key used to sign messages as well.</p>
+<p>We here stress the possible modularity of such Action, within the Agent Policy; in some marketplaces/schemes definition, these kinds of actions could be responsibility of the schemes' client, for example synchronously checking the successful recording of every on-chain state LinkedIn to any message within the scheme. While this would sacrifice flexibility in terms of agent policy modularity, it would provide a more solid and simplified infrastructure for policy development.</p>
+<p>To give an example, upon receiving a message communicating the possibility for a task to start, an agent might want to verify on-chain that the other party has locked the required collateral, before proceeding with task execution. In this case, only once verified, the agent updates the scheme state by writing an <code>attestation</code> message, recording the actual commencement of the compute task. In case of missing collateral, a scheme-compatible <code>collateral_missing</code> message may be sent instead, warning the client about the pending state of the negotiation.</p>
+<h2 id="objective"><a class="header" href="#objective">Objective</a></h2>
+<p>Regardless of the specific marketplace and of the nature of the scheme, agents are continuously spending computational resources in being able to perform Negotiation and Scheduling operations. Particularly in the context of exchanging arbitrary bundles of assets, in doing this Agents have to deal with risk. A trivial example of a source of risk is the volatility of the exchanged tokens with respect to a risk-free asset. Because of this, agents are more similar to portfolio managers than it may seem, given they can lose capital. This can happen because of the inherent risk in the tokens held buy an agent or because of the systematic losses associated with a poorly performing Negotiation strategy. It is therefore natural to assess agents performance (and even guide their training in a data-driven framework) using risk adjusted metrics.</p>
+<p>As discussed in <a href="https://arxiv.org/pdf/2112.04553">Recent Advances in Reinforcement Learning in Finance</a>, possible metrics include:</p>
+<ul>
+<li>Cumulative Return;</li>
+<li>Sharpe Ratio;</li>
+<li>Sortino Ratio;</li>
+<li>Differential Sharpe Ratio.</li>
+</ul>
+<div style="break-before: page; page-break-before: always;"></div><h1 id="iarbiter"><a class="header" href="#iarbiter">IArbiter</a></h1>
+<pre><code class="language-solidity">// SPDX-License-Identifier: UNLICENSED
+pragma solidity 0.8.26;
+
+import {Attestation, DeadlineExpired, InvalidEAS} from "@eas/Common.sol";
+
+abstract contract IArbiter {
+    bytes32 public immutable ATTESTATION_SCHEMA;
+
+    function _checkIntrinsic(Attestation memory statement) internal view returns (bool) {
+        // check schema
+        if (statement.schema != ATTESTATION_SCHEMA) {
+            return false;
+        }
+        // check expired
+        if (statement.expirationTime != 0 &amp;&amp; statement.expirationTime &lt; block.timestamp) {
+            revert DeadlineExpired();
+        }
+        // check revoked
+        if (statement.revocationTime != 0) {
+            revert InvalidEAS();
+        }
+
+        return true;
+    }
+
+    function _checkIdentical(Attestation memory statement, bytes memory demand) public pure returns (bool) {
+        return keccak256(statement.data) == keccak256(demand);
+    }
+
+    function checkStatement(Attestation memory statement, bytes memory demand, bytes32 counteroffer)
+        public
+        view
+        virtual
+        returns (bool)
+    {}
+
+    function getSchemaAbi() public pure virtual returns (string memory) {}
+    function getDemandAbi() public pure virtual returns (string memory) {}
+}
+
+</code></pre>
+<div style="break-before: page; page-break-before: always;"></div><h1 id="istatement"><a class="header" href="#istatement">IStatement</a></h1>
+<pre><code class="language-solidity">// SPDX-License-Identifier: UNLICENSED
+pragma solidity 0.8.26;
+
+import {IArbiter} from "./IArbiter.sol";
+import {IEAS} from "@eas/IEAS.sol";
+import {ISchemaRegistry} from "@eas/ISchemaRegistry.sol";
+import {SchemaResolver} from "@eas/resolver/SchemaResolver.sol";
+import {Attestation} from "@eas/Common.sol";
+
+abstract contract IStatement is IArbiter, SchemaResolver {
+    ISchemaRegistry public immutable schemaRegistry;
+    IEAS public immutable eas;
+
+    constructor(IEAS _eas, ISchemaRegistry _schemaRegistry, string memory schema, bool revocable)
+        SchemaResolver(_eas)
+    {
+        eas = _eas;
+        schemaRegistry = _schemaRegistry;
+        ATTESTATION_SCHEMA = schemaRegistry.register(schema, this, revocable);
+    }
+
+    function onAttest(Attestation calldata attestation, uint256 /* value */ ) internal view override returns (bool) {
+        // only statement contract can attest
+        if (attestation.attester != address(this)) {
+            return false;
+        }
+        return true;
+    }
+
+    function onRevoke(Attestation calldata, uint256 /* value */ ) internal pure override returns (bool) {
+        return true;
+    }
+}
+
+</code></pre>
+<div style="break-before: page; page-break-before: always;"></div><h1 id="ivalidator"><a class="header" href="#ivalidator">IValidator</a></h1>
+<pre><code class="language-solidity">// SPDX-License-Identifier: UNLICENSED
+pragma solidity 0.8.26;
+
+import {IArbiter} from "./IArbiter.sol";
+import {IEAS} from "@eas/IEAS.sol";
+import {ISchemaRegistry} from "@eas/ISchemaRegistry.sol";
+import {SchemaResolver} from "@eas/resolver/SchemaResolver.sol";
+import {Attestation} from "@eas/Common.sol";
+
+abstract contract IValidator is IArbiter, SchemaResolver {
+    ISchemaRegistry public immutable schemaRegistry;
+    IEAS public immutable eas;
+
+    constructor(IEAS _eas, ISchemaRegistry _schemaRegistry, string memory schema, bool revocable)
+        SchemaResolver(_eas)
+    {
+        eas = _eas;
+        schemaRegistry = _schemaRegistry;
+        ATTESTATION_SCHEMA = schemaRegistry.register(schema, this, revocable);
+    }
+
+    function onAttest(Attestation calldata attestation, uint256 /* value */ ) internal view override returns (bool) {
+        // only statement contract can attest
+        if (attestation.attester != address(this)) {
+            return false;
+        }
+        return true;
+    }
+
+    function onRevoke(Attestation calldata, uint256 /* value */ ) internal pure override returns (bool) {
+        return true;
+    }
+}
+
+</code></pre>
+<div style="break-before: page; page-break-before: always;"></div><h1 id="erc20paymentstatement"><a class="header" href="#erc20paymentstatement">ERC20PaymentStatement</a></h1>
+<pre><code class="language-solidity">// SPDX-License-Identifier: UNLICENSED
+pragma solidity 0.8.26;
+
+import {Attestation} from "@eas/Common.sol";
+import {
+    IEAS, AttestationRequest, AttestationRequestData, RevocationRequest, RevocationRequestData
+} from "@eas/IEAS.sol";
+import {ISchemaRegistry} from "@eas/ISchemaRegistry.sol";
+import {IERC20} from "@openzeppelin/token/ERC20/IERC20.sol";
+import {IStatement} from "./IStatement.sol";
+import {IArbiter} from "./IArbiter.sol";
+
+contract ERC20PaymentStatement is IStatement {
+    struct StatementData {
+        address token;
+        uint256 amount;
+        address arbiter;
+        bytes demand;
+    }
+
+    error InvalidPayment();
+    error InvalidPaymentAttestation();
+    error InvalidFulfillment();
+    error UnauthorizedCall();
+
+    string public constant SCHEMA_ABI = "address token, uint256 amount, address arbiter, bytes demand";
+    string public constant DEMAND_ABI = "address token, uint256 amount, address arbiter, bytes demand";
+    bool public constant IS_REVOCABLE = true;
+
+    constructor(IEAS _eas, ISchemaRegistry _schemaRegistry)
+        IStatement(_eas, _schemaRegistry, SCHEMA_ABI, IS_REVOCABLE)
+    {}
+
+    function makeStatement(StatementData calldata data, uint64 expirationTime, bytes32 refUID)
+        public
+        returns (bytes32)
+    {
+        if (!IERC20(data.token).transferFrom(msg.sender, address(this), data.amount)) {
+            revert InvalidPayment();
+        }
+
+        return eas.attest(
+            AttestationRequest({
+                schema: ATTESTATION_SCHEMA,
+                data: AttestationRequestData({
+                    recipient: msg.sender,
+                    expirationTime: expirationTime,
+                    revocable: true,
+                    refUID: refUID,
+                    data: abi.encode(data),
+                    value: 0
+                })
+            })
+        );
+    }
+
+    function collectPayment(bytes32 _payment, bytes32 _fulfillment) public returns (bool) {
+        Attestation memory payment = eas.getAttestation(_payment);
+        Attestation memory fulfillment = eas.getAttestation(_fulfillment);
+
+        if (!_checkIntrinsic(payment)) revert InvalidPaymentAttestation();
+
+        StatementData memory paymentData = abi.decode(payment.data, (StatementData));
+
+        // Check if the fulfillment is valid
+        if (!_isValidFulfillment(payment, fulfillment, paymentData)) {
+            revert InvalidFulfillment();
+        }
+
+        eas.revoke(
+            RevocationRequest({schema: ATTESTATION_SCHEMA, data: RevocationRequestData({uid: _payment, value: 0})})
+        );
+        return IERC20(paymentData.token).transfer(fulfillment.recipient, paymentData.amount);
+    }
+
+    function cancelStatement(bytes32 uid) public returns (bool) {
+        Attestation memory attestation = eas.getAttestation(uid);
+        if (msg.sender != attestation.recipient) revert UnauthorizedCall();
+
+        eas.revoke(RevocationRequest({schema: ATTESTATION_SCHEMA, data: RevocationRequestData({uid: uid, value: 0})}));
+
+        StatementData memory data = abi.decode(attestation.data, (StatementData));
+        return IERC20(data.token).transfer(msg.sender, data.amount);
+    }
+
+    function checkStatement(Attestation memory statement, bytes memory demand, bytes32 counteroffer)
+        public
+        view
+        override
+        returns (bool)
+    {
+        if (!_checkIntrinsic(statement)) {
+            return false;
+        }
+
+        StatementData memory payment = abi.decode(statement.data, (StatementData));
+        StatementData memory demandData = abi.decode(demand, (StatementData));
+
+        return payment.token == demandData.token &amp;&amp; payment.amount &gt;= demandData.amount
+            &amp;&amp; payment.arbiter == demandData.arbiter &amp;&amp; keccak256(payment.demand) == keccak256(demandData.demand);
+    }
+
+    function _isValidFulfillment(
+        Attestation memory payment,
+        Attestation memory fulfillment,
+        StatementData memory paymentData
+    ) internal view returns (bool) {
+        // Special case: If the payment references this fulfillment, consider it valid
+        if (payment.refUID == fulfillment.uid) {
+            return true;
+        }
+
+        // Regular case: check using the arbiter
+        return IArbiter(paymentData.arbiter).checkStatement(fulfillment, paymentData.demand, payment.uid);
+    }
+
+    function getSchemaAbi() public pure override returns (string memory) {
+        return SCHEMA_ABI;
+    }
+
+    function getDemandAbi() public pure override returns (string memory) {
+        return DEMAND_ABI;
+    }
+}
+
+</code></pre>
+<div style="break-before: page; page-break-before: always;"></div><h1 id="stringresultstatement"><a class="header" href="#stringresultstatement">StringResultStatement</a></h1>
+<pre><code class="language-solidity">// SPDX-License-Identifier: UNLICENSED
+pragma solidity 0.8.26;
+
+import {Attestation} from "@eas/Common.sol";
+import {IEAS, AttestationRequest, AttestationRequestData} from "@eas/IEAS.sol";
+import {ISchemaRegistry} from "@eas/ISchemaRegistry.sol";
+import {IStatement} from "./IStatement.sol";
+
+contract StringResultStatement is IStatement {
+    struct StatementData {
+        string result;
+    }
+
+    struct DemandData {
+        string query;
+    }
+
+    error InvalidResultAttestation();
+    error InvalidDemand();
+
+    string public constant SCHEMA_ABI = "string result";
+    string public constant DEMAND_ABI = "string query";
+    bool public constant IS_REVOCABLE = false;
+
+    constructor(IEAS _eas, ISchemaRegistry _schemaRegistry)
+        IStatement(_eas, _schemaRegistry, SCHEMA_ABI, IS_REVOCABLE)
+    {}
+
+    function makeStatement(StatementData calldata data, bytes32 refUID) public returns (bytes32) {
+        return eas.attest(
+            AttestationRequest({
+                schema: ATTESTATION_SCHEMA,
+                data: AttestationRequestData({
+                    recipient: msg.sender,
+                    expirationTime: 0,
+                    revocable: false,
+                    refUID: refUID,
+                    data: abi.encode(data),
+                    value: 0
+                })
+            })
+        );
+    }
+
+    function checkStatement(
+        Attestation memory statement,
+        bytes memory demand, /* (string query) */
+        bytes32 counteroffer
+    ) public view override returns (bool) {
+        if (!_checkIntrinsic(statement)) {
+            return false;
+        }
+
+        // Check if the statement is intended to fulfill the specific counteroffer
+        if (statement.refUID != bytes32(0) &amp;&amp; statement.refUID != counteroffer) {
+            return false;
+        }
+
+        StatementData memory result = abi.decode(statement.data, (StatementData));
+        DemandData memory demandData = abi.decode(demand, (DemandData));
+
+        // Only compare the length of the query and result
+        return bytes(demandData.query).length == bytes(result.result).length;
+    }
+
+    function getSchemaAbi() public pure override returns (string memory) {
+        return SCHEMA_ABI;
+    }
+
+    function getDemandAbi() public pure override returns (string memory) {
+        return DEMAND_ABI;
+    }
+}
+
+</code></pre>
+<div style="break-before: page; page-break-before: always;"></div><h1 id="multistatement"><a class="header" href="#multistatement">MultiStatement</a></h1>
+<p>coming soon</p>
+<div style="break-before: page; page-break-before: always;"></div><h1 id="optimisticstringvalidator"><a class="header" href="#optimisticstringvalidator">OptimisticStringValidator</a></h1>
+<pre><code class="language-solidity">// SPDX-License-Identifier: UNLICENSED
+pragma solidity 0.8.26;
+
+import {Attestation} from "@eas/Common.sol";
+import {
+    IEAS, AttestationRequest, AttestationRequestData, RevocationRequest, RevocationRequestData
+} from "@eas/IEAS.sol";
+import {ISchemaRegistry} from "@eas/ISchemaRegistry.sol";
+import {IArbiter} from "./IArbiter.sol";
+import {IValidator} from "./IValidator.sol";
+import {StringResultStatement} from "./StringResultStatement.sol";
+
+contract OptimisticStringValidator is IValidator {
+    struct ValidationData {
+        string query;
+        uint64 mediationPeriod;
+    }
+
+    event ValidationStarted(bytes32 indexed validationUID, bytes32 indexed resultUID, string query);
+    event MediationRequested(bytes32 indexed validationUID, bool success_);
+
+    error InvalidValidationSchema();
+    error MediationPeriodExpired();
+    error InvalidStatementSchema();
+    error StatementRevoked();
+    error QueryMismatch();
+    error MediationPeriodMismatch();
+
+    string public constant SCHEMA_ABI = "string query, uint64 mediationPeriod";
+    string public constant DEMAND_ABI = "string query, uint64 mediationPeriod";
+    bool public constant IS_REVOCABLE = true;
+
+    address public immutable BASE_STATEMENT;
+
+    constructor(IEAS _eas, ISchemaRegistry _schemaRegistry, address _baseStatement)
+        IValidator(_eas, _schemaRegistry, SCHEMA_ABI, IS_REVOCABLE)
+    {
+        BASE_STATEMENT = _baseStatement;
+    }
+
+    function startValidation(bytes32 resultUID, ValidationData calldata validationData)
+        external
+        returns (bytes32 validationUID_)
+    {
+        validationUID_ = eas.attest(
+            AttestationRequest({
+                schema: ATTESTATION_SCHEMA,
+                data: AttestationRequestData({
+                    recipient: msg.sender,
+                    expirationTime: uint64(block.timestamp) + validationData.mediationPeriod,
+                    revocable: true,
+                    refUID: resultUID,
+                    data: abi.encode(validationData),
+                    value: 0
+                })
+            })
+        );
+
+        emit ValidationStarted(validationUID_, resultUID, validationData.query);
+    }
+
+    function mediate(bytes32 validationUID) external returns (bool success_) {
+        Attestation memory validation = eas.getAttestation(validationUID);
+        if (validation.schema != ATTESTATION_SCHEMA) revert InvalidValidationSchema();
+
+        ValidationData memory data = abi.decode(validation.data, (ValidationData));
+        if (block.timestamp &gt; validation.time + data.mediationPeriod) revert MediationPeriodExpired();
+
+        Attestation memory resultAttestation = eas.getAttestation(validation.refUID);
+        StringResultStatement.StatementData memory resultData =
+            abi.decode(resultAttestation.data, (StringResultStatement.StatementData));
+        success_ = _isCapitalized(data.query, resultData.result);
+
+        if (!success_) {
+            eas.revoke(
+                RevocationRequest({
+                    schema: ATTESTATION_SCHEMA,
+                    data: RevocationRequestData({uid: validationUID, value: 0})
+                })
+            );
+        }
+
+        emit MediationRequested(validationUID, success_);
+    }
+
+    function checkStatement(Attestation memory statement, bytes memory demand, bytes32 counteroffer)
+        public
+        view
+        override
+        returns (bool)
+    {
+        if (statement.schema != ATTESTATION_SCHEMA) revert InvalidStatementSchema();
+        if (statement.revocationTime != 0) revert StatementRevoked();
+
+        ValidationData memory demandData = abi.decode(demand, (ValidationData));
+        ValidationData memory statementData = abi.decode(statement.data, (ValidationData));
+
+        if (keccak256(bytes(statementData.query)) != keccak256(bytes(demandData.query))) revert QueryMismatch();
+        if (statementData.mediationPeriod != demandData.mediationPeriod) revert MediationPeriodMismatch();
+
+        if (block.timestamp &lt;= statement.time + statementData.mediationPeriod) {
+            return false;
+        }
+
+        return IArbiter(BASE_STATEMENT).checkStatement(
+            eas.getAttestation(statement.refUID),
+            abi.encode(StringResultStatement.DemandData({query: statementData.query})),
+            counteroffer
+        );
+    }
+
+    function _isCapitalized(string memory query, string memory result) internal pure returns (bool) {
+        bytes memory queryBytes = bytes(query);
+        bytes memory resultBytes = bytes(result);
+
+        if (queryBytes.length != resultBytes.length) {
+            return false;
+        }
+
+        for (uint256 i = 0; i &lt; queryBytes.length; i++) {
+            if (queryBytes[i] &gt;= 0x61 &amp;&amp; queryBytes[i] &lt;= 0x7A) {
+                // If lowercase, it should be capitalized in the result
+                if (uint8(resultBytes[i]) != uint8(queryBytes[i]) - 32) {
+                    return false;
+                }
+            } else {
+                // If not lowercase, it should remain the same
+                if (resultBytes[i] != queryBytes[i]) {
+                    return false;
+                }
+            }
+        }
+
+        return true;
+    }
+
+    function getSchemaAbi() public pure override returns (string memory) {
+        return SCHEMA_ABI;
+    }
+
+    function getDemandAbi() public pure override returns (string memory) {
+        return DEMAND_ABI;
+    }
+}
+
+</code></pre>
+<div style="break-before: page; page-break-before: always;"></div><h1 id="multivalidation"><a class="header" href="#multivalidation">MultiValidation</a></h1>
+<p>coming soon</p>
+
+                    </main>
+
+                    <nav class="nav-wrapper" aria-label="Page navigation">
+                        <!-- Mobile navigation buttons -->
+
+
+                        <div style="clear: both"></div>
+                    </nav>
+                </div>
+            </div>
+
+            <nav class="nav-wide-wrapper" aria-label="Page navigation">
+
+            </nav>
+
+        </div>
+
+
+
+
+        <script>
+            window.playground_copyable = true;
+        </script>
+
+
+        <script src="elasticlunr.min.js"></script>
+        <script src="mark.min.js"></script>
+        <script src="searcher.js"></script>
+
+        <script src="clipboard.min.js"></script>
+        <script src="highlight.js"></script>
+        <script src="book.js"></script>
+
+        <!-- Custom JS scripts -->
+
+        <script>
+        window.addEventListener('load', function() {
+            MathJax.Hub.Register.StartupHook('End', function() {
+                window.setTimeout(window.print, 100);
+            });
+        });
+        </script>
+
+    </div>
+    </body>
+</html>
