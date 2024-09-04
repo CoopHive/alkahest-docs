@@ -1,3 +1,3 @@
 # MultiStatement
 
-not yet implemented
+coming soon
