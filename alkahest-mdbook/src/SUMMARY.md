@@ -32,3 +32,4 @@
 		- [Validations]()
 			- [MultiValidation](./Implementations/Exchange/Validations/MultiValidation.md)
 			- [OptimisticStringValidator](./Implementations/Exchange/Validations/OptimisticStringValidator.md)
+- [Introduction]()
