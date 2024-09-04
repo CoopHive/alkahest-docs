@@ -1,3 +1,5 @@
+# Compute Marketplace
+
 In this section we demonstrate a possible use of **schemes** and **agents** by building a compute marketplace where users' hardware is associated with Agents autonomously negotiating and scheduling compute tasks. 
 
 In this marketplace, each agent embodies a node that can accept or reject compute jobs based on a defined policy. The fundamental structure of the main modules and their interfaces are constrained, but the actual contents of schemes and agents depend on the specificities of the marketplace and user design choices. In this tutorial, we provide an architecture for the internal logic of an agent.

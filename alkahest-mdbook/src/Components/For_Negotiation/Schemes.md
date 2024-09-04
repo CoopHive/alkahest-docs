@@ -1,3 +1,5 @@
+# Schemes
+
 A **scheme** is a definition of a negotiation game in which [Agents](Agents.md) notify each other of their intents and actions via a sequence of messages. Schemes are defined according to a set of typed messages communicated via [pubsub](https://en.wikipedia.org/wiki/Publish–subscribe_pattern) channels, and a set of rules that define:
 
 - what messages are valid (either mandatory or optional) responses from what kinds of agents, under what contexts;
