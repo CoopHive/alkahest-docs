@@ -1,6 +1,7 @@
 # Summary
 
 - [Alkahest](./Alkahest.md)
+- [Introduction](./Introduction.md)
 - [Asides](./Asides.md)
 - [Components]()
 	- [For Exchange](./Components/For_Exchange.md)
@@ -22,6 +23,7 @@
 		- [Compute Marketplace](./Examples/Negotiation/Compute_Marketplace.md)
 - [Implementations]()
 	- [Exchange]()
+		- [Agreements]()
 		- [IArbiter](./Implementations/Exchange/IArbiter.md)
 		- [IStatement](./Implementations/Exchange/IStatement.md)
 		- [IValidator](./Implementations/Exchange/IValidator.md)
@@ -32,5 +34,8 @@
 		- [Validations]()
 			- [MultiValidation](./Implementations/Exchange/Validations/MultiValidation.md)
 			- [OptimisticStringValidator](./Implementations/Exchange/Validations/OptimisticStringValidator.md)
-- [Introduction](./Introduction.md)
+	- [Negotiation]()
+		- [Markets]()
+		- [Schemes]()
+		- [Strategies]()
 - [Whitepaper](./Whitepaper.md)
