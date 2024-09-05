@@ -1,6 +1,6 @@
 # Schemes
 
-A **scheme** is a definition of a negotiation game in which [[Agents]] notify each other of their intents and actions via a sequence of messages. Schemes are defined according to a set of typed messages communicated via [pubsub](https://en.wikipedia.org/wiki/Publish–subscribe_pattern) channels, and a set of rules that define:
+A **scheme** is a definition of a negotiation game in which [Agents](Agents.md) notify each other of their intents and actions via a sequence of messages. Schemes are defined according to a set of typed messages communicated via [pubsub](https://en.wikipedia.org/wiki/Publish–subscribe_pattern) channels, and a set of rules that define:
 
 - what messages are valid (either mandatory or optional) responses from what kinds of agents, under what contexts;
 - what real-world (i.e. out-of-band) state particular messages represent, and what kinds of checks are available to agents to verify messages that represent out-of-band facts;
@@ -23,4 +23,4 @@ Messages within a topic have guaranteed order between agents, while messages acr
 
 A scheme is responsible for defining not just a set of typed messages, but a protocol in which they communicate intent and action in a negotiation process. This protocol can be interpreted as a state machine or a multi-agent game. As a state machine, the scheme rules define its complete evolution. As a game, the scheme rules define the valid action space for each agent, conditioned on the scheme state.
 
-Scheme rules can be seen a constraint on the [[Agents]] policy function `(message, context) => message`, defining what messages are valid in response to what messages in what contexts. It's also the scheme's responsibility to describe what out-of-band actions agents are responsible for realizing to maintain the correspondence between the scheme and the real-world process it's intended to represent.
+Scheme rules can be seen a constraint on the [Agents](Agents.md) policy function `(message, context) => message`, defining what messages are valid in response to what messages in what contexts. It's also the scheme's responsibility to describe what out-of-band actions agents are responsible for realizing to maintain the correspondence between the scheme and the real-world process it's intended to represent.

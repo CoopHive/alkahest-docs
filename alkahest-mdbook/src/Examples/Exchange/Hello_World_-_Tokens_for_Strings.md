@@ -5,7 +5,7 @@ Let's demonstrate the use of **statements** and **validations** by building an e
 The components we implement along the way will also allow paying for any other task in ERC20 tokens, or selling on-chain validated string capitalizations for anything else, only requiring an implementation of the relevant counterparty component. The example optimistic mediation validator should also be extensible to support verification of much more complex tasks.
 ## Paying Tokens
 
-[[Statements]] represent a party's fulfillment of one side of an agreement. The most basic exchange requires just two statements - one for the ask and one for the bid. We'll implement this first, then modify the implementation to support a pluggable validator contract.
+[Statements](../../Components/For_Exchange/Statements.md) represent a party's fulfillment of one side of an agreement. The most basic exchange requires just two statements - one for the ask and one for the bid. We'll implement this first, then modify the implementation to support a pluggable validator contract.
 
 Statements have three main parts - an initialization function, inherent validity checks, and term finalization functions. The initialization function is called by the party offering what the statement represents, and performs all on-chain actions necessary to enact its finalization terms, as well as for any relevant validators to validate the statement. Finalization functions represent individual conditions of an agreement, and can be called by the agreement counterparty, passing in the host contract statement and a statement or validation representing their side of the deal. Checks are what finalization functions use to parametrically assess validity of other statements. Let's make this clearer with an example.
 
@@ -64,11 +64,11 @@ contract ERC20PaymentStatement is IStatement {
 
 Let's walk through it part by part.
 
-`struct StatementData` is the data specific to each statement made from this contract. In this case, each statement represents depositing an `amount` of an arbitrary ERC20 `token`, specified by its contract address. `arbiter` and `demand` together represent what's demanded from the counterparty to collect payment, which we'll explain in more detail when implementing the `checkStatement` function required by [[IArbiter]]. `arbiter` is the contract whose implementation of `checkStatement` we accept as a source of truth on counterparty validity, and `demand` is passed into `IArbiter(arbiter).checkStatement` to allow parametrized demands.
+`struct StatementData` is the data specific to each statement made from this contract. In this case, each statement represents depositing an `amount` of an arbitrary ERC20 `token`, specified by its contract address. `arbiter` and `demand` together represent what's demanded from the counterparty to collect payment, which we'll explain in more detail when implementing the `checkStatement` function required by [IArbiter](../../Implementations/Exchange/IArbiter.md). `arbiter` is the contract whose implementation of `checkStatement` we accept as a source of truth on counterparty validity, and `demand` is passed into `IArbiter(arbiter).checkStatement` to allow parametrized demands.
 
-`SCHEMA_ABI` is the ABI form of `StatementData`, and is returned from `getSchemaAbi`, which is a virtual function defined in [[IStatement]]. `SCHEMA_ABI` and `StatementData` themselves aren't actually part of [[IStatement]], but `getSchemaAbi` must return the statement data ABI as a string, because the EAS attestations that statement contracts produce will encode the data as bytes, which other contracts will sometimes want to decode.
+`SCHEMA_ABI` is the ABI form of `StatementData`, and is returned from `getSchemaAbi`, which is a virtual function defined in [IStatement](../../Implementations/Exchange/IStatement.md). `SCHEMA_ABI` and `StatementData` themselves aren't actually part of [IStatement](../../Implementations/Exchange/IStatement.md), but `getSchemaAbi` must return the statement data ABI as a string, because the EAS attestations that statement contracts produce will encode the data as bytes, which other contracts will sometimes want to decode.
 
-The `constructor` is just a call to [[IStatement]]'s constructor with specialized parameters. It registers the statement schema with EAS and sets the schema UID as a public parameter on the contract called `ATTESTATION_SCHEMA`. EAS schemas specify if attestations are revokable or not, and in this case, they are, with revocation meaning the cancelation of an unfinished deal.
+The `constructor` is just a call to [IStatement](../../Implementations/Exchange/IStatement.md)'s constructor with specialized parameters. It registers the statement schema with EAS and sets the schema UID as a public parameter on the contract called `ATTESTATION_SCHEMA`. EAS schemas specify if attestations are revokable or not, and in this case, they are, with revocation meaning the cancelation of an unfinished deal.
 
 `makeStatement` is the statement's initialization function. Callers specify a token and amount, a demand for the counterparty, optionally an expiration time (0 if none), and optionally a refUID if the statement is fulfilling the demand of another specific existing statement. The function transfers the specified amount of the specified token from the caller to the contract, produces an on-chain attestation with EAS containing the `StatementData` passed in, and returns the bytes32 UID of the attestation.
 ### Checks
@@ -795,8 +795,8 @@ The flexibility of this system allows for a wide range of validation strategies 
 By separating validators from base statements, we've created a modular and extensible system that can adapt to various validation needs while keeping the core exchange logic simple and consistent.
 
 See the final contracts at
-- [[IArbiter]]
-- [[IStatement]]
-- [[ERC20PaymentStatement]]
-- [[StringResultStatement]]
-- [[OptimisticStringValidator]]
+- [IArbiter](../../Implementations/Exchange/IArbiter.md)
+- [IStatement](../../Implementations/Exchange/IStatement.md)
+- [ERC20PaymentStatement](../../Implementations/Exchange/Statements/ERC20PaymentStatement.md)
+- [StringResultStatement](../../Implementations/Exchange/Statements/StringResultStatement.md)
+- [OptimisticStringValidator](../../Implementations/Exchange/Validations/OptimisticStringValidator.md)

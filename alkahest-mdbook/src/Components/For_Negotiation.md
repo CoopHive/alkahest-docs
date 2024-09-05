@@ -6,7 +6,7 @@ The **negotiation** framework is defined for validatable, terminable tasks with 
 
 ## Schemes
 
-[[Schemes]] define the structured interaction framework between [[Agents]]. They consist of a set of messages and rules that dictate how agents can interact with each other and participate in negotiations. The schemes outline the negotiation protocol, ensuring that all agents operate under the same set of rules, fostering a standardized and trustless environment for task negotiation and execution.
+[Schemes](For_Negotiation/Schemes.md) define the structured interaction framework between [Agents](For_Negotiation/Agents.md). They consist of a set of messages and rules that dictate how agents can interact with each other and participate in negotiations. The schemes outline the negotiation protocol, ensuring that all agents operate under the same set of rules, fostering a standardized and trustless environment for task negotiation and execution.
 
 ## Agents
 

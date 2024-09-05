@@ -4,12 +4,12 @@ We take the **peer-to-peer agreement** as the basic unit of exchange, where part
 
 **Statements** can be tested by reusable and modular **validators**, which produce **validation** attestations that deal parties can use in smart contracts to trustlessly finalize on-chain actions (e.g. payment) if and only if the counterparty fulfills their part of the agreement.
 
-![[Pasted image 20240902222721.png]]
+![Pasted image 20240902222721.png](../Pasted_image_20240902222721.png)
 ## Statements
 
-[[Statements]] represent the fulfillment of a party's obligation in an **agreement**. 
+[Statements](For_Exchange/Statements.md) represent the fulfillment of a party's obligation in an **agreement**. 
 
-For example, the sample [[ERC20PaymentStatement]] is an EAS resolver contract with a function
+For example, the sample [ERC20PaymentStatement](../Implementations/Exchange/Statements/ERC20PaymentStatement.md) is an EAS resolver contract with a function
 ```solidity
     struct StatementData {
         address token;
@@ -25,9 +25,9 @@ requiring the attester to deposit an amount of an ERC20 token, and producing an 
  Statements can directly [reference](https://docs.attest.org/docs/tutorials/referenced-attestations) other statement attestations and interact with other statement contracts, sometimes enabling complete negotiation flows even without dedicated **agreement** contracts or **validators**.
 ## Validations
 
-[[Validations]] represent properties of **statements** which are difficult to determine or cannot be determined via their raw data, and are often produced by third parties. They can be used for conditional finalization of terms in **agreements**.
+[Validations](For_Exchange/Validations.md) represent properties of **statements** which are difficult to determine or cannot be determined via their raw data, and are often produced by third parties. They can be used for conditional finalization of terms in **agreements**.
 
-For example, the sample [[OptimisticStringValidator]] for [[StringResultStatement]] statements has a function 
+For example, the sample [OptimisticStringValidator](../Implementations/Exchange/Validations/OptimisticStringValidator.md) for [StringResultStatement](../Implementations/Exchange/Statements/StringResultStatement.md) statements has a function 
 ```solidity
 	struct ValidationData {
         string query;
@@ -38,9 +38,9 @@ For example, the sample [[OptimisticStringValidator]] for [[StringResultStatemen
 ```
 which produces an attestation [referencing](https://docs.attest.org/docs/tutorials/referenced-attestations) the specified statement after a certain amount of time unless the counterparty calls `mediate(bytes32 validationUID)`. If the counterparty requests mediation, a trusted oracle retries the job and produces the requested attestation only if it gets the same result as specified in the original statement.
 
-If specified as the `arbiter` in an [[ERC20PaymentStatement]], the attestation from [[OptimisticStringValidator]] can be passed into `collectPayment` to claim payment for agreements. In this case, `collectPayment` should be extended to check if each validation's underlying [[StringResultStatement]] actually fulfills the specified payment via the `job` and `counterparty` fields of the statement's attestation schema.
+If specified as the `arbiter` in an [ERC20PaymentStatement](../Implementations/Exchange/Statements/ERC20PaymentStatement.md), the attestation from [OptimisticStringValidator](../Implementations/Exchange/Validations/OptimisticStringValidator.md) can be passed into `collectPayment` to claim payment for agreements. In this case, `collectPayment` should be extended to check if each validation's underlying [StringResultStatement](../Implementations/Exchange/Statements/StringResultStatement.md) actually fulfills the specified payment via the `job` and `counterparty` fields of the statement's attestation schema.
 ## Agreements
 
-How does the buy-side in our example so far know when it should request mediation? It could listen to events from the [[OptimisticStringValidator]] it specified, filtering by those referring to **statements** it made, and requesting mediation on unsatisfactory results. Indeed, in many cases, [[Agreements]] can be an informal concept enacted through interactions with other contracts. 
+How does the buy-side in our example so far know when it should request mediation? It could listen to events from the [OptimisticStringValidator](../Implementations/Exchange/Validations/OptimisticStringValidator.md) it specified, filtering by those referring to **statements** it made, and requesting mediation on unsatisfactory results. Indeed, in many cases, [Agreements](For_Exchange/Agreements.md) can be an informal concept enacted through interactions with other contracts. 
 
 However, more complex negotiations may sometimes require dedicated contracts to manage the relationship between **statements** and **validations**. One use for agreement contracts is as a component of multi-step processes consisting of several atomic **agreement steps**.
