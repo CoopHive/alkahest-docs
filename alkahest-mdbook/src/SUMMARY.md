@@ -1,6 +1,7 @@
 # Summary
 
 - [Alkahest](./Alkahest.md)
+- [Introduction](./Introduction.md)
 - [Asides](./Asides.md)
 - [Components]()
 	- [For Exchange](./Components/For_Exchange.md)
@@ -37,5 +38,4 @@
 		- [Markets]()
 		- [Schemes]()
 		- [Strategies]()
-- [Introduction](./Introduction.md)
 - [Whitepaper](./Whitepaper.md)
