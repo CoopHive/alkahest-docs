@@ -64,11 +64,11 @@ contract ERC20PaymentStatement is IStatement {
 
 Let's walk through it part by part.
 
-`struct StatementData` is the data specific to each statement made from this contract. In this case, each statement represents depositing an `amount` of an arbitrary ERC20 `token`, specified by its contract address. `arbiter` and `demand` together represent what's demanded from the counterparty to collect payment, which we'll explain in more detail when implementing the `checkStatement` function required by [IArbiter](../../Implementations/Exchange/IArbiter.md). `arbiter` is the contract whose implementation of `checkStatement` we accept as a source of truth on counterparty validity, and `demand` is passed into `IArbiter(arbiter).checkStatement` to allow parametrized demands.
+`struct StatementData` is the data specific to each statement made from this contract. In this case, each statement represents depositing an `amount` of an arbitrary ERC20 `token`, specified by its contract address. `arbiter` and `demand` together represent what's demanded from the counterparty to collect payment, which we'll explain in more detail when implementing the `checkStatement` function required by [[IArbiter]]. `arbiter` is the contract whose implementation of `checkStatement` we accept as a source of truth on counterparty validity, and `demand` is passed into `IArbiter(arbiter).checkStatement` to allow parametrized demands.
 
-`SCHEMA_ABI` is the ABI form of `StatementData`, and is returned from `getSchemaAbi`, which is a virtual function defined in [IStatement](../../Implementations/Exchange/IStatement.md). `SCHEMA_ABI` and `StatementData` themselves aren't actually part of [IStatement](../../Implementations/Exchange/IStatement.md), but `getSchemaAbi` must return the statement data ABI as a string, because the EAS attestations that statement contracts produce will encode the data as bytes, which other contracts will sometimes want to decode.
+`SCHEMA_ABI` is the ABI form of `StatementData`, and is returned from `getSchemaAbi`, which is a virtual function defined in [[IStatement]]. `SCHEMA_ABI` and `StatementData` themselves aren't actually part of [[IStatement]], but `getSchemaAbi` must return the statement data ABI as a string, because the EAS attestations that statement contracts produce will encode the data as bytes, which other contracts will sometimes want to decode.
 
-The `constructor` is just a call to [IStatement](../../Implementations/Exchange/IStatement.md)'s constructor with specialized parameters. It registers the statement schema with EAS and sets the schema UID as a public parameter on the contract called `ATTESTATION_SCHEMA`. EAS schemas specify if attestations are revokable or not, and in this case, they are, with revocation meaning the cancelation of an unfinished deal.
+The `constructor` is just a call to [[IStatement]]'s constructor with specialized parameters. It registers the statement schema with EAS and sets the schema UID as a public parameter on the contract called `ATTESTATION_SCHEMA`. EAS schemas specify if attestations are revokable or not, and in this case, they are, with revocation meaning the cancelation of an unfinished deal.
 
 `makeStatement` is the statement's initialization function. Callers specify a token and amount, a demand for the counterparty, optionally an expiration time (0 if none), and optionally a refUID if the statement is fulfilling the demand of another specific existing statement. The function transfers the specified amount of the specified token from the caller to the contract, produces an on-chain attestation with EAS containing the `StatementData` passed in, and returns the bytes32 UID of the attestation.
 ### Checks
@@ -176,7 +176,8 @@ We add the three errors `InvalidPaymentAttestation`, `InvalidFulfillment`, and `
 
 For cases where the seller's obligation can be finalized on-chain in one block, including this example, this can be mitigated by bundling sell-side statement creation and payment collection into a single transaction, but for more complex exchanges, a more robust protection and collateral system is recommended.
 
-See the final contract at [[Implementations/Exchange/Statements/ERC20PaymentStatement|ERC20PaymentStatement]].
+See the final contract at [ERC20PaymentStatement](https://github.com/CoopHive/alkahest-mocks/blob/976505480f59390e96189cb0781468b2769c64a2/src/Statements/ERC20PaymentStatement.sol).
+
 ## Submitting Strings
 
 To complement our ERC20 payment statement, we'll implement a statement contract for submitting string results. This will allow sellers to provide uppercased strings in response to buyers' queries. The string result statement will be non-revocable and non-expiring, as the result, once recorded on-chain, is available indefinitely.
@@ -297,14 +298,13 @@ contract StringResultStatement is IStatement {
 3. The submitted result is the correctly capitalized version of the query.
 
 The `_isCapitalized` function performs a character-by-character comparison to ensure the result is the correctly capitalized version of the query. We use explicit type coercion to `uint8` when comparing character values to ensure correct arithmetic operations.
-
 ### Finalization
 
 As before, the string result statement doesn't require a separate finalization step. Once a statement is created, it's immediately available for validation and use by counterparties. The non-revocable and non-expiring nature of these statements means that they persist indefinitely on-chain.
 
 This simplified implementation of `StringResultStatement` complements the `ERC20PaymentStatement`, allowing for a straightforward exchange system where users can pay in ERC20 tokens for uppercased strings. In the next section on validation, we'll modify this implementation to perform a simpler check (like comparing string lengths) and defer the full capitalization check to an external validator.
 
-See the final contract at [[Implementations/Exchange/Statements/StringResultStatement|StringResultStatement]] (\*note that we modify `checkStatement` later in this tutorial, when adding an external validator to the system).
+See the final contract at [StringResultStatement](https://github.com/CoopHive/alkahest-mocks/blob/976505480f59390e96189cb0781468b2769c64a2/src/Statements/StringResultStatement.sol) (\*note that we modify `checkStatement` later in this tutorial, when adding an external validator to the system).
 ## In Practice (Solidity)
 
 Let's walk through a practical example of how users would interact with the `ERC20PaymentStatement` and `StringResultStatement` contracts to facilitate a trade of ERC20 tokens for an uppercased string.
@@ -314,7 +314,7 @@ Let's walk through a practical example of how users would interact with the `ER
 1. The buyer (Alice) wants to pay 10 USDC for the uppercased version of the string "hello world".
 2. Alice creates an ERC20 payment statement:
 
-```
+```solidity
 ERC20PaymentStatement.StatementData memory paymentData = ERC20PaymentStatement.StatementData({
     token: address(USDC),
     amount: 10 * 10**6, // Assuming 6 decimal places for USDC
@@ -795,8 +795,8 @@ The flexibility of this system allows for a wide range of validation strategies 
 By separating validators from base statements, we've created a modular and extensible system that can adapt to various validation needs while keeping the core exchange logic simple and consistent.
 
 See the final contracts at
-- [IArbiter](../../Implementations/Exchange/IArbiter.md)
-- [IStatement](../../Implementations/Exchange/IStatement.md)
-- [ERC20PaymentStatement](../../Implementations/Exchange/Statements/ERC20PaymentStatement.md)
-- [StringResultStatement](../../Implementations/Exchange/Statements/StringResultStatement.md)
-- [OptimisticStringValidator](../../Implementations/Exchange/Validations/OptimisticStringValidator.md)
+- [[IArbiter]]
+- [[IStatement]]
+- [[ERC20PaymentStatement]]
+- [[StringResultStatement]]
+- [[OptimisticStringValidator]]

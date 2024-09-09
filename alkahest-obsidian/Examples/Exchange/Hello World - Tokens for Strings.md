@@ -174,7 +174,8 @@ We add the three errors `InvalidPaymentAttestation`, `InvalidFulfillment`, and `
 
 For cases where the seller's obligation can be finalized on-chain in one block, including this example, this can be mitigated by bundling sell-side statement creation and payment collection into a single transaction, but for more complex exchanges, a more robust protection and collateral system is recommended.
 
-See the final contract at [[Implementations/Exchange/Statements/ERC20PaymentStatement|ERC20PaymentStatement]].
+See the final contract at [ERC20PaymentStatement](https://github.com/CoopHive/alkahest-mocks/blob/976505480f59390e96189cb0781468b2769c64a2/src/Statements/ERC20PaymentStatement.sol).
+
 ## Submitting Strings
 
 To complement our ERC20 payment statement, we'll implement a statement contract for submitting string results. This will allow sellers to provide uppercased strings in response to buyers' queries. The string result statement will be non-revocable and non-expiring, as the result, once recorded on-chain, is available indefinitely.
@@ -295,14 +296,13 @@ contract StringResultStatement is IStatement {
 3. The submitted result is the correctly capitalized version of the query.
 
 The `_isCapitalized` function performs a character-by-character comparison to ensure the result is the correctly capitalized version of the query. We use explicit type coercion to `uint8` when comparing character values to ensure correct arithmetic operations.
-
 ### Finalization
 
 As before, the string result statement doesn't require a separate finalization step. Once a statement is created, it's immediately available for validation and use by counterparties. The non-revocable and non-expiring nature of these statements means that they persist indefinitely on-chain.
 
 This simplified implementation of `StringResultStatement` complements the `ERC20PaymentStatement`, allowing for a straightforward exchange system where users can pay in ERC20 tokens for uppercased strings. In the next section on validation, we'll modify this implementation to perform a simpler check (like comparing string lengths) and defer the full capitalization check to an external validator.
 
-See the final contract at [[Implementations/Exchange/Statements/StringResultStatement|StringResultStatement]] (\*note that we modify `checkStatement` later in this tutorial, when adding an external validator to the system).
+See the final contract at [StringResultStatement](https://github.com/CoopHive/alkahest-mocks/blob/976505480f59390e96189cb0781468b2769c64a2/src/Statements/StringResultStatement.sol) (\*note that we modify `checkStatement` later in this tutorial, when adding an external validator to the system).
 ## In Practice (Solidity)
 
 Let's walk through a practical example of how users would interact with the `ERC20PaymentStatement` and `StringResultStatement` contracts to facilitate a trade of ERC20 tokens for an uppercased string.
@@ -312,7 +312,7 @@ Let's walk through a practical example of how users would interact with the `ER
 1. The buyer (Alice) wants to pay 10 USDC for the uppercased version of the string "hello world".
 2. Alice creates an ERC20 payment statement:
 
-```
+```solidity
 ERC20PaymentStatement.StatementData memory paymentData = ERC20PaymentStatement.StatementData({
     token: address(USDC),
     amount: 10 * 10**6, // Assuming 6 decimal places for USDC

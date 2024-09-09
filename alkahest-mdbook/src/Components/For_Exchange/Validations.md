@@ -10,14 +10,14 @@ Validation requests don't have a consistent abstract interface, because they can
 
 ## Checks
 
-Validators implement [IArbiter](../../Implementations/Exchange/IArbiter.md), and their implementation of `checkStatement(Attestation memory statement, bytes memory demand, bytes32 counteroffer)` should be interpreted as checking a validation according to parametrized demands. The `counteroffer` UID is explicitly passed in because a demand is often specified in a counteroffer attestation, but it's impossible to know the UID of an attestation before it's created. 
+Validators implement [[IArbiter]], and their implementation of `checkStatement(Attestation memory statement, bytes memory demand, bytes32 counteroffer)` should be interpreted as checking a validation according to parametrized demands. The `counteroffer` UID is explicitly passed in because a demand is often specified in a counteroffer attestation, but it's impossible to know the UID of an attestation before it's created. 
 
 It's good practice to call `IArbiter(statement).checkStatement` inside a statement validator's implementation of `checkStatement`, so that [Statements](Statements.md) can specify a single arbiter as the source of truth inside finalization clauses.
 ## Emission
 
-Often, validations must be produced asynchronously via a function call by an off-chain oracle or another contract. One way to implement this, as demonstrated in [OptimisticStringValidator](../../Implementations/Exchange/Validations/OptimisticStringValidator.md), is optimistic mediation, where `checkStatement` is implemented to return valid after a given mediation period unless mediation is requested, in which case the validation attestation is revoked if it's invalid.
+Often, validations must be produced asynchronously via a function call by an off-chain oracle or another contract. One way to implement this, as demonstrated in [[OptimisticStringValidator]], is optimistic mediation, where `checkStatement` is implemented to return valid after a given mediation period unless mediation is requested, in which case the validation attestation is revoked if it's invalid.
 
-Another way is to produce the attestation asynchronously, only after validation actually happens. An event should be emitted when validations are produced if this architecture is used, but the event is not defined in [IValidator](../../Implementations/Exchange/IValidator.md) (\*subject to change), because architectural details vary too much per validation scheme.
+Another way is to produce the attestation asynchronously, only after validation actually happens. An event should be emitted when validations are produced if this architecture is used, but the event is not defined in [[IValidator]] (\*subject to change), because architectural details vary too much per validation scheme.
 
 ## Examples
 - Oracle-based validators can have off-chain entities produce a validation attestation on request. E.g., to retry a deterministic compute job and verify its correctness
