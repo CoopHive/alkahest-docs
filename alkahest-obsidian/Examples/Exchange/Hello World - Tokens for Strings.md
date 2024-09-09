@@ -338,7 +338,7 @@ StringResultStatement.StatementData memory resultData = StringResultStatement.St
 bytes32 resultUID = stringResultStatement.makeStatement(resultData, paymentUID);
 ```
 
-This creates an on-chain attestation representing Bob's fulfillment of Alice's request. Note that the `refUID` is set to `paymentUID`, linking this result to Alice's specific payment offer.
+This creates an on-chain attestation representing Bob's fulfillment of Alice's request. Note that the `refUID` (the second parameter of `makeStatement`) is set to `paymentUID`, linking this result to Alice's specific payment offer.
 
 ### Completing the Exchange
 

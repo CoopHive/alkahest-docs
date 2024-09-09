@@ -1,21 +1,47 @@
 # Introduction
 
-CoopHive is building peer-to-peer bartering systems where autonomous agents can exchange bundles of assets with each other. The protocol is based on three primitives: the exchange of bundles of assets, a series of credible commitments, and agent-to-agent negotiation. These primitives enable a wide range of use cases, the most salient of which at the current moment is the creation and composition of different kinds of decentralized marketplaces, like compute, storage, data, bandwidth, energy, and so on.
+### **Introduction**
 
-# Exchange of bundle of assets
+CoopHive is pioneering generic marketplaces built on three fundamental primitives: the exchange of bundles of assets, a series of credible commitments, and agent-to-agent negotiation. These primitives serve as the cornerstone for creating a diversity of decentralized marketplaces, including for compute, storage, data, bandwidth, and energy. Understanding the motivation behind these choices and how they were carefully selected is valuable for understanding the evolutionary path CoopHive has taken.
 
-Most economic exchange, whether with digital currencies or otherwise, is done via a pairwise transfer of individual goods. However, there is a robust, untapped game theory literature on the exchange of bundles of assets. Exchanging bundles of assets increases the dimensionality of potential exchanges, and increases the welfare of the participants involved. 
 
-# Series of credible commitments
+### **Motivation**
 
-Most economic exchange throughout history occurs either between two actors directly, or via an intermediary that acts as a trusted third party. In the latter case, the intermediary will usually hold assets in escrow until they are released based on the terms of the deal. With blockchains, it is possible to create credible commitments on-chain. A credible commitment is simply that – a commitment (e.g. to do some computation, to pay some entity assuming some qualifier is met) that is credible (which is facilitated by smart contracts). With blockchains, each party can make a claim about what it will do, and at every milestone in the lifecycle of the deal, the assets deposited in escrow can move. This collateralization process can be used to model many different kinds of marketplaces.
+The original goal was to design a distributed computing network (DCN) with optimistic verification of compute results, where they are assumed correct unless contested. Based on an improvement of prior research, we settled on a sequence of deals, results, and (optional) mediations on-chain. Each element of the sequence consists of an IPFS CID plus necessary on-chain data, minimizing the amount of data on-chain by having pointers to (almost) arbitrarily large data off-chain.
 
-# Agent-to-agent negotiation
+To accommodate various verifiable computing methods, CoopHive introduced pluggable mediation protocols, allowing participants in the network to select their preferred verification strategies. The protocol’s market-making was initially managed by a solver, which matched job offers with resource availability via an off-chain orderbook. Payments were facilitated through a single ERC20 token.
 
-Web-based commerce that augments human-to-human interactions necessitates a message-passing system that enables agents to make direct exchanges with each other. Once message-passing is in place, the agents can also negotiate over the terms of the deal. In most game theory literature, agents are assumed to be utility-maximizing; they aim to maximize some metric (called their utility) with their behavior (like bidding on an item that it wants to purchase). This notion of utility-maximization is at the core of agent-to-agent negotiation, and uses the other two primitives to accomplish its larger goals. 
 
-# All together
+### **Problems**
 
-These three primitives together form the basis of multi-agent systems. With them, a wide variety of marketplaces can be implemented.
+While the initial design had its merits, several challenges emerged:
 
-For more information, please see CoopHive's whitepaper.
+1. **Single Token Limitation:** The reliance on a single ERC20 token for payments proved restrictive, as it hampered adoption by limiting the flexibility of payment options.
+
+2. **Decision-Making Process:** It became unclear how agents would effectively accept or reject deals proposed by the solver, highlighting the need for a more structured decision-making process.
+
+3. **Modular Lifecycle Necessity:** The challenges associated with implementing optimistic verification underscored the need for a more modular job lifecycle, where various types of collateral could be added to any part of the job lifecycle.
+
+To learn more about the motivation and problems, see the [first version of the whitepaper](https://docs.co-ophive.network/coophive/whitepaper), the [documentation on verifiable computing](https://docs.co-ophive.network/research/game-theoretic-verifiable-computing/writings), and the [corresponding codebase](https://github.com/CoopHive/coophive-v1-deprecated).
+
+
+### **Solutions**
+
+To address these challenges, CoopHive decided to evolve its protocol in the following ways:
+
+- **Expanded Payment Options:** Rather than paying in a single ERC20 token, it made sense to allow paying in any token, to incentivize networks that already have their own tokens to use the protocol. Supporting any ERC20 logically led to supporting any token standard (ERC721, ERC1155, ERC6909), allowed for the representation and exchange of nearly any object or asset, including items from Web2 marketplaces like eBay or Amazon, real-world assets, and even energy credits.
+
+- **Bundles of Assets:** The capability to handle payments in any token standard naturally expanded to include the exchange of bundles of tokens. This improvement unlocks numerous use cases, enabling drawing inspiration from decades of game theory research in the exchange of bundles of assets, which provides further utility to protocol participants.
+
+- **Utility Maximization:** The question of whether to accept or reject a deal was cast in terms of utility maximization, a core concept in game theory. This in turn allowed reframing the problem in terms of traditional scheduling problems and peer-to-peer negotiation, providing a more rational basis for decision-making.
+
+- **Verifiable Computing and Collateralization:** The problem of verifiable computing was also revisited through the lens of utility maximization. Since most verifiable computing strategies require collateral from at least one involved party (at least when computations are being checked by a mediator/validator), this reframing helped position protocol actors as rational, self-interested parties that cheat and/or collude if they believe it would benefit them. After training agents to maximize their utilities, we can then plug in anti-cheating mechanisms in a modular manner to see their impact on individual agents, and the network as a whole.
+
+- **Modular Commitments:** As described above, the need to prevent cheating within the network led to the development of a modular system for making different types of commitments. In this system, collateral is placed in escrow, and depending on the outcome of some process (e.g. a transaction, computation, off-chain oracle, etc.), the collateral may be retained, or released to one of the parties. This approach also integrates well with the exchange of different types and bundles of assets, enabling the modeling of various kinds of marketplaces beyond just computing.
+
+- **Autonomous Agent Interaction:** Since these marketplaces are designed for interaction by autonomous agents, particularly for pricing and scheduling in the computing context, the modular series of credible commitments allows agents to make and enforce commitments to each other (and themselves) programmatically. Agent-to-agent negotiation, a key primitive in multi-agent systems, is facilitated by this structure. From this new perspective, solvers-as-market-makers should emerge organically from scalability needs, rather than imposed on protocol agents from the outset.
+
+
+### **Conclusion**
+
+This represents one of the first attempts to put these primitives into practice. As it evolves, market feedback will play a crucial role in identifying the strengths and weaknesses of each iteration. By remaining adaptable and responsive to real-world usage, we aim to refine and optimize the protocol, driving the development of generic, machine-actionable marketplaces.
