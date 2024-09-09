@@ -19,7 +19,9 @@ jobs:
         run: cargo install mdbook --no-default-features --features search --vers "^0.4" --locked
 
       - name: Build the book
-        run: mdbook build ./alkahest-mdbook
+        run: |
+          mdbook build ./alkahest-mdbook
+          cp ./theme/highlight.js ./alkahest-mdbook/book/highlight.js
 
       - name: Deploy to GitHub Pages
         uses: peaceiris/actions-gh-pages@v3
