@@ -174,7 +174,7 @@ We add the three errors `InvalidPaymentAttestation`, `InvalidFulfillment`, and `
 
 For cases where the seller's obligation can be finalized on-chain in one block, including this example, this can be mitigated by bundling sell-side statement creation and payment collection into a single transaction, but for more complex exchanges, a more robust protection and collateral system is recommended.
 
-See the final contract at [ERC20PaymentStatement](https://github.com/CoopHive/alkahest-mocks/blob/976505480f59390e96189cb0781468b2769c64a2/src/Statements/ERC20PaymentStatement.sol).
+See the final contract at [ERC20PaymentStatement](https://github.com/CoopHive/alkahest-mocks/blob/4215cf4f81387748b4f112e27a46c70f3bb5725a/src/Statements/ERC20PaymentStatement.sol).
 
 ## Submitting Strings
 
@@ -302,7 +302,7 @@ As before, the string result statement doesn't require a separate finalization s
 
 This simplified implementation of `StringResultStatement` complements the `ERC20PaymentStatement`, allowing for a straightforward exchange system where users can pay in ERC20 tokens for uppercased strings. In the next section on validation, we'll modify this implementation to perform a simpler check (like comparing string lengths) and defer the full capitalization check to an external validator.
 
-See the final contract at [StringResultStatement](https://github.com/CoopHive/alkahest-mocks/blob/976505480f59390e96189cb0781468b2769c64a2/src/Statements/StringResultStatement.sol) (\*note that we modify `checkStatement` later in this tutorial, when adding an external validator to the system).
+See the final contract at [StringResultStatement](https://github.com/CoopHive/alkahest-mocks/blob/4215cf4f81387748b4f112e27a46c70f3bb5725a/src/Statements/StringResultStatement.sol) (\*note that we modify `checkStatement` later in this tutorial, when adding an external validator to the system).
 ## In Practice (Solidity)
 
 Let's walk through a practical example of how users would interact with the `ERC20PaymentStatement` and `StringResultStatement` contracts to facilitate a trade of ERC20 tokens for an uppercased string.
