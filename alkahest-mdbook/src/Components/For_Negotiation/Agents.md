@@ -13,20 +13,20 @@ In general, it's the agent's responsibility to execute actions when a scheme spe
 When actions aren't handled by the scheme client, they will still often be packaged in a modular way, when there are many actions in common between different agents of the same role. For ease of use by different agents, wrappers might be necessary for different development contexts (e.g. programming languages), but complex functions could be developed and provided in a common library.
 ## Policy
 
-The generic interface and scope of agents is in the implementation of *policies*, whose goal is to update the state \\( y \\) of the state machine (associated with a schema) interacting with a set of \\( N \\) agents.
+The generic interface and scope of agents is in the implementation of *policies*, whose goal is to update the state \\( p \\) of the state machine (associated with a schema) interacting with a set of \\( N \\) agents.
 
-\\[ \begin{bmatrix} y_{t+1} \\ a_{i, t+1} \end{bmatrix} = f_i(y_t, X_{i, t}, p_{i, t}), \quad \text{for each } i \in \{1, \ldots, N\} \\]
+\\[ \begin{bmatrix} p_{t+1} \\ a_{i, t+1} \end{bmatrix} = f_i(p_t, h_{i, t}, b_{i, t}), \quad \text{for each } i \in \{1, \ldots, N\} \\]
 
-Please note the agent-independence of the state \\( y \\) and the agent-dependence of all the other variables. In particular, we represent with \\( a \\) all the additional Actions performed by agents, as discussed in the previous section; we represent with \\( X \\) additional variables used to inform agents actions, with \\( p \\) a set of parameters defining the inner state of agents' policies and with \\( f \\) the functional form relating all these variables. 
+Please note the agent-independence of the state \\( p \\) and the agent-dependence of all the other variables. In particular, we represent with \\( a \\) all the additional Actions performed by agents, as discussed in the previous section; we represent with \\( h \\) additional variables used to inform agents actions, with \\( b \\) a set of parameters defining the inner state of agents' policies and with \\( f \\) the functional form relating all these variables. 
 
 The dimensions of the state space can be categorized in different ways. One way is distinguishing between both local states (i.e., variables associated with agents themselves) and global information (i.e., global, environmental variables which are not a function of the agent). In this perspective, we can break further break down the policy equation for agent \\( i \\):
 
-\\[ \begin{bmatrix} y_{t+1} \\ a_{i, t+1} \end{bmatrix} = f_i(y_t, X_{i, t}, Z_{i, t}, p_{i, t}), \quad \text{for each } i \in \{1, \ldots, N\} \\]
+\\[ \begin{bmatrix} p_{t+1} \\ a_{i, t+1} \end{bmatrix} = f_i(p_t, h_{i, t}, Z_{i, t}, b_{i, t}), \quad \text{for each } i \in \{1, \ldots, N\} \\]
 
 In other terms, we can further break down the state of the system in:
 
-- \\( y \\), state of the state machine, the same for every agent and associated with schemas;
-- \\( X \\), additional state components of the environment. These components are defined by each agent, and are characterized by variables which are hidden to all the other \\( N-1 \\) agents in the system. We call the components of \\( X \\) *local states*.
+- \\( p \\), state of the state machine, the same for every agent and associated with schemas;
+- \\( h \\), additional state components of the environment. These components are defined by each agent, and are characterized by variables which are hidden to all the other \\( N-1 \\) agents in the system. We call the components of \\( h \\) *local states*.
 - \\( Z \\), additional state components of the environment. While these components are still defined by each agent, they are characterized by variables which are shared by all agents. We call the components of \\( Z \\) *global states*.
 
 This distinction aligns with the general framework of *partially observable Markov games*, characterizing the protocol.

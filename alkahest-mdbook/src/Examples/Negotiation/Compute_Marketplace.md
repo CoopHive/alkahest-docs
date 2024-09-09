@@ -16,7 +16,7 @@ In a compute marketplace, in particular, we can imagine a scenario where a resou
 
 - Context: The context includes Agent A’s local states and global states (see below  for a detailed discussion). It also includes the current state of the negotiation, such as previous offers or counter-offers, and parallel negotiations associated with other client and resource provider agents.
 
-- Response Message: Agent A receives the request message and, combining it with the context according to a specific policy, evaluates whether it can fulfill the request profitably and how: it might send a counter-offer modifying the values in the original message or accept the deal. This evaluation involves both local states and global states.
+- Response Message: Agent A receives the request message and, combining it with the context according to a specific policy, evaluates whether it can fulfill the request profitably and how: it might send a counter-offer modifying the values in the original message, accept or reject the deal. This evaluation involves both local states and global states.
 
 - Validation and Finalization: If Agent B accepts the offer, it sends an accept message, recording an on-chain `attestation`, triggering Agent A to perform a set of actions, such as recording an on-chain commitment and starting the compute job.
 
@@ -28,7 +28,7 @@ Nevertheless, Agents (both clients and resource providers) interact with an Envi
 
 ## Local States
 
-The local state for each agent includes its hardware specifications, such as CPU, GPU, and RAM. These states influence the agent’s capacity to accept compute tasks and formulate offers. Profiling tools enable agents to know their local states and inform their policies accordingly.
+The local state for each agent includes its hardware specifications, such as CPU, GPU, and RAM. These states influence the agent’s capacity to accept compute tasks and formulate offers. Hardware profiling tools enable agents to know their local states and inform their policies accordingly.
 
 Every agent hardware specifications may limit the state space size. For example, some IoT actors would only be able to store and act based on on-chain data. For the same reason, some agents may be unable to perform certain tasks. In other words, each agent has different constraints on both their state space and action space.
 
@@ -58,7 +58,7 @@ A specific instantiation of a scheme, for this marketplace, can look like:
 
 A straightforward example of actions is the verification of a successful on-chain attestation linked in a message and the sequential writing of the following attestation, linked to the first one. In fact, together with a public key necessarily recorded on-chain, agents are associated with a private key used to sign messages as well.
 
-We here stress the possible modularity of such Action, within the Agent Policy; in some marketplaces/schemes definition, these kinds of actions could be responsibility of the schemes' client, for example synchronously checking the successful recording of every on-chain state LinkedIn to any message within the scheme. While this would sacrifice flexibility in terms of agent policy modularity, it would provide a more solid and simplified infrastructure for policy development.
+We here stress the possible modularity of such Action, within the Agent Policy; in some marketplaces/schemes definition, these kinds of actions could be responsibility of the schemes' client, for example synchronously checking the successful recording of every on-chain state linked to any message within the scheme. While this would sacrifice flexibility in terms of agent policy modularity, it would provide a more solid and simplified infrastructure for policy development.
 
 To give an example, upon receiving a message communicating the possibility for a task to start, an agent might want to verify on-chain that the other party has locked the required collateral, before proceeding with task execution. In this case, only once verified, the agent updates the scheme state by writing an `attestation` message, recording the actual commencement of the compute task. In case of missing collateral, a scheme-compatible `collateral_missing` message may be sent instead, warning the client about the pending state of the negotiation.
 
