@@ -5,6 +5,13 @@ multilingual = false
 src = "src"
 title = "Alkahest"
 
+[theme]
+# Set the default theme
+theme = "rust"
+
+# Specify which themes are available
+available_themes = ["rust", "coal"]
+
 [output.html]
 mathjax-support = true
 cname = "alkahest.coophive.network"
