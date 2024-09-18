@@ -15,7 +15,6 @@
 - [Examples]()
 	- [Exchange]()
 		- [Hello World - Tokens for Strings](./Examples/Exchange/Hello_World_-_Tokens_for_Strings.md)
-		- [Hello World - Tokens for Tokens](./Examples/Exchange/Hello_World_-_Tokens_for_Tokens.md)
 		- [Coming Soon]()
 			- [Compute Marketplace](./Examples/Exchange/Coming_Soon/Compute_Marketplace.md)
 			- [Cooperative MapReduce](./Examples/Exchange/Coming_Soon/Cooperative_MapReduce.md)
