@@ -1,4 +1,4 @@
-We would like to trade one [ERC20PaymentStatement](https://github.com/CoopHive/alkahest-mocks/blob/4215cf4f81387748b4f112e27a46c70f3bb5725a/src/Statements/ERC20PaymentStatement.sol). for another. Naively, we might try to specify the same contract as the arbiter when creating a statement, but we run into an issue.
+We would like to trade one [ERC20PaymentStatement](https://github.com/CoopHive/alkahest-mocks/blob/4215cf4f81387748b4f112e27a46c70f3bb5725a/src/Statements/ERC20PaymentStatement.sol) for another. Naively, we might try to specify the same contract as the arbiter when creating a statement, but we run into an issue.
 
 Let's say Alice wants to pay` 100 * 10 ** 18` of TKA for `200 * 10 ** 18` of TKB.
 
