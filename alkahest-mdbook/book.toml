@@ -15,3 +15,4 @@ available_themes = ["rust", "coal"]
 [output.html]
 mathjax-support = true
 cname = "alkahest.coophive.network"
+additional-js = ["theme/ask-cookbook.js"]
