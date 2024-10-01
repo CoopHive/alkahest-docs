@@ -1,3 +1,4 @@
+# Summary
 
 - [Introduction](./Introduction.md)
 - [Alkahest](./Alkahest.md)
@@ -9,12 +10,13 @@
 		- [Agreements](./Components/For_Exchange/Agreements.md)
 	- [For Negotiation](./Components/For_Negotiation.md)
 		- [Agents](./Components/For_Negotiation/Agents.md)
-		- [Schemes](./Components/For_Negotiation/Schemes.md)
 		- [Markets](./Components/For_Negotiation/Markets.md)
+		- [Schemes](./Components/For_Negotiation/Schemes.md)
 - [Examples]()
 	- [Exchange]()
 		- [Hello World - Tokens for Strings](./Examples/Exchange/Hello_World_-_Tokens_for_Strings.md)
 		- [Hello World - Tokens for Tokens](./Examples/Exchange/Hello_World_-_Tokens_for_Tokens.md)
+		- [Tokens for Docker](./Examples/Exchange/Tokens_for_Docker.md)
 		- [Coming Soon]()
 			- [Compute Marketplace](./Examples/Exchange/Coming_Soon/Compute_Marketplace.md)
 			- [Cooperative MapReduce](./Examples/Exchange/Coming_Soon/Cooperative_MapReduce.md)
