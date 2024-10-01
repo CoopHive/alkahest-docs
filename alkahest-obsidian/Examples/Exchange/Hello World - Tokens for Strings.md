@@ -797,4 +797,4 @@ See the final contracts at
 - [IStatement](https://github.com/CoopHive/alkahest-mocks/blob/4215cf4f81387748b4f112e27a46c70f3bb5725a/src/IStatement.sol)
 - [ERC20PaymentStatement](https://github.com/CoopHive/alkahest-mocks/blob/4215cf4f81387748b4f112e27a46c70f3bb5725a/src/Statements/ERC20PaymentStatement.sol)
 - [StringResultStatement](https://github.com/CoopHive/alkahest-mocks/blob/4215cf4f81387748b4f112e27a46c70f3bb5725a/src/Statements/StringResultStatement.sol)
-- [[OptimisticStringValidator]]
+- [OptimisticStringValidator](https://github.com/CoopHive/alkahest-mocks/blob/4215cf4f81387748b4f112e27a46c70f3bb5725a/src/Validators/OptimisticStringValidator.sol)
