@@ -21,7 +21,7 @@ However, this introduces unnecessary overhead compared to using EAS attestations
 
 Building out a system of composable and modular interconnected token contracts representing obligations and validations would still require reimplementation of much of the abstraction work that's already handled by EAS, such as relationships between attestations.
 
-It's relatively simple to make [Statements](Components/For_Exchange/Statements.md) that represent token deposits, as demonstrated in [[ERC20PaymentStatement]], so token-centric architectures can still be implemented, for example when tokens with existing functions (e.g. NFT-gating or DeFi derivatives) already exist.
+It's relatively simple to make [Statements](Components/For_Exchange/Statements.md) that represent token deposits, as demonstrated in [ERC20PaymentStatement](https://github.com/CoopHive/alkahest-mocks/blob/4215cf4f81387748b4f112e27a46c70f3bb5725a/src/Statements/ERC20PaymentStatement.sol), so token-centric architectures can still be implemented, for example when tokens with existing functions (e.g. NFT-gating or DeFi derivatives) already exist.
 ## Why Not Specialized Networks?
 
 [Alkahest](Alkahest.md)'s Components [For Exchange](Components/For_Exchange.md) are designed as a public good without a protocol-level governance or fee token. The goal is to enable a truly composable and extensible ecosystem, where new [Statements](Components/For_Exchange/Statements.md) and [Validations](Components/For_Exchange/Validations.md) can be made to connect any existing good or service, whether on-chain or off-chain, with or without distributed validation, within an open network for peer-to-peer exchange.
