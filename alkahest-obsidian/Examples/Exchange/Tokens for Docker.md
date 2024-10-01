@@ -94,5 +94,6 @@ The interpretation of the result and query strings as Lighthouse IPFS CIDS refer
 See the final contracts at
 - [DockerResultStatement](https://github.com/CoopHive/tokens-for-docker-alkahest/blob/b7a79093684fe31863228f16306a285bf9db0e25/src/statements/DockerResultStatement.sol)
 - [ERC20PaymentStatement](https://github.com/CoopHive/tokens-for-docker-alkahest/blob/b7a79093684fe31863228f16306a285bf9db0e25/src/statements/ERC20PaymentStatement.sol)
+
 and the example end-to-end market implementation at
 - [Apiary](https://github.com/CoopHive/Apiary/)
