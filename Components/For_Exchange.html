@@ -181,7 +181,7 @@
 <p><img src="../Pasted_image_20240902222721.png" alt="Pasted image 20240902222721.png" /></p>
 <h2 id="statements"><a class="header" href="#statements">Statements</a></h2>
 <p><a href="For_Exchange/Statements.html">Statements</a> represent the fulfillment of a party's obligation in an <strong>agreement</strong>.</p>
-<p>For example, the sample [[ERC20PaymentStatement]] is an EAS resolver contract with a function</p>
+<p>For example, the sample <a href="https://github.com/CoopHive/alkahest-mocks/blob/4215cf4f81387748b4f112e27a46c70f3bb5725a/src/Statements/ERC20PaymentStatement.sol">ERC20PaymentStatement</a> is an EAS resolver contract with a function</p>
 <pre><code class="language-solidity">    struct StatementData {
         address token;
         uint256 amount;
@@ -195,7 +195,7 @@
 <p>Statements can directly <a href="https://docs.attest.org/docs/tutorials/referenced-attestations">reference</a> other statement attestations and interact with other statement contracts, sometimes enabling complete negotiation flows even without dedicated <strong>agreement</strong> contracts or <strong>validators</strong>.</p>
 <h2 id="validations"><a class="header" href="#validations">Validations</a></h2>
 <p><a href="For_Exchange/Validations.html">Validations</a> represent properties of <strong>statements</strong> which are difficult to determine or cannot be determined via their raw data, and are often produced by third parties. They can be used for conditional finalization of terms in <strong>agreements</strong>.</p>
-<p>For example, the sample [[OptimisticStringValidator]] for [[StringResultStatement]] statements has a function</p>
+<p>For example, the sample <a href="https://github.com/CoopHive/alkahest-mocks/blob/4215cf4f81387748b4f112e27a46c70f3bb5725a/src/Validators/OptimisticStringValidator.sol">OptimisticStringValidator</a> for <a href="https://github.com/CoopHive/alkahest-mocks/blob/4215cf4f81387748b4f112e27a46c70f3bb5725a/src/Statements/StringResultStatement.sol">StringResultStatement</a> statements has a function</p>
 <pre><code class="language-solidity">	struct ValidationData {
         string query;
         uint64 mediationPeriod;
@@ -204,9 +204,9 @@
 	startValidation(bytes32 resultUID, ValidationData calldata validationData)
 </code></pre>
 <p>which produces an attestation <a href="https://docs.attest.org/docs/tutorials/referenced-attestations">referencing</a> the specified statement after a certain amount of time unless the counterparty calls <code>mediate(bytes32 validationUID)</code>. If the counterparty requests mediation, a trusted oracle retries the job and produces the requested attestation only if it gets the same result as specified in the original statement.</p>
-<p>If specified as the <code>arbiter</code> in an [[ERC20PaymentStatement]], the attestation from [[OptimisticStringValidator]] can be passed into <code>collectPayment</code> to claim payment for agreements. In this case, <code>collectPayment</code> should be extended to check if each validation's underlying [[StringResultStatement]] actually fulfills the specified payment via the <code>job</code> and <code>counterparty</code> fields of the statement's attestation schema.</p>
+<p>If specified as the <code>arbiter</code> in an <a href="https://github.com/CoopHive/alkahest-mocks/blob/4215cf4f81387748b4f112e27a46c70f3bb5725a/src/Statements/ERC20PaymentStatement.sol">ERC20PaymentStatement</a>, the attestation from <a href="https://github.com/CoopHive/alkahest-mocks/blob/4215cf4f81387748b4f112e27a46c70f3bb5725a/src/Validators/OptimisticStringValidator.sol">OptimisticStringValidator</a> can be passed into <code>collectPayment</code> to claim payment for agreements. In this case, <code>collectPayment</code> should be extended to check if each validation's underlying <a href="https://github.com/CoopHive/alkahest-mocks/blob/4215cf4f81387748b4f112e27a46c70f3bb5725a/src/Statements/StringResultStatement.sol">StringResultStatement</a> actually fulfills the specified payment via the <code>job</code> and <code>counterparty</code> fields of the statement's attestation schema.</p>
 <h2 id="agreements"><a class="header" href="#agreements">Agreements</a></h2>
-<p>How does the buy-side in our example so far know when it should request mediation? It could listen to events from the [[OptimisticStringValidator]] it specified, filtering by those referring to <strong>statements</strong> it made, and requesting mediation on unsatisfactory results. Indeed, in many cases, <a href="For_Exchange/Agreements.html">Agreements</a> can be an informal concept enacted through interactions with other contracts.</p>
+<p>How does the buy-side in our example so far know when it should request mediation? It could listen to events from the <a href="https://github.com/CoopHive/alkahest-mocks/blob/4215cf4f81387748b4f112e27a46c70f3bb5725a/src/Validators/OptimisticStringValidator.sol">OptimisticStringValidator</a> it specified, filtering by those referring to <strong>statements</strong> it made, and requesting mediation on unsatisfactory results. Indeed, in many cases, <a href="For_Exchange/Agreements.html">Agreements</a> can be an informal concept enacted through interactions with other contracts.</p>
 <p>However, more complex negotiations may sometimes require dedicated contracts to manage the relationship between <strong>statements</strong> and <strong>validations</strong>. One use for agreement contracts is as a component of multi-step processes consisting of several atomic <strong>agreement steps</strong>.</p>
 
                     </main>
