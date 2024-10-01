@@ -798,5 +798,5 @@ See the final contracts at
 - [[IArbiter]]
 - [[IStatement]]
 - [[ERC20PaymentStatement]]
-- [[StringResultStatement]]
+- [StringResultStatement](https://github.com/CoopHive/alkahest-mocks/blob/4215cf4f81387748b4f112e27a46c70f3bb5725a/src/Statements/StringResultStatement.sol)
 - [[OptimisticStringValidator]]

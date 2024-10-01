@@ -8,7 +8,7 @@ Validation requests don't have a consistent abstract interface, because they can
 
 ## Checks
 
-Validators implement [[IArbiter]], and their implementation of `checkStatement(Attestation memory statement, bytes memory demand, bytes32 counteroffer)` should be interpreted as checking a validation according to parametrized demands. The `counteroffer` UID is explicitly passed in because a demand is often specified in a counteroffer attestation, but it's impossible to know the UID of an attestation before it's created. 
+Validators implement [IArbiter](https://github.com/CoopHive/alkahest-mocks/blob/4215cf4f81387748b4f112e27a46c70f3bb5725a/src/IArbiter.sol), and their implementation of `checkStatement(Attestation memory statement, bytes memory demand, bytes32 counteroffer)` should be interpreted as checking a validation according to parametrized demands. The `counteroffer` UID is explicitly passed in because a demand is often specified in a counteroffer attestation, but it's impossible to know the UID of an attestation before it's created. 
 
 It's good practice to call `IArbiter(statement).checkStatement` inside a statement validator's implementation of `checkStatement`, so that [[Statements]] can specify a single arbiter as the source of truth inside finalization clauses.
 ## Emission
