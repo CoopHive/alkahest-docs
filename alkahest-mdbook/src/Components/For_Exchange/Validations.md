@@ -17,7 +17,7 @@ It's good practice to call `IArbiter(statement).checkStatement` inside a stateme
 
 Often, validations must be produced asynchronously via a function call by an off-chain oracle or another contract. One way to implement this, as demonstrated in [OptimisticStringValidator](https://github.com/CoopHive/alkahest-mocks/blob/4215cf4f81387748b4f112e27a46c70f3bb5725a/src/Validators/OptimisticStringValidator.sol), is optimistic mediation, where `checkStatement` is implemented to return valid after a given mediation period unless mediation is requested, in which case the validation attestation is revoked if it's invalid.
 
-Another way is to produce the attestation asynchronously, only after validation actually happens. An event should be emitted when validations are produced if this architecture is used, but the event is not defined in [[IValidator]] (\*subject to change), because architectural details vary too much per validation scheme.
+Another way is to produce the attestation asynchronously, only after validation actually happens. An event should be emitted when validations are produced if this architecture is used, but the event is not defined in [IValidator](https://github.com/CoopHive/alkahest-mocks/blob/4215cf4f81387748b4f112e27a46c70f3bb5725a/src/IValidator.sol) (\*subject to change), because architectural details vary too much per validation scheme.
 
 ## Examples
 - Oracle-based validators can have off-chain entities produce a validation attestation on request. E.g., to retry a deterministic compute job and verify its correctness
