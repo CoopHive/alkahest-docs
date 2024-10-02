@@ -89,7 +89,7 @@ Buyers and sellers using this statement as one side of a trade will have to agre
 
 [Apiary](https://github.com/CoopHive/Apiary/) is an implementation of a simple marketplace where `queryCID` is interpreted as a Lighthouse IPFS CID pointing to a Dockerfile and `resultCID` is a CID pointing to the results of stdout after building and running that Dockerfile.
 
-Notice the layers of abstraction. The [rust bindings](https://github.com/CoopHive/Apiary/blob/main/src/lib.rs) to [ERC20PaymentStatement](https://github.com/CoopHive/tokens-for-docker-alkahest/blob/b7a79093684fe31863228f16306a285bf9db0e25/src/statements/ERC20PaymentStatement.sol) and [DockerResultStatement](https://github.com/CoopHive/tokens-for-docker-alkahest/blob/b7a79093684fe31863228f16306a285bf9db0e25/src/statements/DockerResultStatement.sol) in interaction with each other depend on these particular statements - for example, trading an ERC721 token rather than an ERC20 token for a Docker job would require a new contract and new bindings - but are still agnostic to the interpretation of the result and query in DockerResultStatement.
+Notice the layers of abstraction. The [Rust bindings](https://github.com/CoopHive/Apiary/blob/main/src/lib.rs) to [ERC20PaymentStatement](https://github.com/CoopHive/tokens-for-docker-alkahest/blob/b7a79093684fe31863228f16306a285bf9db0e25/src/statements/ERC20PaymentStatement.sol) and [DockerResultStatement](https://github.com/CoopHive/tokens-for-docker-alkahest/blob/b7a79093684fe31863228f16306a285bf9db0e25/src/statements/DockerResultStatement.sol) in interaction with each other depend on these particular statements - for example, trading an ERC721 token rather than an ERC20 token for a Docker job would require a new contract and new bindings - but are still agnostic to the interpretation of the result and query in DockerResultStatement.
 
 The interpretation of the result and query strings as Lighthouse IPFS CIDS referring to a Dockerfile and a string output from stdout happens in the [buyer](https://github.com/CoopHive/Apiary/blob/bdd0db5b0761f4dc6a87f2e012caf0bad74c57a5/apiary/buyer.py) and [seller](https://github.com/CoopHive/Apiary/blob/bdd0db5b0761f4dc6a87f2e012caf0bad74c57a5/apiary/seller.py) [Agents](../../Components/For_Negotiation/Agents.md), which can import the smart contract client opaquely. Neither the smart contracts nor the Rust SDK would have to be changed to reinterpret the result and query CIDS - say as archives, or Nix flakes.
 
@@ -99,4 +99,3 @@ See the final contracts at
 
 and the example end-to-end market implementation at
 - [Apiary](https://github.com/CoopHive/Apiary/)
-
